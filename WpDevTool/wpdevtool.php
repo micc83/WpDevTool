@@ -18,7 +18,7 @@ License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 function wpdevtool_init() {
 	load_plugin_textdomain( 'wpdevtool', false, dirname( plugin_basename( __FILE__ ) ) . '/langs/' );
 }
-add_action('plugins_loaded', 'wpdevtool_init');
+add_action( 'plugins_loaded', 'wpdevtool_init' );
 
 /**
  * Load plugin admin page
