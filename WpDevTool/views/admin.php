@@ -7,8 +7,8 @@
 function wpdevtool_menu() {
 
 	$icon = WPDEVTOOL_URI . 'img/develop.png';
-	add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
-	
+	$page = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
+	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
 
@@ -43,6 +43,15 @@ function wpdevtool_admin_notices_action() {
 add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
 
 /**
+ * Enqueue CSS Styles
+ *
+ * @since 0.0.1
+ */
+function wpdevtool_admin_styles() {
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+}
+
+/**
  * WpDevTool Main Admin Page
  *
  * @since 0.0.1
@@ -53,14 +62,7 @@ function wpdevtool_options() {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	
 	?>
-	<!-- Styles -->
-	<style>
-		#left_col {width: 48%;float: left;margin-right: 10px;display: block;}
-		#right_col {width: 260px;float: left;}
-		h3 {line-height: 30px;padding: 0 10px;}
-		.postbox {margin: 10px 0;}
-	</style>
-
+	
 	<!-- Admin page -->
 	<div class="wrap">
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tools</h2>
@@ -104,15 +106,29 @@ function wpdevtool_options() {
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="silent_logging"><?php _e( 'Is silent logging enabled?', 'wpdevtool' ); ?></label>
-								<p class="description"><?php _e( 'Give the ability to collect and show PHP errors logs.', 'wpdevtool' ); ?></p>
+								<label for="wp_debug"><?php _e( 'WP_DEBUG is active', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'Check wheter you have set WP_DEBUG to TRUE', 'wpdevtool' ); ?></p>
 							</th>
 							<td>
 								<fieldset>
 									<legend class="screen-reader-text">
-										<label for="silent_logging"><?php _e( 'Enable Silent Logging', 'wpdevtool' ); ?></label>
+										<label for="wp_debug"><?php _e( 'WP_DEBUG is active', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="silent_logging" type="checkbox" id="silent_logging" value="1" disabled <?php checked( '1', get_option(WP_DEBUG_LOG) ); ?> >
+									<input name="wp_debug" type="checkbox" id="wp_debug" value="1" disabled <?php checked( '1', WP_DEBUG ); ?> >
+								</fieldset>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label for="silent_logging"><?php _e( 'Silent logging is enabled', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'To enable silent logging give a look to Contextual Help', 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="silent_logging"><?php _e( 'Silent logging is enabled', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="silent_logging" type="checkbox" id="silent_logging" value="1" disabled <?php checked( '1', WP_DEBUG_LOG ); ?> >
 								</fieldset>
 							</td>
 						</tr>
@@ -132,7 +148,7 @@ function wpdevtool_options() {
 				<a href=""><strong>Comodo Lab Web Agency</strong></a></p>
 			</div>
 		</div>
-		<br>
 	</div>
+
 	<?php
 }
