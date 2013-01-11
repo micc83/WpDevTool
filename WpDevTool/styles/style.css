@@ -1,0 +1,8 @@
+/**
+ * WpDevTool Main Stylesheet
+ */
+
+#left_col {width: 48%;float: left;margin-right: 10px;display: block;}
+#right_col {width: 260px;float: left;}
+h3 {line-height: 30px;padding: 0 10px;}
+.postbox {margin: 10px 0;}
