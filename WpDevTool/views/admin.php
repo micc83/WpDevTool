@@ -6,13 +6,22 @@
  */
 
 function wpdevtool_menu() {
-	
-	global $wpdevtool_hook;
-	
-	$wpdevtool_hook = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options' );
+
+	$icon = WPDEVTOOL_URI . 'img/develop.png';
+	add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
+	add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
 
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
+
+
+function register_wpdevtool_admin_settings() {
+
+	register_setting( 'wpdevtool_admin-settings', 'maintenance', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'debug_bar', 'intval' );
+
+}
+
 
 function wpdevtool_options() {
 
@@ -23,11 +32,11 @@ function wpdevtool_options() {
 	<!-- Styles -->
 	<style>
 		#left_col {width: 48%;float: left;margin-right: 10px;display: block;}
-		#right_col {width: 30%;float: left;}
+		#right_col {width: 260px;float: left;}
 		h3 {line-height: 30px;padding: 0 10px;}
 		.postbox {margin: 10px 0;}
 	</style>
-	
+
 	<!-- Admin page -->
 	<div class="wrap">
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tools</h2>
@@ -37,35 +46,40 @@ function wpdevtool_options() {
 			</div>
 			<h3 class="hndle"><?php _e( 'WpDevTool Options', 'wpdevtool' ); ?></h3>
 			<div class="inside">
-				<form method="post" action="#">
+				<form method="post" action="options.php">
+					<?php settings_fields( 'wpdevtool_admin-settings' ); ?>
+					<?php $options = get_option('options'); ?>
 					<table class="form-table">
 						<tr valign="top">
 							<th scope="row">
 								<label for="maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'Return a HTTP RESPONSE 503 (Service Temporary Unavailable) landing page', 'wpdevtool' ); ?></p>
 							</th>
 							<td>
 								<fieldset>
 									<legend class="screen-reader-text">
 										<label for="debug_bar"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="debug_bar" type="checkbox" id="maintenance" value="1">
+									<input name="maintenance" type="checkbox" id="maintenance" value="1" <?php checked( '1', get_option('maintenance') ); ?>  >
 								</fieldset>
 							</td>
 						</tr>
 						<tr valign="top">
 							<th scope="row">
 								<label for="debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'Show a simple debug bar on the bottom of every template page', 'wpdevtool' ); ?></p>
 							</th>
 							<td>
 								<fieldset>
 									<legend class="screen-reader-text">
 										<label for="debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="debug_bar" type="checkbox" id="debug_bar" value="1">
+									<input name="debug_bar" type="checkbox" id="debug_bar" value="1" <?php checked( '1', get_option('debug_bar') ); ?> >
 								</fieldset>
 							</td>
 						</tr>
 					</table>
+					<?php submit_button(); ?>
 				</form>
 			</div>
 		</div>
@@ -84,25 +98,3 @@ function wpdevtool_options() {
 	</div>
 	<?php
 }
-
-/**
- * WpDevTool Contextual Help
- *
- * @since 0.0.1
- */
-
-function wpdevtool_help( $contextual_help, $screen_id, $screen ) {
-
-	global $wpdevtool_hook;
-	
-	if ( $screen_id != $wpdevtool_hook )
-		return;
-		
-	$screen->add_help_tab( array(
-        'id'	=> 'wpdevtool_help_tab',
-        'title'	=> __('My Help Tab'),
-        'content'	=> '<p>' . __( 'Descriptive content that will show in My Help Tab-body goes here.' ) . '</p>',
-    ) );
-		
-}
-add_filter('contextual_help', 'wpdevtool_help', 10, 3);
