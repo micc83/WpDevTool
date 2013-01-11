@@ -4,25 +4,49 @@
  *
  * @since 0.0.1
  */
-
 function wpdevtool_menu() {
 
 	$icon = WPDEVTOOL_URI . 'img/develop.png';
 	add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
-	add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
-
+	
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
 
-
+/**
+ * Register WpDevTool admin page data
+ *
+ * @since 0.0.1
+ */
 function register_wpdevtool_admin_settings() {
 
 	register_setting( 'wpdevtool_admin-settings', 'maintenance', 'intval' );
 	register_setting( 'wpdevtool_admin-settings', 'debug_bar', 'intval' );
+	
+}
+add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
+
+/**
+ * Manage error messages
+ *
+ * @since 0.0.1
+ */
+function wpdevtool_admin_notices_action() {
+
+	$errors = get_settings_errors( 'wpdevtool_admin-settings' );
+
+	if ( empty( $errors ) && isset( $_GET['settings-updated'] ) )
+		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Well done!', 'wpdevtool' ), 'updated' );
+
+    settings_errors( 'wpdevtool_admin-settings' );
 
 }
+add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
 
-
+/**
+ * WpDevTool Main Admin Page
+ *
+ * @since 0.0.1
+ */
 function wpdevtool_options() {
 
 	if ( !current_user_can( 'manage_options' ) )
@@ -75,6 +99,20 @@ function wpdevtool_options() {
 										<label for="debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
 									</legend>
 									<input name="debug_bar" type="checkbox" id="debug_bar" value="1" <?php checked( '1', get_option('debug_bar') ); ?> >
+								</fieldset>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">
+								<label for="silent_logging"><?php _e( 'Is silent logging enabled?', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'Give the ability to collect and show PHP errors logs.', 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="silent_logging"><?php _e( 'Enable Silent Logging', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="silent_logging" type="checkbox" id="silent_logging" value="1" disabled <?php checked( '1', get_option(WP_DEBUG_LOG) ); ?> >
 								</fieldset>
 							</td>
 						</tr>

@@ -53,9 +53,20 @@ function wpdevtool_help( $contextual_help, $screen_id, $screen ) {
 	switch ( $current_page ) {
 		case 'wpdevtool_admin':
 			$screen->add_help_tab( array(
-				'id'		=> 	'wpdevtool_help_tab',
+				'id'		=> 	'wpdevtool_help_tab_1',
 				'title'		=> 	__('My Help Tab'),
 				'content'	=> 	'<p>' . __( 'Descriptive content that will show in My Help Tab-body goes here.' ) . '</p>',
+			) );
+			$screen->add_help_tab( array(
+				'id'		=> 	'wpdevtool_help_tab_2',
+				'title'		=> 	__('Enable silent logging'),
+				'content'	=> 	'<p>' . __( "Add the following lines of code to your wp-config.php file to enable silent logging",'wpdevtool' )." :</p>
+<pre>define('WP_DEBUG', true);
+if (WP_DEBUG) {
+	define('WP_DEBUG_LOG', true);
+	define('WP_DEBUG_DISPLAY', false);
+	@ini_set('display_errors',0);
+}</pre>"
 			) );
 			break;
 		default:
