@@ -1,5 +1,4 @@
-#WpDevTool
-##WordPress Developer Tool
+#WpDevTool - WordPress Developer Tool
 A simple tool to develop on WordPress platform...
 
 ##Support or Contact
