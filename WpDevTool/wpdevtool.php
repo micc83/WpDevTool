@@ -10,11 +10,16 @@ License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
 /**
+ * Define plugin folders and uri
+ */
+define( 'WPDEVTOOL_ABS' , plugin_dir_path( __FILE__ ) );
+define( 'WPDEVTOOL_URI' , plugin_dir_url( __FILE__ ) );
+
+/**
  * Load plugin language file
  *
  * @since 0.0.1
  */
-
 function wpdevtool_init() {
 	load_plugin_textdomain( 'wpdevtool', false, dirname( plugin_basename( __FILE__ ) ) . '/langs/' );
 }
@@ -25,10 +30,37 @@ add_action( 'plugins_loaded', 'wpdevtool_init' );
  *
  * @since 0.0.1
  */
-
-require_once( plugin_dir_path( __FILE__ ) . '/views/admin.php'  );
+require_once( WPDEVTOOL_ABS . 'views/admin.php'  );
 
 function test_function() {
 	echo __( 'Lets do this test', 'wpdevtool' );
 }
 add_action( 'wp_head', 'test_function' );
+
+/**
+ * WpDevTool Contextual Help
+ *
+ * @since 0.0.1
+ */
+
+function wpdevtool_help( $contextual_help, $screen_id, $screen ) {
+
+	if ( !isset( $_GET['page'] ) )
+		return $contextual_help;
+
+	$current_page = $_GET['page'];
+
+	switch ( $current_page ) {
+		case 'wpdevtool_admin':
+			$screen->add_help_tab( array(
+				'id'		=> 	'wpdevtool_help_tab',
+				'title'		=> 	__('My Help Tab'),
+				'content'	=> 	'<p>' . __( 'Descriptive content that will show in My Help Tab-body goes here.' ) . '</p>',
+			) );
+			break;
+		default:
+			return $contextual_help;
+	}
+		
+}
+add_filter('contextual_help', 'wpdevtool_help', 10, 3);
