@@ -15,8 +15,21 @@ Long Description
 
 == Installation ==
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+1. Upload 'plugin-name.php' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
+
+== Frequently Asked Questions ==
+
+= How to enable Silent Logging =
+
+Add the following lines of code to your wp-config.php file to enable silent logging :
+
+`define('WP_DEBUG', true);
+if (WP_DEBUG) {
+  define('WP_DEBUG_LOG', true);
+	define('WP_DEBUG_DISPLAY', false);
+	@ini_set('display_errors',0);
+}`
 
 == Screenshots ==
 
