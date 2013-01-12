@@ -44,6 +44,21 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 = 0.0.1 =
 First release
 
+== To Do ==
+
+* Change options name to fit plugin domain
+* Unify different admin page options to a single one
+* Add Debug Bar
+* Use Settings API, implement sections and fields
+* Add clear log button in console
+
+== To Be ==
+
+* Add wp_cron page
+* Add permalinks page
+* Add some stat to main admin page
+* Add db table check up
+
 == Credits ==
 
 Icon Credits goes to: [Everaldo](http://www.everaldo.com)
