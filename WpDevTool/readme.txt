@@ -44,6 +44,10 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 = 0.0.1 =
 First release
 
+== To Do ==
+
+* Aggiungere l'icona al pannellino
+
 == Credits ==
 
 Icon Credits goes to: [Everaldo](http://www.everaldo.com)
