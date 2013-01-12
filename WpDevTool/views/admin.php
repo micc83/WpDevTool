@@ -13,6 +13,15 @@ function wpdevtool_menu() {
 add_action( 'admin_menu', 'wpdevtool_menu' );
 
 /**
+ * Enqueue CSS Styles
+ *
+ * @since 0.0.1
+ */
+function wpdevtool_admin_styles() {
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+}
+
+/**
  * Register WpDevTool admin page data
  *
  * @since 0.0.1
@@ -20,6 +29,7 @@ add_action( 'admin_menu', 'wpdevtool_menu' );
 function register_wpdevtool_admin_settings() {
 
 	register_setting( 'wpdevtool_admin-settings', 'maintenance', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'maintenance_message', 'wp_kses_post' );
 	register_setting( 'wpdevtool_admin-settings', 'debug_bar', 'intval' );
 	
 }
@@ -34,22 +44,13 @@ function wpdevtool_admin_notices_action() {
 
 	$errors = get_settings_errors( 'wpdevtool_admin-settings' );
 
-	if ( empty( $errors ) && isset( $_GET['settings-updated'] ) )
+	if ( empty( $errors ) && isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == 'wpdevtool_admin'  )
 		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Well done!', 'wpdevtool' ), 'updated' );
 
     settings_errors( 'wpdevtool_admin-settings' );
 
 }
 add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
-
-/**
- * Enqueue CSS Styles
- *
- * @since 0.0.1
- */
-function wpdevtool_admin_styles() {
-	wp_enqueue_style( 'WpDevToolStylesheet' );
-}
 
 /**
  * WpDevTool Main Admin Page
@@ -64,8 +65,8 @@ function wpdevtool_options() {
 	?>
 	
 	<!-- Admin page -->
-	<div class="wrap">
-		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tools</h2>
+	<div class="wrap wpdevtool">
+		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tool</h2>
 		<div id="left_col" class="postbox">
 			<div class="handlediv">
 				<br>
@@ -89,7 +90,7 @@ function wpdevtool_options() {
 									<input name="maintenance" type="checkbox" id="maintenance" value="1" <?php checked( '1', get_option('maintenance') ); ?>  >
 								</fieldset>
 							</td>
-						</tr>
+						</tr>						
 						<tr valign="top">
 							<th scope="row">
 								<label for="debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
@@ -120,13 +121,13 @@ function wpdevtool_options() {
 						</tr>
 						<tr valign="top">
 							<th scope="row">
-								<label for="silent_logging"><?php _e( 'Silent logging is enabled', 'wpdevtool' ); ?></label>
+								<label for="silent_logging"><?php _e( 'Logging is enabled', 'wpdevtool' ); ?></label>
 								<p class="description"><?php _e( 'To enable silent logging give a look to Contextual Help', 'wpdevtool' ); ?></p>
 							</th>
 							<td>
 								<fieldset>
 									<legend class="screen-reader-text">
-										<label for="silent_logging"><?php _e( 'Silent logging is enabled', 'wpdevtool' ); ?></label>
+										<label for="silent_logging"><?php _e( 'Logging is enabled', 'wpdevtool' ); ?></label>
 									</legend>
 									<input name="silent_logging" type="checkbox" id="silent_logging" value="1" disabled <?php checked( '1', WP_DEBUG_LOG ); ?> >
 								</fieldset>
@@ -137,17 +138,7 @@ function wpdevtool_options() {
 				</form>
 			</div>
 		</div>
-		<div id="right_col" class="postbox">
-			<div class="handlediv">
-				<br>
-			</div>
-			<h3 class="hndle"><?php _e( 'Credits', 'wpdevtool' ); ?></h3>
-			<div class="inside">
-				<p><?php _e( 'Proudly presented by', 'wpdevtool' ); ?> :<br>
-				<a href="">Alessandro Benoit</a><br>
-				<a href=""><strong>Comodo Lab Web Agency</strong></a></p>
-			</div>
-		</div>
+		<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
 	</div>
 
 	<?php
