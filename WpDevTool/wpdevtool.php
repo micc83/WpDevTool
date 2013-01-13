@@ -172,6 +172,7 @@ function wpdevtool_log_processing() {
 	
 	if ( isset( $_GET['wpdevtool_delete_log_file'] ) && is_super_admin() ) {
 		file_put_contents( $log_file, '' );
+		wp_die( sprintf( __('Log file has been deleted. <a href="%s">Go back to WpDevTool</a>', 'wpdevtool'), add_query_arg( array( 'wpdevtool_delete_log_file' => false ) ) ) );
 	}
 	
 }

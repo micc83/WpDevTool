@@ -47,7 +47,8 @@ First release
 == To Do ==
 
 * Add Debug Bar
-* Check permission to delete log file
+* Add quick links to credits
+* Add default options to wpdevtool_activation
 
 == To Be ==
 
