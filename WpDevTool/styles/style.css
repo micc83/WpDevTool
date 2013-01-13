@@ -1,10 +1,11 @@
 /**
  * WpDevTool Main Stylesheet
  */
-
-#left_col {width: 48%;float: left;margin-right: 10px;display: block;}
-#right_col {width: 260px;float: left;}
+.postbox.left_col {width: 65%;float: left;margin-right: 20px;display: block;}
+.postbox.right_col {width: 260px;float: left;}
 h3 {line-height: 30px;padding: 0 10px;}
 .postbox {margin: 10px 0;}
 .wp-editor-wrap .mceIframeContainer{background: #fff;}
-#maintenance_message_div {}
+@media screen and (max-width:1024px) {
+	.left_col, .right_col {width: 100%;}
+}
