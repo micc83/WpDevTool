@@ -7,5 +7,5 @@ h3 {line-height: 30px;padding: 0 10px;}
 .postbox {margin: 10px 0;}
 .wp-editor-wrap .mceIframeContainer{background: #fff;}
 @media screen and (max-width:1024px) {
-	.left_col, .right_col {width: 100%;}
+	.postbox.left_col, .postbox.right_col {width: 100%;}
 }
