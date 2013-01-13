@@ -52,27 +52,43 @@ function wpdevtool_error_log_console_page() {
 	$my_color_scheme = array_merge( $my_color_scheme, apply_filters( 'wpdevtool_error_console_colors', $my_color_scheme ) );
 
 	$log_file_content = wpdevtool_get_logs( $logfilepath, $my_color_scheme['code'] );
-
+	
+	$error_count = 0;
+	$result = '';
+	if ( $log_file_content ){
+		$error_count = $log_file_content['count'];
+		$result = $log_file_content['result'];
+	}
 	?>
 
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tool</h2>
-		<div id="left_col" class="postbox">
+		<div class="postbox left_col">
 			<div class="handlediv">
 				<br>
 			</div>
-			<h3 class="hndle"><?php _e( 'WpDevTool Error Log Console', 'wpdevtool' ); ?> | <?php echo ( isset( $log_array ) )? count( $log_array ) : '0'; ?> <?php _e( 'errors', 'wpdevtool' )?></h3>
+			<h3 class="hndle"><?php _e( 'WpDevTool Error Log Console', 'wpdevtool' ); ?> - <?php echo $error_count; ?> <?php _e( 'errors', 'wpdevtool' )?></h3>
 			<div class="inside">
 				<div style="max-width: 100%;border: 1px solid #aaa;color: #<?php echo $my_color_scheme['text'] ?>;background: #<?php echo $my_color_scheme['background'] ?>;height: 600px;overflow: auto;padding: 10px;font-family: Courier, Helvetica;font-size: 13px;">
 					<?php
-					if ( !empty( $log_file_content ) ) {
-						echo $log_file_content;
+					if ( !empty( $result ) ) {
+						echo $result;
 					} else {
 						echo '<strong>'.__( 'It\'s your lucky day... Ain\'t no errors!', 'wpdevtool' ).'</strong>' ;
 					}
 					?>
 				</div>
+			</div>
+		</div>
+		<div class="postbox right_col">
+			<div class="handlediv">
+				<br>
+			</div>
+			<h3 class="hndle"><?php _e( 'More Options', 'wpdevtool' ); ?></h3>
+			<div class="inside">
+				<a href="<?php echo add_query_arg( array( 'wpdevtool_delete_log_file' => 'true' ) ); ?>" class="button button-primary"><?php _e( 'Clear log file', 'wpdevtool' ) ?></a>
+				<a href="<?php echo add_query_arg( array( 'wpdevtool_download_log_file' => 'true' ) ); ?>" class="button delete"><?php _e( 'Download log file', 'wpdevtool' ) ?></a>
 			</div>
 		</div>
 		<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
