@@ -28,9 +28,9 @@ function wpdevtool_admin_styles() {
  */
 function register_wpdevtool_admin_settings() {
 
-	register_setting( 'wpdevtool_admin-settings', 'maintenance', 'intval' );
-	register_setting( 'wpdevtool_admin-settings', 'maintenance_message', 'wp_kses_post' );
-	register_setting( 'wpdevtool_admin-settings', 'debug_bar', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wp_kses_post' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_debug_bar', 'intval' );
 	
 }
 add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
@@ -67,7 +67,7 @@ function wpdevtool_options() {
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tool</h2>
-		<div id="left_col" class="postbox">
+		<div class="postbox left_col">
 			<div class="handlediv">
 				<br>
 			</div>
@@ -75,33 +75,46 @@ function wpdevtool_options() {
 			<div class="inside">
 				<form method="post" action="options.php">
 					<?php settings_fields( 'wpdevtool_admin-settings' ); ?>
-					<?php $options = get_option('options'); ?>
 					<table class="form-table">
 						<tr valign="top">
 							<th scope="row">
-								<label for="maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
+								<label for="wpdevtool_maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
 								<p class="description"><?php _e( 'Return a HTTP RESPONSE 503 (Service Temporary Unavailable) landing page', 'wpdevtool' ); ?></p>
 							</th>
 							<td>
 								<fieldset>
 									<legend class="screen-reader-text">
-										<label for="debug_bar"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
+										<label for="wpdevtool_maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="maintenance" type="checkbox" id="maintenance" value="1" <?php checked( '1', get_option('maintenance') ); ?>  >
+									<input name="wpdevtool_maintenance" type="checkbox" id="wpdevtool_maintenance" value="1" <?php checked( '1', get_option('wpdevtool_maintenance') ); ?>  >
 								</fieldset>
 							</td>
-						</tr>						
+						</tr>
+						<tr valign="top" <?php if ( !get_option('wpdevtool_maintenance') ) echo('style="display:none"'); ?>>
+							<th scope="row">
+								<label for="wpdevtool_maintenance_message"><?php _e( 'Maintenance message', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( "Shortcodes: <br>[email] Blog email <br>[name] Blog name", 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="wpdevtool_maintenance_message"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="wpdevtool_maintenance_message" type="text" id="wpdevtool_maintenance_message" value="<?php echo get_option('wpdevtool_maintenance_message'); ?>" class="regular-text code">
+								</fieldset>
+							</td>
+						</tr>			
 						<tr valign="top">
 							<th scope="row">
-								<label for="debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
+								<label for="wpdevtool_debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
 								<p class="description"><?php _e( 'Show a simple debug bar on the bottom of every template page', 'wpdevtool' ); ?></p>
 							</th>
 							<td>
 								<fieldset>
 									<legend class="screen-reader-text">
-										<label for="debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
+										<label for="wpdevtool_debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="debug_bar" type="checkbox" id="debug_bar" value="1" <?php checked( '1', get_option('debug_bar') ); ?> >
+									<input name="wpdevtool_debug_bar" type="checkbox" id="wpdevtool_debug_bar" value="1" <?php checked( '1', get_option('wpdevtool_debug_bar') ); ?> >
 								</fieldset>
 							</td>
 						</tr>
@@ -134,6 +147,7 @@ function wpdevtool_options() {
 							</td>
 						</tr>
 					</table>
+					<?php do_settings_sections('wpdevtool_admin'); ?>
 					<?php submit_button(); ?>
 				</form>
 			</div>
