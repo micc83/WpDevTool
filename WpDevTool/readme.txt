@@ -46,11 +46,8 @@ First release
 
 == To Do ==
 
-* Change options name to fit plugin domain
-* Unify different admin page options to a single one
 * Add Debug Bar
-* Use Settings API, implement sections and fields
-* Add clear log button in console
+* Check permission to delete log file
 
 == To Be ==
 

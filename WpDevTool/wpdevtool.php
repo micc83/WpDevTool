@@ -81,13 +81,6 @@ require_once( WPDEVTOOL_ABS . 'views/admin.php' );
 require_once( WPDEVTOOL_ABS . 'views/error_log.php' );
 
 /**
- * Load WpDevTool maintenance options
- *
- * @since 0.0.1
- */
-require_once( WPDEVTOOL_ABS . 'views/maintenance.php' );
-
-/**
  * Load WpDevTool Contextual Help
  *
  * @since 0.0.1
@@ -101,8 +94,12 @@ require_once( WPDEVTOOL_ABS . 'inc/help.php' );
  */
 function wpdevtool_under_construction() {
 
-	if ( get_option('maintenance') && !current_user_can( 'manage_options' ) )
-		wp_die( '<h1>' . get_bloginfo('name') . '</h1>' . get_option('maintenance_message'), get_bloginfo('name'). ' | Manutenzione programmata', array( 'response' => '503') );
+	if ( !get_option('wpdevtool_maintenance') || current_user_can( 'manage_options' ) )
+		return;
+		
+	$message = str_replace( array( '[name]', '[email]' ), array( get_bloginfo('name'), antispambot( get_bloginfo('admin_email') ) ), wp_kses_post( get_option('wpdevtool_maintenance_message') ) );
+	
+	wp_die( '<h1>' . get_bloginfo('name') . ' ' . __( 'is under maintenance', 'wpdevtool' ) . '</h1><p>' . $message . '</p>', get_bloginfo('name'). ' | ' . __( 'Maintenance Screen', 'wpdevtool' ) , array( 'response' => '503') );
 	
 }
 add_action( 'get_header','wpdevtool_under_construction' );
@@ -141,7 +138,7 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 
 		if ( !isset( $_GET['upandrunning'] ) ) {
 			$file = @fopen( $logfilepath, "x" );
-			$redirect_url = add_query_arg( array( 'page' => $_GET['page'], 'upandrunning'  => 'true' ), admin_url( 'admin.php' ) );
+			$redirect_url = add_query_arg( array( 'upandrunning'  => 'true' ) );
 			?>
 			<script type="text/javascript">
 			<!--
@@ -152,9 +149,30 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 		} else {
 			echo '<div id="message" class="error"><p>' . __('Something went wrong. Your log file is missing...') . '</p></div>';
 		}
+		
+		return false;
 	}
 
-	return str_replace( '<br>', '', $log_file_content);
+	return array ( 'result' => str_replace( '<br>', '', $log_file_content), 'count' => count( $log_array ) );
 
 }
 
+
+
+function wpdevtool_log_processing() {
+	
+	$log_file = apply_filters( 'wpdevtool_error_log_file', WP_CONTENT_DIR . '/debug.log' );
+	
+	if ( isset( $_GET['wpdevtool_download_log_file'] ) && is_super_admin() ) {
+		header( 'Content-Type: text' );
+		header( 'Content-Disposition: attachment;filename=logs_'. date('Ymd') .'.txt');
+		readfile( $log_file );
+		exit;
+	}
+	
+	if ( isset( $_GET['wpdevtool_delete_log_file'] ) && is_super_admin() ) {
+		file_put_contents( $log_file, '' );
+	}
+	
+}
+add_action( 'admin_init', 'wpdevtool_log_processing' );

@@ -1,4 +1,4 @@
-<div id="right_col" class="postbox">
+<div class="postbox right_col">
 	<div class="handlediv">
 		<br>
 	</div>
