@@ -46,6 +46,11 @@ if (WP_DEBUG) {
 = 0.0.1 =
 First release
 
+== Upgrade Notice ==
+
+= 0.0.1 =
+First release
+
 == To Do ==
 
 * Add default options to wpdevtool_activation
