@@ -57,6 +57,8 @@ First release
 * Delete options on plugin uninstall
 * Add time to log filename download
 * Add link to Git Hub Issues
+* Aggiungere action varie
+* Sostituire filter debug_bar con action
 * Add to worpdress plugin repository
 
 == To Be ==
