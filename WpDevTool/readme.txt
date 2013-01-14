@@ -62,6 +62,7 @@ First release
 * Sostituire filter debug_bar con action
 * Add to worpdress plugin repository
 * Add screenshot to readme.md
+* Add twitter, plugin home and general fix credits widget
 
 == To Be ==
 
