@@ -152,7 +152,7 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 			</script>
 			<?php
 		} else {
-			echo '<div id="message" class="error"><p>' . __('Something went wrong. Your log file is missing...') . '</p></div>';
+			echo '<div id="message" class="error"><p>' . __( 'Something went wrong. Your log file is missing...', 'wpdevtool' ) . '</p></div>';
 		}
 		
 		return false;
