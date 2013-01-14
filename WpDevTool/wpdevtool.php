@@ -114,7 +114,9 @@ add_action( 'get_header','wpdevtool_under_construction' );
  *
  * @since 0.0.1
  *
- * @param string $logfilepath Path to the log file	
+ * @param string $logfilepath Path to the log file
+ * 
+ * @return array Log file html formatted content or false on error
  */
 function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 
