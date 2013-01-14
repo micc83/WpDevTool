@@ -64,6 +64,7 @@ First release
 * Add permalinks page
 * Add some stat to main admin page
 * Add db table check up
+* Enable advanced error tracking
 
 == Credits ==
 
