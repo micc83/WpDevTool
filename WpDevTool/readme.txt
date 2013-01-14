@@ -1,5 +1,6 @@
 === Plugin Name ===
 Contributors: micc83
+Donate link: http://codeb.it
 Tags: debug, development
 Requires at least: 3.0.1
 Tested up to: 3.5
