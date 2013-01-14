@@ -61,6 +61,7 @@ First release
 * Aggiungere action varie
 * Sostituire filter debug_bar con action
 * Add to worpdress plugin repository
+* Add screenshot to readme.md
 
 == To Be ==
 
