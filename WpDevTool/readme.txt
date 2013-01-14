@@ -11,7 +11,11 @@ A simple tool to develop on WordPress platform...
 
 == Description ==
 
-Long Description
+WpDevTool implements many useful functions for WordPress Developer such as:
+
+1. Maintenance mode: Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page
+2. Debug bar: A simple bar which show number of query, timing and memory of current page
+3. Log Console: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
 
 == Installation ==
 
@@ -46,9 +50,8 @@ First release
 
 == To Do ==
 
-* Add Debug Bar
-* Add quick links to credits
 * Add default options to wpdevtool_activation
+* Delete options on plugin uninstall
 
 == To Be ==
 
