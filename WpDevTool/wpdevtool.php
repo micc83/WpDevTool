@@ -63,8 +63,11 @@ function wpdevtool_register() {
 	// Main admin style
 	wp_register_style( 'WpDevToolStylesheet', WPDEVTOOL_URI . 'styles/style.css' );
 	
+	// Debug bar style
+	wp_register_style( 'WpDevToolBarStylesheet', WPDEVTOOL_URI . 'styles/wpdevtool_bar.css' );
+	
 }
-add_action( 'admin_init', 'wpdevtool_register' );
+add_action( 'init', 'wpdevtool_register' );
 
 /**
  * Load WpDevTool main admin page
@@ -157,23 +160,62 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 
 }
 
-
-
+/**
+ * WpDevTool Logs Processing
+ *
+ * Download and delete of log file through query args
+ *
+ * @since 0.0.1
+ */
 function wpdevtool_log_processing() {
 	
 	$log_file = apply_filters( 'wpdevtool_error_log_file', WP_CONTENT_DIR . '/debug.log' );
 	
 	if ( isset( $_GET['wpdevtool_download_log_file'] ) && is_super_admin() ) {
 		header( 'Content-Type: text' );
-		header( 'Content-Disposition: attachment;filename=logs_'. date('Ymd') .'.txt');
+		header( 'Content-Disposition: attachment;filename=logs_' . date('Ymd') . '.txt' );
 		readfile( $log_file );
 		exit;
 	}
 	
 	if ( isset( $_GET['wpdevtool_delete_log_file'] ) && is_super_admin() ) {
 		file_put_contents( $log_file, '' );
-		wp_die( sprintf( __('Log file has been deleted. <a href="%s">Go back to WpDevTool</a>', 'wpdevtool'), add_query_arg( array( 'wpdevtool_delete_log_file' => false ) ) ) );
+		wp_die( sprintf( __( 'Log file has been deleted. <a href="%s">Go back to WpDevTool</a>', 'wpdevtool' ), add_query_arg( array( 'wpdevtool_delete_log_file' => false ) ) ) );
 	}
 	
 }
 add_action( 'admin_init', 'wpdevtool_log_processing' );
+
+/**
+ * WpDevTool Debug Bar
+ *
+ * @since 0.0.1
+ */
+function wpdevtool_debug_bar_init() {
+	
+	if ( !get_option('wpdevtool_debug_bar') || !is_super_admin() )
+		return;
+	
+	wp_enqueue_style( 'WpDevToolBarStylesheet' );
+	
+	add_action( 'wp_footer', 'wpdevtool_debug_bar' );
+	
+}
+add_action( 'wp_enqueue_scripts', 'wpdevtool_debug_bar_init' ); 
+
+function wpdevtool_debug_bar() {
+	
+	$num_query = (int) get_num_queries();
+	$time = timer_stop( 0 );
+	$memory = number_format_i18n( (int) memory_get_usage() / 1024 );
+	$output = sprintf( __( '%d query in %s secondi, memoria %s Kb', 'wpdevtool' ), $num_query, $time, $memory );
+	$output = apply_filters( 'wpdevtol_debug_bar_content', $output );
+	
+	$output_links = '<a href="' . admin_url('admin.php?page=wpdevtool_admin') . '">' . __( 'WpDevTool Options', 'wpdevurl' ) . '</a>';
+	
+	if ( WP_DEBUG_LOG )
+		$output_links .= ' | <a href="' . admin_url('admin.php?page=wpdevtool_error_log_console') . '">' . __( 'WordPress Logs', 'wpdevurl' ) . '</a>';
+	
+	echo('<div id="wpdevtool_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
+}
+
