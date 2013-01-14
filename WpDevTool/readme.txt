@@ -56,6 +56,7 @@ First release
 * Add default options to wpdevtool_activation
 * Delete options on plugin uninstall
 * Add time to log filename download
+* Add link to Git Hub Issues
 * Add to worpdress plugin repository
 
 == To Be ==
