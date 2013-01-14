@@ -31,3 +31,6 @@ Having trouble with WpDevTool? Open an [issue](https://github.com/micc83/WpDevTo
 
 ##Credits
 Icon Credits goes to: [Everaldo](http://www.everaldo.com)
+
+##Screenshots
+![Settings Window](https://raw.github.com/micc83/WpDevTool/master/WpDevTool/assets/screenshot-1.jpg)
