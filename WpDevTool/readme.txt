@@ -70,6 +70,8 @@ First release
 
 == To Do ==
 
+* Check on which page to include script.js
+
 == To Be ==
 
 * Add wp_cron page
