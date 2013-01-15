@@ -3,7 +3,7 @@
 Plugin Name: WpDevTool
 Plugin URI: 
 Description: A simple tool to develop on WordPress platform...
-Version: 0.0.1
+Version: 0.0.2
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -18,10 +18,10 @@ define( 'WPDEVTOOL_ABS' , plugin_dir_path( __FILE__ ) );
 define( 'WPDEVTOOL_URI' , plugin_dir_url( __FILE__ ) );
 
 /**
- * Plugin activation
+ * Plugin activation checks
  *
  * On plugin activation check WordPress version is higher than 3.0
- * and PHP versione higher than 5
+ * and PHP version higher than 5
  *
  * @since 0.0.1
  */
@@ -42,6 +42,19 @@ function wpdevtool_activation() {
 
 }
 register_activation_hook( __FILE__, 'wpdevtool_activation' );
+
+/**
+ * Set default option values
+ *
+ * @since 0.0.2
+ */
+function wpdevtool_set_default_options_value() {
+
+	if ( !get_option( 'wpdevtool_maintenance_message' ) )
+		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
+
+}
+register_activation_hook( __FILE__, 'wpdevtool_set_default_options_value' );
 
 /**
  * Load WpDevTool language file
@@ -175,7 +188,7 @@ function wpdevtool_log_processing() {
 	
 	if ( isset( $_GET['wpdevtool_download_log_file'] ) && is_super_admin() ) {
 		header( 'Content-Type: text' );
-		header( 'Content-Disposition: attachment;filename=logs_' . date('Ymd') . '.txt' );
+		header( 'Content-Disposition: attachment;filename=logs_' . date_i18n('Y-m-d_G-i-s') . '.txt' );
 		readfile( $log_file );
 		exit;
 	}
@@ -221,3 +234,16 @@ function wpdevtool_debug_bar() {
 	echo('<div id="wpdevtool_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
 }
 
+/**
+ * WpDevTool Uninstall Hook
+ *
+ * @since 0.0.2
+ */
+function wpdevtool_uninstall() {
+
+	delete_option( 'wpdevtool_maintenance' );
+	delete_option( 'wpdevtool_maintenance_message' );
+	delete_option( 'wpdevtool_debug_bar' );
+
+}
+register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
