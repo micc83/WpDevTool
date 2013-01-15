@@ -73,14 +73,22 @@ add_action( 'plugins_loaded', 'wpdevtool_init' );
  */
 function wpdevtool_register() {
 
-	// Main admin style
+	// Admin style e script
 	wp_register_style( 'WpDevToolStylesheet', WPDEVTOOL_URI . 'styles/style.css' );
+	wp_register_script( 'WpDevToolScript', WPDEVTOOL_URI . 'js/script.js', array('jquery'), false, true );
 	
 	// Debug bar style
 	wp_register_style( 'WpDevToolBarStylesheet', WPDEVTOOL_URI . 'styles/wpdevtool_bar.css' );
 	
 }
 add_action( 'init', 'wpdevtool_register' );
+
+function wpdevtool_enqueue_admin_script() {
+	
+	wp_enqueue_script('WpDevToolScript');
+	
+}
+add_action( 'admin_enqueue_scripts', 'wpdevtool_enqueue_admin_script' );
 
 /**
  * Load WpDevTool main admin page
@@ -115,7 +123,9 @@ function wpdevtool_under_construction() {
 		
 	$message = str_replace( array( '[name]', '[email]' ), array( get_bloginfo('name'), antispambot( get_bloginfo('admin_email') ) ), wp_kses_post( get_option('wpdevtool_maintenance_message') ) );
 	
-	wp_die( '<h1>' . get_bloginfo('name') . ' ' . __( 'is under maintenance', 'wpdevtool' ) . '</h1><p>' . $message . '</p>', get_bloginfo('name'). ' | ' . __( 'Maintenance Screen', 'wpdevtool' ) , array( 'response' => '503') );
+	$maintenance_message = '<h1>' . get_bloginfo('name') . ' ' . __( 'is under maintenance', 'wpdevtool' ) . '</h1><p>' . $message . '</p>';
+	
+	wp_die( $maintenance_message, get_bloginfo('name') . ' | ' . __( 'Maintenance Screen', 'wpdevtool' ) , array( 'response' => '503') );
 	
 }
 add_action( 'get_header','wpdevtool_under_construction' );
@@ -232,6 +242,30 @@ function wpdevtool_debug_bar() {
 		$output_links .= ' | <a href="' . admin_url('admin.php?page=wpdevtool_error_log_console') . '">' . __( 'WordPress Logs', 'wpdevurl' ) . '</a>';
 	
 	echo('<div id="wpdevtool_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
+}
+
+/**
+ * Formatted version of var_dump
+ *
+ * @since 0.0.2
+ */
+function wdt_dump( $var ) {
+	
+	$style = apply_filters( 'wpdevtool_dump_style', 'background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);line-height:20px;z-index:10000;white-space:pre-wrap;overflow: auto;font-size:13px;' );
+	
+	echo('<pre class="wpdevtool_var_dump" style="' . $style . '">');
+	var_dump( $var );
+	echo('</pre>');
+}
+
+/**
+ * Returns current plugin version.
+ *
+ * @return string Plugin version
+ */
+function plugin_get_version() {
+	$plugin_data = get_plugin_data( __FILE__ );
+	return $plugin_data['Version'];
 }
 
 /**

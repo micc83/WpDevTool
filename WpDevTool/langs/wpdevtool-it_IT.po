@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WpDevTool\n"
-"POT-Creation-Date: 2013-01-10 23:12+0100\n"
-"PO-Revision-Date: 2013-01-10 23:14+0100\n"
+"POT-Creation-Date: 2013-01-15 23:19+0100\n"
+"PO-Revision-Date: 2013-01-15 23:19+0100\n"
 "Last-Translator: Comodolab <micc83@gmail.com>\n"
 "Language-Team: Alessandro Benoit <micc83@gmail.com>\n"
 "Language: Italiano\n"
@@ -14,23 +14,184 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../wpdevtool.php:32
-msgid "Lets do this test"
-msgstr "Facciamo questo test"
+#: ../wpdevtool.php:33
+msgid "This plugin requires WordPress 3.0 or greater."
+msgstr "Questo plugin necessita di WordPress 3.0 o superiore."
 
-#: ../views/admin.php:10
+#: ../wpdevtool.php:36
+msgid "This plugin requires PHP 5 or greater."
+msgstr "Questo plugin necessita PHP 5 o superiore."
+
+#: ../wpdevtool.php:54
+#, php-format
+msgid "%s is under maintenance at the moment. Contact us at %s"
+msgstr "%s è in manutenzione al momento. Contattaci all'indirizzo %s"
+
+#: ../wpdevtool.php:126
+msgid "is under maintenance"
+msgstr "è in manutenzione"
+
+#: ../wpdevtool.php:128
+msgid "Maintenance Screen"
+msgstr "Sito in Manutenzione"
+
+#: ../wpdevtool.php:178
+msgid "Something went wrong. Your log file is missing..."
+msgstr "Qualcosa è andato storto. Il tuo file log è mancante..."
+
+#: ../wpdevtool.php:208
+#, php-format
+msgid "Log file has been deleted. <a href=\"%s\">Go back to WpDevTool</a>"
+msgstr "Il file Log è stato eliminato. <a href=\"%s\">Torna a WpDevTool</a>"
+
+#: ../wpdevtool.php:236
+#, php-format
+msgid "%d query in %s secondi, memoria %s Kb"
+msgstr "%d query in %s seconds, memory %s Kb"
+
+#: ../wpdevtool.php:239 ../views/admin.php:10 ../views/admin.php:75
 msgid "WpDevTool Options"
 msgstr "Opzioni WpDevTool"
 
-#: ../views/admin.php:15
+#: ../wpdevtool.php:242
+msgid "WordPress Logs"
+msgstr "Log di WordPress"
+
+#: ../inc/credits.php:5
+msgid "Credits and Quick Links"
+msgstr "Crediti e Links veloci"
+
+#: ../inc/credits.php:7
+msgid "Proudly presented by"
+msgstr "Realizzato da"
+
+#: ../inc/credits.php:8
+msgid "Twitter"
+msgstr ""
+
+#: ../inc/credits.php:8
+msgid "Website"
+msgstr "Sito Web"
+
+#: ../inc/credits.php:9
+msgid "Quick links"
+msgstr "Link veloci"
+
+#: ../inc/credits.php:10
+msgid "Report a bug or request a feature"
+msgstr "Riporta un errore o richiedi una funzionalità"
+
+#: ../inc/credits.php:11
+msgid "WpDevTool on Github"
+msgstr "WpDevTool su Github"
+
+#: ../inc/credits.php:12
+msgid "WordPress Codex"
+msgstr ""
+
+#: ../inc/help.php:18
+msgid "Enable silent logging"
+msgstr "Abilita il loggin silenzioso"
+
+#: ../inc/help.php:19
+msgid ""
+"To enable silent logging set WP_DEBUG constant to TRUE in your wp-config.php "
+"file and add the following lines of code right after"
+msgstr ""
+"Per abilitare la raccolta silenziona degli errori imposta WP_DEBUG a TRUE "
+"nel tuo file wp-config.php e aggiungi le seguenti linee di codice subito "
+"sotto"
+
+#: ../views/admin.php:49
+msgid "Well done!"
+msgstr "Ben fatto!"
+
+#: ../views/admin.php:64 ../views/error_log.php:35
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: ../views/admin.php:18
-msgid "Here is where the form would go if I actually had options."
-msgstr "Qui va il contenuto"
+#: ../views/admin.php:70 ../views/error_log.php:66
+msgid "WordPress Development Tool"
+msgstr "Strumenti di sviluppo WordPress"
 
-#: ../views/admin.php:19
+#: ../views/admin.php:82 ../views/admin.php:88 ../views/admin.php:102
+msgid "Enable maintenance mode"
+msgstr "Attiva modalità manutenzione"
+
+#: ../views/admin.php:83
+msgid "Return a HTTP RESPONSE 503 (Service Temporary Unavailable) landing page"
+msgstr ""
+"Ritorna una pagina di errore HTTP RESPONSE 503 (Servizio Temporaneamente "
+"Sospeso)"
+
+#: ../views/admin.php:96
+msgid "Maintenance message"
+msgstr "Messaggio manutenzione"
+
+#: ../views/admin.php:97
+msgid "Shortcodes: <br>[email] Blog email <br>[name] Blog name"
+msgstr "Codici supportati: <br>[email] Email del blog <br>[name] Nome del blog"
+
+#: ../views/admin.php:110 ../views/admin.php:116
+msgid "Enable Debug Bar"
+msgstr "Abilita la Debug Bar"
+
+#: ../views/admin.php:111
+msgid "Show a simple debug bar on the bottom of every template page"
+msgstr "Mostra una semplice barra per il debug nel frontend"
+
+#: ../views/admin.php:124 ../views/admin.php:130
+msgid "WP_DEBUG is active"
+msgstr "WB_DEBUG è attivo"
+
+#: ../views/admin.php:125
+msgid "Check wheter you have set WP_DEBUG to TRUE"
+msgstr "Controlla di aver settato WP_DEBUG a TRUE"
+
+#: ../views/admin.php:138 ../views/admin.php:144
+msgid "Logging is enabled"
+msgstr "Il logging è abilitato"
+
+#: ../views/admin.php:139
+msgid "To enable silent logging give a look to Contextual Help"
+msgstr ""
+"Per abilitare la registrazione silenziona degli errori dai un'occhiata "
+"all'aiuto in linea"
+
+#: ../views/error_log.php:12 ../views/error_log.php:71
+msgid "WpDevTool Error Log Console"
+msgstr "WpDevTool Console degli errori"
+
+#: ../views/error_log.php:12
+msgid "Error Console"
+msgstr "Console Errori"
+
+#: ../views/error_log.php:71
+msgid "errors"
+msgstr "errori"
+
+#: ../views/error_log.php:78
+msgid "It's your lucky day... Ain't no errors!"
+msgstr "E' il tuo giorno fortunato, non ci sono errori!"
+
+#: ../views/error_log.php:88
+msgid "More Options"
+msgstr "Più opzioni"
+
+#: ../views/error_log.php:90
+msgid "Clear log file"
+msgstr "Elimina il file log"
+
+#: ../views/error_log.php:91
+msgid "Download log file"
+msgstr "Scarica il file log"
+
+#~ msgid "Lets do this test"
+#~ msgstr "Facciamo questo test"
+
+#~ msgid "Here is where the form would go if I actually had options."
+#~ msgstr "Qui va il contenuto"
+
 #, fuzzy
-msgid "Let's do this test"
-msgstr "Facciamo questo test"
+#~ msgid "Let's do this test"
+#~ msgstr "Facciamo questo test"

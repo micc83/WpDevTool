@@ -9,6 +9,7 @@ function wpdevtool_menu() {
 	$icon = WPDEVTOOL_URI . 'img/develop.png';
 	$page = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
 	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
+	
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
 
@@ -58,7 +59,7 @@ add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
  * @since 0.0.1
  */
 function wpdevtool_options() {
-
+	
 	if ( !current_user_can( 'manage_options' ) )
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	
@@ -66,7 +67,7 @@ function wpdevtool_options() {
 	
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
-		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tool</h2>
+		<h2><strong style="color: #21759b;">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
 		<div class="postbox left_col">
 			<div class="handlediv">
 				<br>
