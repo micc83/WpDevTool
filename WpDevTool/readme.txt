@@ -18,6 +18,12 @@ WpDevTool implements many useful functions for WordPress Developer such as:
 * **Debug bar**: A simple bar which show number of query, timing and memory of current page
 * **Log Console**: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
 
+= WpDevTool on GitHub =
+https://github.com/micc83/WpDevTool
+
+= Support or Contact =
+Having trouble with WpDevTool? Open an [issue](https://github.com/micc83/WpDevTool/issues) or contact me at micc83@gmail.com
+
 == Installation ==
 
 1. Upload WpDevTool folder to the '/wp-content/plugins/' directory
@@ -58,10 +64,8 @@ First release
 * Delete options on plugin uninstall
 * Add time to log filename download
 * Add link to Git Hub Issues
-* Aggiungere action varie
-* Sostituire filter debug_bar con action
-* Add to worpdress plugin repository
-* Add screenshot to readme.md
+* Add many actions
+* Replace filter debug_bar with an action
 * Add twitter, plugin home and general fix credits widget
 
 == To Be ==
