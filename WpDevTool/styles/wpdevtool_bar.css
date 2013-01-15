@@ -1,4 +1,0 @@
-#wpdevtool_debug_bar{font-size:12px;position:fixed;bottom:0px;background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;right:0px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);text-shadow: 0 1px #333;line-height:20px;cursor:default;}
-#wpdevtool_debug_bar #wpdevtool_debug_bar_more{height:0px;overflow:hidden;transition: all 0.3s linear;-moz-transition: all 0.3s linear;-webkit-transition: all 0.3s linear;-o-transition: all 0.3s linear;}
-#wpdevtool_debug_bar:hover #wpdevtool_debug_bar_more{height:20px;}
-#wpdevtool_debug_bar a {color:#66b9de;text-decoration:none;}
