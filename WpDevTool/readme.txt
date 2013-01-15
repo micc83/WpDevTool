@@ -67,6 +67,7 @@ First release
 * Add many actions
 * Replace filter debug_bar with an action
 * Add twitter, plugin home and general fix credits widget
+* Add a var_dump formatted alternative
 
 == To Be ==
 
