@@ -4,7 +4,7 @@ Donate link: http://codeb.it
 Tags: debug, development, developer, maintenance, log, console, errors
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 0.0.2
+Stable tag: 0.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,13 +50,8 @@ if (WP_DEBUG) {
 
 == Changelog ==
 
-= 0.0.2 =
-* Add default options to wpdevtool_activation
-* Log file name now includes time
-* Delete options on plugin uninstall
-
 = 0.0.1 =
-* First release
+First release
 
 == Upgrade Notice ==
 
@@ -65,10 +60,13 @@ First release
 
 == To Do ==
 
+* Add default options to wpdevtool_activation
+* Delete options on plugin uninstall
+* Add time to log filename download
+* Add link to Git Hub Issues
 * Add many actions
 * Replace filter debug_bar with an action
 * Add twitter, plugin home and general fix credits widget
-* Complete italian translation
 
 == To Be ==
 
