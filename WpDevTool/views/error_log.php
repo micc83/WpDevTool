@@ -9,7 +9,7 @@ function wpdevtool_menu_error_log_console() {
 	if ( !WP_DEBUG_LOG )
 		return;
 
-	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Error Log Console', 'wpdevtool' ), 'Error Log', 'manage_options', 'wpdevtool_error_log_console', 'wpdevtool_error_log_console_page' );
+	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Error Log Console', 'wpdevtool' ), __( 'Error Console', 'wpdevtool' ), 'manage_options', 'wpdevtool_error_log_console', 'wpdevtool_error_log_console_page' );
 	add_action( 'admin_print_styles-' . $page, 'wpdevtool_menu_error_log_console_styles' );
 
 }
@@ -63,7 +63,7 @@ function wpdevtool_error_log_console_page() {
 
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
-		<h2><strong style="color: #21759b;">WpDevTool</strong> - WordPress Development Tool</h2>
+		<h2><strong style="color: #21759b;">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
 		<div class="postbox left_col">
 			<div class="handlediv">
 				<br>
@@ -93,6 +93,6 @@ function wpdevtool_error_log_console_page() {
 		</div>
 		<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
 	</div>
-
+	
 	<?php
 }

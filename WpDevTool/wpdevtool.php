@@ -3,7 +3,7 @@
 Plugin Name: WpDevTool
 Plugin URI: 
 Description: A simple tool to develop on WordPress platform...
-Version: 0.0.1
+Version: 0.0.2
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -18,10 +18,10 @@ define( 'WPDEVTOOL_ABS' , plugin_dir_path( __FILE__ ) );
 define( 'WPDEVTOOL_URI' , plugin_dir_url( __FILE__ ) );
 
 /**
- * Plugin activation
+ * Plugin activation checks
  *
  * On plugin activation check WordPress version is higher than 3.0
- * and PHP versione higher than 5
+ * and PHP version higher than 5
  *
  * @since 0.0.1
  */
@@ -44,6 +44,19 @@ function wpdevtool_activation() {
 register_activation_hook( __FILE__, 'wpdevtool_activation' );
 
 /**
+ * Set default option values
+ *
+ * @since 0.0.2
+ */
+function wpdevtool_set_default_options_value() {
+
+	if ( !get_option( 'wpdevtool_maintenance_message' ) )
+		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
+
+}
+register_activation_hook( __FILE__, 'wpdevtool_set_default_options_value' );
+
+/**
  * Load WpDevTool language file
  *
  * @since 0.0.1
@@ -60,14 +73,22 @@ add_action( 'plugins_loaded', 'wpdevtool_init' );
  */
 function wpdevtool_register() {
 
-	// Main admin style
+	// Admin style e script
 	wp_register_style( 'WpDevToolStylesheet', WPDEVTOOL_URI . 'styles/style.css' );
+	wp_register_script( 'WpDevToolScript', WPDEVTOOL_URI . 'js/script.js', array('jquery'), false, true );
 	
 	// Debug bar style
 	wp_register_style( 'WpDevToolBarStylesheet', WPDEVTOOL_URI . 'styles/wpdevtool_bar.css' );
 	
 }
 add_action( 'init', 'wpdevtool_register' );
+
+function wpdevtool_enqueue_admin_script() {
+	
+	wp_enqueue_script('WpDevToolScript');
+	
+}
+add_action( 'admin_enqueue_scripts', 'wpdevtool_enqueue_admin_script' );
 
 /**
  * Load WpDevTool main admin page
@@ -102,7 +123,9 @@ function wpdevtool_under_construction() {
 		
 	$message = str_replace( array( '[name]', '[email]' ), array( get_bloginfo('name'), antispambot( get_bloginfo('admin_email') ) ), wp_kses_post( get_option('wpdevtool_maintenance_message') ) );
 	
-	wp_die( '<h1>' . get_bloginfo('name') . ' ' . __( 'is under maintenance', 'wpdevtool' ) . '</h1><p>' . $message . '</p>', get_bloginfo('name'). ' | ' . __( 'Maintenance Screen', 'wpdevtool' ) , array( 'response' => '503') );
+	$maintenance_message = '<h1>' . get_bloginfo('name') . ' ' . __( 'is under maintenance', 'wpdevtool' ) . '</h1><p>' . $message . '</p>';
+	
+	wp_die( $maintenance_message, get_bloginfo('name') . ' | ' . __( 'Maintenance Screen', 'wpdevtool' ) , array( 'response' => '503') );
 	
 }
 add_action( 'get_header','wpdevtool_under_construction' );
@@ -175,7 +198,7 @@ function wpdevtool_log_processing() {
 	
 	if ( isset( $_GET['wpdevtool_download_log_file'] ) && is_super_admin() ) {
 		header( 'Content-Type: text' );
-		header( 'Content-Disposition: attachment;filename=logs_' . date('Ymd') . '.txt' );
+		header( 'Content-Disposition: attachment;filename=logs_' . date_i18n('Y-m-d_G-i-s') . '.txt' );
 		readfile( $log_file );
 		exit;
 	}
@@ -221,3 +244,40 @@ function wpdevtool_debug_bar() {
 	echo('<div id="wpdevtool_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
 }
 
+/**
+ * Formatted version of var_dump
+ *
+ * @since 0.0.2
+ */
+function wdt_dump( $var ) {
+	
+	$style = apply_filters( 'wpdevtool_dump_style', 'background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);line-height:20px;z-index:10000;white-space:pre-wrap;overflow: auto;font-size:13px;' );
+	
+	echo('<pre class="wpdevtool_var_dump" style="' . $style . '">');
+	var_dump( $var );
+	echo('</pre>');
+}
+
+/**
+ * Returns current plugin version.
+ *
+ * @return string Plugin version
+ */
+function plugin_get_version() {
+	$plugin_data = get_plugin_data( __FILE__ );
+	return $plugin_data['Version'];
+}
+
+/**
+ * WpDevTool Uninstall Hook
+ *
+ * @since 0.0.2
+ */
+function wpdevtool_uninstall() {
+
+	delete_option( 'wpdevtool_maintenance' );
+	delete_option( 'wpdevtool_maintenance_message' );
+	delete_option( 'wpdevtool_debug_bar' );
+
+}
+register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
