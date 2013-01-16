@@ -70,7 +70,9 @@ First release
 
 == To Do ==
 
-* Check on which page to include script.js
+* [fix] Check on which page to include script.js
+* [feature] Redirect all WordPress Mail
+* [help] Add warning notes to silent logging help
 
 == To Be ==
 
