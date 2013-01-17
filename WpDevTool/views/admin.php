@@ -32,6 +32,8 @@ function register_wpdevtool_admin_settings() {
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance', 'intval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wpdevtool_maintenance_text_eval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_debug_bar', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_redirect_emails', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_redirect_email', 'wpdevtool_catch_all_email_eval' );
 	
 }
 add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
@@ -51,6 +53,22 @@ function wpdevtool_maintenance_text_eval( $maintenance_text ) {
 	return wp_kses_post( $maintenance_text );
 }
 
+/**
+ * Catch All Email validation
+ *
+ * @since 0.0.3
+ * @params string Maintenance text
+ * @return string Text through wp_kes_post or old value on empty field 
+ */
+function wpdevtool_catch_all_email_eval( $email ) {
+	if ( empty( $email ) || !is_email( $email ) ) {
+		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Something went wrong with the catch all email address', 'wpdevtool' ), 'error' );
+		return get_option( 'wpdevtool_redirect_email' );
+	}
+	return $email;
+}
+
+/**
  * Manage error messages
  *
  * @since 0.0.1
@@ -130,6 +148,36 @@ function wpdevtool_options() {
 										<label for="wpdevtool_debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
 									</legend>
 									<input name="wpdevtool_debug_bar" type="checkbox" id="wpdevtool_debug_bar" value="1" <?php checked( '1', get_option('wpdevtool_debug_bar') ); ?> >
+								</fieldset>
+							</td>
+						</tr>
+						<!-- Redirect All Emails -->
+						<tr valign="top">
+							<th scope="row">
+								<label for="wpdevtool_redirect_emails"><?php _e( 'Redirect all emails', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'Redirect all WordPress emails to a single address', 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="wpdevtool_redirect_emails"><?php _e( 'Redirect all emails', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="wpdevtool_redirect_emails" type="checkbox" id="wpdevtool_redirect_emails" value="1" <?php checked( '1', get_option('wpdevtool_redirect_emails') ); ?>  >
+								</fieldset>
+							</td>
+						</tr>
+						<!-- Maintenance Page Text -->
+						<tr valign="top" <?php if ( !get_option('wpdevtool_redirect_emails') ) echo('style="display:none"'); ?>>
+							<th scope="row">
+								<label for="wpdevtool_redirect_email"><span class="required_field">*</span> <?php _e( 'Catch all Email', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( "Catch all the emails sent through wp_mail()", 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="wpdevtool_redirect_email"><?php _e( 'Catch all Email', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="wpdevtool_redirect_email" type="text" id="wpdevtool_redirect_email" value="<?php echo get_option('wpdevtool_redirect_email'); ?>" class="long-text code">
 								</fieldset>
 							</td>
 						</tr>

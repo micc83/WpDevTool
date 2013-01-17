@@ -52,6 +52,11 @@ function wpdevtool_set_default_options_value() {
 
 	if ( !get_option( 'wpdevtool_maintenance_message' ) )
 		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
+	
+	if ( !get_option( 'wpdevtool_redirect_email' ) ){
+		$current_user = wp_get_current_user();
+		update_option( 'wpdevtool_redirect_email', $current_user->user_email );
+	}
 
 }
 register_activation_hook( __FILE__, 'wpdevtool_set_default_options_value' );
@@ -243,6 +248,25 @@ function wpdevtool_debug_bar() {
 	
 	echo('<div id="wpdevtool_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
 }
+
+/**
+ * Redirects all emails
+ *
+ * Redirect all emails sent through wp_mail to a custom address
+ *
+ * @since 0.0.3
+ * @param 
+ */
+function wpdevtool_redirect_wp_mail( $email ) {
+	
+	if ( !get_option( 'wpdevtool_redirect_emails' ) )
+		return $email;
+		
+	$email['to'] = get_option( 'wpdevtool_redirect_email' );
+	
+	return $email;
+}
+add_filter( 'wp_mail', 'wpdevtool_redirect_wp_mail' );
 
 /**
  * Formatted version of var_dump
