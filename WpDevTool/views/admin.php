@@ -30,13 +30,27 @@ function wpdevtool_admin_styles() {
 function register_wpdevtool_admin_settings() {
 
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance', 'intval' );
-	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wp_kses_post' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wpdevtool_maintenance_text_eval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_debug_bar', 'intval' );
 	
 }
 add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
 
 /**
+ * Maintenance text validation
+ *
+ * @since 0.0.3
+ * @params string Maintenance text
+ * @return string Text through wp_kes_post or old value on empty field 
+ */
+function wpdevtool_maintenance_text_eval( $maintenance_text ) {
+	if ( empty( $maintenance_text ) ) {
+		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Maintenance text cant be left empty!', 'wpdevtool' ), 'error' );
+		return get_option( 'wpdevtool_maintenance_message' );
+	}
+	return wp_kses_post( $maintenance_text );
+}
+
  * Manage error messages
  *
  * @since 0.0.1
