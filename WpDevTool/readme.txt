@@ -19,6 +19,7 @@ WpDevTool implements many useful functions for WordPress Developers such as:
 * **Maintenance mode**: Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page
 * **Debug bar**: A simple bar which show number of query, timing and memory of current page
 * **Log Console**: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
+* **Email Redirect**: Redirect all WordPress emails to a single address
 * **wdt_dump()**: A formatted version of var_dump()
 
 = WpDevTool on GitHub =
