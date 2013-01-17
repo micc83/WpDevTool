@@ -68,12 +68,6 @@ if (WP_DEBUG) {
 = 0.0.1 =
 First release
 
-== To Do ==
-
-* [fix] Check on which page to include script.js
-* [feature] Redirect all WordPress Mail
-* [help] Add warning notes to silent logging help
-
 == To Be ==
 
 * Add wp_cron page
@@ -81,6 +75,8 @@ First release
 * Add some stat to main admin page
 * Add db table check up
 * Enable advanced error tracking
+* Add Developer User type
+* Add hidden test posts
 
 == Credits ==
 
