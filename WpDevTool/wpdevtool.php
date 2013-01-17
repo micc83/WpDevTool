@@ -88,9 +88,15 @@ function wpdevtool_register() {
 }
 add_action( 'init', 'wpdevtool_register' );
 
+/**
+ * WpDevTool Enqueue Admin Javascript
+ *
+ * @since 0.0.2
+ */
 function wpdevtool_enqueue_admin_script() {
 	
-	wp_enqueue_script('WpDevToolScript');
+	if ( isset( $_GET['page'] ) && ( substr( $_GET['page'], 0, 9 ) === "wpdevtool" ) )
+		wp_enqueue_script('WpDevToolScript');
 	
 }
 add_action( 'admin_enqueue_scripts', 'wpdevtool_enqueue_admin_script' );
