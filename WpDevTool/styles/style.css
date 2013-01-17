@@ -6,6 +6,15 @@
 h3 {line-height: 30px;padding: 0 10px;}
 .postbox {margin: 10px 0;}
 .wp-editor-wrap .mceIframeContainer{background: #fff;}
+label {
+	font-weight: 800;
+}
+.required_field {
+	color: #f00;
+}
+input.long-text {
+	width: 100%;
+}
 @media screen and (max-width:1024px) {
 	.postbox.left_col, .postbox.right_col {width: 100%;}
 }
