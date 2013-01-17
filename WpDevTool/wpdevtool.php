@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: WpDevTool
-Plugin URI: 
+Plugin URI: https://github.com/micc83/WpDevTool
 Description: A simple tool to develop on WordPress platform...
-Version: 0.0.2
+Version: 0.0.3
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -44,7 +44,7 @@ function wpdevtool_activation() {
 register_activation_hook( __FILE__, 'wpdevtool_activation' );
 
 /**
- * Set default option values
+ * Set default option values on plugin activation
  *
  * @since 0.0.2
  */
@@ -147,9 +147,8 @@ add_action( 'get_header','wpdevtool_under_construction' );
  * Retrieve formatted log and return it formatted in html
  *
  * @since 0.0.1
- *
  * @param string $logfilepath Path to the log file
- * 
+ * @param string $color_scheme The color scheme applied to console log
  * @return array Log file html formatted content or false on error
  */
 function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
@@ -223,8 +222,9 @@ function wpdevtool_log_processing() {
 add_action( 'admin_init', 'wpdevtool_log_processing' );
 
 /**
- * WpDevTool Debug Bar
+ * WpDevTool Debug Bar Styles
  *
+ * @uses add_action() to display debug bar
  * @since 0.0.1
  */
 function wpdevtool_debug_bar_init() {
@@ -239,6 +239,12 @@ function wpdevtool_debug_bar_init() {
 }
 add_action( 'wp_enqueue_scripts', 'wpdevtool_debug_bar_init' ); 
 
+/**
+ * WpDevTool Debug Bar
+ *
+ * @uses apply_filters() Calls 'wpdevtol_debug_bar_content' to edit the content of debug bar
+ * @since 0.0.1
+ */
 function wpdevtool_debug_bar() {
 	
 	$num_query = (int) get_num_queries();
@@ -277,6 +283,7 @@ add_filter( 'wp_mail', 'wpdevtool_redirect_wp_mail' );
 /**
  * Formatted version of var_dump
  *
+ * @uses apply_filters() Calls 'wpdevtool_dump_style' to edit debug bar css
  * @since 0.0.2
  */
 function wdt_dump( $var ) {

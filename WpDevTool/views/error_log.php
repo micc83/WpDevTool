@@ -27,6 +27,7 @@ function wpdevtool_menu_error_log_console_styles() {
 /**
  * WpDevTool Main Admin Page
  *
+ * @uses apply_filters() Calls 'wpdevtool_error_console_colors' to apply a different log console style
  * @since 0.0.1
  */
 function wpdevtool_error_log_console_page() {

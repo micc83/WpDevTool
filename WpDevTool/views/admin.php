@@ -88,6 +88,7 @@ add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
 /**
  * WpDevTool Main Admin Page
  *
+ * @uses do_settings_sections('wpdevtool_admin') to add custom fields to the panel
  * @since 0.0.1
  */
 function wpdevtool_options() {
@@ -109,6 +110,7 @@ function wpdevtool_options() {
 				<form method="post" action="options.php">
 					<?php settings_fields( 'wpdevtool_admin-settings' ); ?>
 					<table class="form-table">
+						<!-- Enable Maintenance Mode -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="wpdevtool_maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
@@ -123,9 +125,10 @@ function wpdevtool_options() {
 								</fieldset>
 							</td>
 						</tr>
+						<!-- Maintenance Page Text -->
 						<tr valign="top" <?php if ( !get_option('wpdevtool_maintenance') ) echo('style="display:none"'); ?>>
 							<th scope="row">
-								<label for="wpdevtool_maintenance_message"><?php _e( 'Maintenance message', 'wpdevtool' ); ?></label>
+								<label for="wpdevtool_maintenance_message"><span class="required_field">*</span> <?php _e( 'Maintenance message', 'wpdevtool' ); ?></label>
 								<p class="description"><?php _e( "Shortcodes: <br>[email] Blog email <br>[name] Blog name", 'wpdevtool' ); ?></p>
 							</th>
 							<td>
@@ -133,10 +136,11 @@ function wpdevtool_options() {
 									<legend class="screen-reader-text">
 										<label for="wpdevtool_maintenance_message"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="wpdevtool_maintenance_message" type="text" id="wpdevtool_maintenance_message" value="<?php echo get_option('wpdevtool_maintenance_message'); ?>" class="regular-text code">
+									<input name="wpdevtool_maintenance_message" type="text" id="wpdevtool_maintenance_message" value="<?php echo get_option('wpdevtool_maintenance_message'); ?>" class="long-text code">
 								</fieldset>
 							</td>
-						</tr>			
+						</tr>
+						<!-- Enable Debug bar -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="wpdevtool_debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
@@ -181,6 +185,7 @@ function wpdevtool_options() {
 								</fieldset>
 							</td>
 						</tr>
+						<!-- Check if WP_DEBUG is set to TRUE -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="wp_debug"><?php _e( 'WP_DEBUG is active', 'wpdevtool' ); ?></label>
@@ -195,6 +200,7 @@ function wpdevtool_options() {
 								</fieldset>
 							</td>
 						</tr>
+						<!-- Check if WP_DEBUG_LOG is set to TRUE -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="silent_logging"><?php _e( 'Logging is enabled', 'wpdevtool' ); ?></label>
