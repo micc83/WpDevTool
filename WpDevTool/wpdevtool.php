@@ -191,7 +191,7 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 		return false;
 	}
 
-	return array ( 'result' => str_replace( '<br>', '', $log_file_content), 'count' => count( $log_array ) );
+	return array ( 'result' => str_replace( '<br>', '', $log_file_content), 'count' => ( count( $log_array ) -1 ) );
 
 }
 
