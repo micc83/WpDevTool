@@ -30,11 +30,43 @@ function wpdevtool_admin_styles() {
 function register_wpdevtool_admin_settings() {
 
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance', 'intval' );
-	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wp_kses_post' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wpdevtool_maintenance_text_eval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_debug_bar', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_redirect_emails', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_redirect_email', 'wpdevtool_catch_all_email_eval' );
 	
 }
 add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
+
+/**
+ * Maintenance text validation
+ *
+ * @since 0.0.3
+ * @params string Maintenance text
+ * @return string Text through wp_kes_post or old value on empty field 
+ */
+function wpdevtool_maintenance_text_eval( $maintenance_text ) {
+	if ( empty( $maintenance_text ) ) {
+		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Maintenance text cant be left empty!', 'wpdevtool' ), 'error' );
+		return get_option( 'wpdevtool_maintenance_message' );
+	}
+	return wp_kses_post( $maintenance_text );
+}
+
+/**
+ * Catch All Email validation
+ *
+ * @since 0.0.3
+ * @params string Maintenance text
+ * @return string Text through wp_kes_post or old value on empty field 
+ */
+function wpdevtool_catch_all_email_eval( $email ) {
+	if ( empty( $email ) || !is_email( $email ) ) {
+		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Something went wrong with the catch all email address', 'wpdevtool' ), 'error' );
+		return get_option( 'wpdevtool_redirect_email' );
+	}
+	return $email;
+}
 
 /**
  * Manage error messages
@@ -56,6 +88,7 @@ add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
 /**
  * WpDevTool Main Admin Page
  *
+ * @uses do_settings_sections('wpdevtool_admin') to add custom fields to the panel
  * @since 0.0.1
  */
 function wpdevtool_options() {
@@ -77,6 +110,7 @@ function wpdevtool_options() {
 				<form method="post" action="options.php">
 					<?php settings_fields( 'wpdevtool_admin-settings' ); ?>
 					<table class="form-table">
+						<!-- Enable Maintenance Mode -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="wpdevtool_maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
@@ -91,9 +125,10 @@ function wpdevtool_options() {
 								</fieldset>
 							</td>
 						</tr>
+						<!-- Maintenance Page Text -->
 						<tr valign="top" <?php if ( !get_option('wpdevtool_maintenance') ) echo('style="display:none"'); ?>>
 							<th scope="row">
-								<label for="wpdevtool_maintenance_message"><?php _e( 'Maintenance message', 'wpdevtool' ); ?></label>
+								<label for="wpdevtool_maintenance_message"><span class="required_field">*</span> <?php _e( 'Maintenance message', 'wpdevtool' ); ?></label>
 								<p class="description"><?php _e( "Shortcodes: <br>[email] Blog email <br>[name] Blog name", 'wpdevtool' ); ?></p>
 							</th>
 							<td>
@@ -101,10 +136,11 @@ function wpdevtool_options() {
 									<legend class="screen-reader-text">
 										<label for="wpdevtool_maintenance_message"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
 									</legend>
-									<input name="wpdevtool_maintenance_message" type="text" id="wpdevtool_maintenance_message" value="<?php echo get_option('wpdevtool_maintenance_message'); ?>" class="regular-text code">
+									<input name="wpdevtool_maintenance_message" type="text" id="wpdevtool_maintenance_message" value="<?php echo get_option('wpdevtool_maintenance_message'); ?>" class="long-text code">
 								</fieldset>
 							</td>
-						</tr>			
+						</tr>
+						<!-- Enable Debug bar -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="wpdevtool_debug_bar"><?php _e( 'Enable Debug Bar', 'wpdevtool' ); ?></label>
@@ -119,6 +155,37 @@ function wpdevtool_options() {
 								</fieldset>
 							</td>
 						</tr>
+						<!-- Redirect All Emails -->
+						<tr valign="top">
+							<th scope="row">
+								<label for="wpdevtool_redirect_emails"><?php _e( 'Redirect all emails', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( 'Redirect all WordPress emails to a single address', 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="wpdevtool_redirect_emails"><?php _e( 'Redirect all emails', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="wpdevtool_redirect_emails" type="checkbox" id="wpdevtool_redirect_emails" value="1" <?php checked( '1', get_option('wpdevtool_redirect_emails') ); ?>  >
+								</fieldset>
+							</td>
+						</tr>
+						<!-- Maintenance Page Text -->
+						<tr valign="top" <?php if ( !get_option('wpdevtool_redirect_emails') ) echo('style="display:none"'); ?>>
+							<th scope="row">
+								<label for="wpdevtool_redirect_email"><span class="required_field">*</span> <?php _e( 'Catch all Email', 'wpdevtool' ); ?></label>
+								<p class="description"><?php _e( "Catch all the emails sent through wp_mail()", 'wpdevtool' ); ?></p>
+							</th>
+							<td>
+								<fieldset>
+									<legend class="screen-reader-text">
+										<label for="wpdevtool_redirect_email"><?php _e( 'Catch all Email', 'wpdevtool' ); ?></label>
+									</legend>
+									<input name="wpdevtool_redirect_email" type="text" id="wpdevtool_redirect_email" value="<?php echo get_option('wpdevtool_redirect_email'); ?>" class="long-text code">
+								</fieldset>
+							</td>
+						</tr>
+						<!-- Check if WP_DEBUG is set to TRUE -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="wp_debug"><?php _e( 'WP_DEBUG is active', 'wpdevtool' ); ?></label>
@@ -133,6 +200,7 @@ function wpdevtool_options() {
 								</fieldset>
 							</td>
 						</tr>
+						<!-- Check if WP_DEBUG_LOG is set to TRUE -->
 						<tr valign="top">
 							<th scope="row">
 								<label for="silent_logging"><?php _e( 'Logging is enabled', 'wpdevtool' ); ?></label>

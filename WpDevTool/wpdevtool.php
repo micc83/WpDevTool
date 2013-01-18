@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: WpDevTool
-Plugin URI: 
+Plugin URI: https://github.com/micc83/WpDevTool
 Description: A simple tool to develop on WordPress platform...
-Version: 0.0.2
+Version: 0.0.3
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -44,7 +44,7 @@ function wpdevtool_activation() {
 register_activation_hook( __FILE__, 'wpdevtool_activation' );
 
 /**
- * Set default option values
+ * Set default option values on plugin activation
  *
  * @since 0.0.2
  */
@@ -52,6 +52,11 @@ function wpdevtool_set_default_options_value() {
 
 	if ( !get_option( 'wpdevtool_maintenance_message' ) )
 		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
+	
+	if ( !get_option( 'wpdevtool_redirect_email' ) ){
+		$current_user = wp_get_current_user();
+		update_option( 'wpdevtool_redirect_email', $current_user->user_email );
+	}
 
 }
 register_activation_hook( __FILE__, 'wpdevtool_set_default_options_value' );
@@ -83,9 +88,15 @@ function wpdevtool_register() {
 }
 add_action( 'init', 'wpdevtool_register' );
 
+/**
+ * WpDevTool Enqueue Admin Javascript
+ *
+ * @since 0.0.2
+ */
 function wpdevtool_enqueue_admin_script() {
 	
-	wp_enqueue_script('WpDevToolScript');
+	if ( isset( $_GET['page'] ) && ( substr( $_GET['page'], 0, 9 ) === "wpdevtool" ) )
+		wp_enqueue_script('WpDevToolScript');
 	
 }
 add_action( 'admin_enqueue_scripts', 'wpdevtool_enqueue_admin_script' );
@@ -136,9 +147,8 @@ add_action( 'get_header','wpdevtool_under_construction' );
  * Retrieve formatted log and return it formatted in html
  *
  * @since 0.0.1
- *
  * @param string $logfilepath Path to the log file
- * 
+ * @param string $color_scheme The color scheme applied to console log
  * @return array Log file html formatted content or false on error
  */
 function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
@@ -181,7 +191,7 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 		return false;
 	}
 
-	return array ( 'result' => str_replace( '<br>', '', $log_file_content), 'count' => count( $log_array ) );
+	return array ( 'result' => str_replace( '<br>', '', $log_file_content), 'count' => ( count( $log_array ) - 1 ) );
 
 }
 
@@ -212,8 +222,9 @@ function wpdevtool_log_processing() {
 add_action( 'admin_init', 'wpdevtool_log_processing' );
 
 /**
- * WpDevTool Debug Bar
+ * WpDevTool Debug Bar Styles
  *
+ * @uses add_action() to display debug bar
  * @since 0.0.1
  */
 function wpdevtool_debug_bar_init() {
@@ -228,6 +239,12 @@ function wpdevtool_debug_bar_init() {
 }
 add_action( 'wp_enqueue_scripts', 'wpdevtool_debug_bar_init' ); 
 
+/**
+ * WpDevTool Debug Bar
+ *
+ * @uses apply_filters() Calls 'wpdevtol_debug_bar_content' to edit the content of debug bar
+ * @since 0.0.1
+ */
 function wpdevtool_debug_bar() {
 	
 	$num_query = (int) get_num_queries();
@@ -245,13 +262,33 @@ function wpdevtool_debug_bar() {
 }
 
 /**
+ * Redirects all emails
+ *
+ * Redirect all emails sent through wp_mail to a custom address
+ *
+ * @since 0.0.3
+ * @param 
+ */
+function wpdevtool_redirect_wp_mail( $email ) {
+	
+	if ( !get_option( 'wpdevtool_redirect_emails' ) )
+		return $email;
+		
+	$email['to'] = get_option( 'wpdevtool_redirect_email' );
+	
+	return $email;
+}
+add_filter( 'wp_mail', 'wpdevtool_redirect_wp_mail' );
+
+/**
  * Formatted version of var_dump
  *
+ * @uses apply_filters() Calls 'wpdevtool_dump_style' to edit debug bar css
  * @since 0.0.2
  */
 function wdt_dump( $var ) {
 	
-	$style = apply_filters( 'wpdevtool_dump_style', 'background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);line-height:20px;z-index:10000;white-space:pre-wrap;overflow: auto;font-size:13px;' );
+	$style = apply_filters( 'wpdevtool_dump_style', 'background:#111;background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);line-height:20px;z-index:10000;white-space:pre-wrap;overflow: auto;font-size:13px;' );
 	
 	echo('<pre class="wpdevtool_var_dump" style="' . $style . '">');
 	var_dump( $var );
@@ -278,6 +315,8 @@ function wpdevtool_uninstall() {
 	delete_option( 'wpdevtool_maintenance' );
 	delete_option( 'wpdevtool_maintenance_message' );
 	delete_option( 'wpdevtool_debug_bar' );
+	delete_option( 'wpdevtool_redirect_emails' );
+	delete_option( 'wpdevtool_redirect_email' );
 
 }
 register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
