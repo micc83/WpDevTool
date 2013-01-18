@@ -6,7 +6,7 @@ Author URI: http://codeb.it
 Plugin URI: https://github.com/micc83/WpDevTool
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 0.0.2
+Stable tag: 0.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ WpDevTool implements many useful functions for WordPress Developers such as:
 * **Maintenance mode**: Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page
 * **Debug bar**: A simple bar which show number of query, timing and memory of current page
 * **Log Console**: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
+* **Email Redirect**: Redirect all WordPress emails to a single address
 * **wdt_dump()**: A formatted version of var_dump()
 
 = WpDevTool on GitHub =
@@ -52,6 +53,12 @@ if (WP_DEBUG) {
 
 == Changelog ==
 
+= 0.0.3 =
+* Fix console showing 1 error with no errors bug
+* Fix debug bar background on style.css for internet explorer enhancement
+* Redirect all WordPress Mail feature
+* Fix Check on which admin page to include script.js bug
+
 = 0.0.2 =
 * Add default options to wpdevtool_activation
 * Log file name now includes time
@@ -65,10 +72,11 @@ if (WP_DEBUG) {
 
 == Upgrade Notice ==
 
+= 0.0.3 =
+Fix some issues. Add redirect all email feature. Most important, fix the including of WpDevTool script on every admin page.
+
 = 0.0.1 =
 First release
-
-== To Do ==
 
 == To Be ==
 
@@ -77,6 +85,8 @@ First release
 * Add some stat to main admin page
 * Add db table check up
 * Enable advanced error tracking
+* Add Developer User type
+* Add hidden test posts
 
 == Credits ==
 
