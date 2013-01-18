@@ -322,6 +322,7 @@ function plugin_get_version() {
  */
 function wpdevtool_uninstall() {
 
+	delete_option( 'wpdevtool_version' );
 	delete_option( 'wpdevtool_maintenance' );
 	delete_option( 'wpdevtool_maintenance_message' );
 	delete_option( 'wpdevtool_debug_bar' );
