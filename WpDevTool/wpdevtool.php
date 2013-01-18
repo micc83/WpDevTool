@@ -315,6 +315,8 @@ function wpdevtool_uninstall() {
 	delete_option( 'wpdevtool_maintenance' );
 	delete_option( 'wpdevtool_maintenance_message' );
 	delete_option( 'wpdevtool_debug_bar' );
+	delete_option( 'wpdevtool_redirect_emails' );
+	delete_option( 'wpdevtool_redirect_email' );
 
 }
 register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
