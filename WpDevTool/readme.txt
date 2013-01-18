@@ -6,7 +6,7 @@ Author URI: http://codeb.it
 Plugin URI: https://github.com/micc83/WpDevTool
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 0.0.3
+Stable tag: 0.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ if (WP_DEBUG) {
 2. Main WpDevTool Admin Page
 
 == Changelog ==
+
+= 0.0.4 =
+* Fix bug "updating plugin" cause maintenance message and email missing error
 
 = 0.0.3 =
 * Fix console showing 1 error with no errors bug

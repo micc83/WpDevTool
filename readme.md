@@ -1,4 +1,4 @@
-#WpDevTool - WordPress Developer Tool v0.0.3
+#WpDevTool - WordPress Developer Tool v0.0.4
 A simple tool to develop on WordPress platform...
 
 ##Description

@@ -3,7 +3,7 @@
 Plugin Name: WpDevTool
 Plugin URI: https://github.com/micc83/WpDevTool
 Description: A simple tool to develop on WordPress platform...
-Version: 0.0.3
+Version: 0.0.4
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -44,12 +44,22 @@ function wpdevtool_activation() {
 register_activation_hook( __FILE__, 'wpdevtool_activation' );
 
 /**
- * Set default option values on plugin activation
+ * Set default option values on first install / version change
  *
  * @since 0.0.2
  */
 function wpdevtool_set_default_options_value() {
 
+	if ( false === get_option( 'wpdevtool_version' ) ) {
+		update_option( 'wpdevtool_version', plugin_get_version() );
+	} elseif ( version_compare( plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) ) {
+		return;
+	} else {
+		update_option( 'wpdevtool_version', plugin_get_version() );
+	}
+
+	// The code from here on is executed only on activation and version change:
+	
 	if ( !get_option( 'wpdevtool_maintenance_message' ) )
 		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
 	
@@ -59,7 +69,7 @@ function wpdevtool_set_default_options_value() {
 	}
 
 }
-register_activation_hook( __FILE__, 'wpdevtool_set_default_options_value' );
+add_action( 'admin_init', 'wpdevtool_set_default_options_value' );
 
 /**
  * Load WpDevTool language file
