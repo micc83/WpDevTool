@@ -6,7 +6,7 @@ Author URI: http://codeb.it
 Plugin URI: https://github.com/micc83/WpDevTool
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 0.0.2
+Stable tag: 0.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,12 @@ if (WP_DEBUG) {
 
 == Changelog ==
 
+= 0.0.3 =
+* Fix console showing 1 error with no errors bug
+* Fix debug bar background on style.css for internet explorer enhancement
+* Redirect all WordPress Mail feature
+* Fix Check on which admin page to include script.js bug
+
 = 0.0.2 =
 * Add default options to wpdevtool_activation
 * Log file name now includes time
@@ -65,6 +71,9 @@ if (WP_DEBUG) {
 * First release
 
 == Upgrade Notice ==
+
+= 0.0.3 =
+Fix some issues. Add redirect all email feature. Most important, fix the including of WpDevTool script on every admin page.
 
 = 0.0.1 =
 First release
