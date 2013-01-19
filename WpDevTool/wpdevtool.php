@@ -132,6 +132,14 @@ require_once( WPDEVTOOL_ABS . 'views/error_log.php' );
  */
 require_once( WPDEVTOOL_ABS . 'views/crons.php' );
 
+/**
+ * Load WpDevTool Permalinks View
+ *
+ * @since 0.0.1
+ */
+require_once( WPDEVTOOL_ABS . 'views/permalinks.php' );
+
+/**
  * Load WpDevTool Contextual Help
  *
  * @since 0.0.1
