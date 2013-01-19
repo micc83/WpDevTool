@@ -126,6 +126,12 @@ require_once( WPDEVTOOL_ABS . 'views/admin.php' );
 require_once( WPDEVTOOL_ABS . 'views/error_log.php' );
 
 /**
+ * Load WpDevTool Cron View
+ *
+ * @since 0.0.1
+ */
+require_once( WPDEVTOOL_ABS . 'views/crons.php' );
+
  * Load WpDevTool Contextual Help
  *
  * @since 0.0.1
@@ -291,6 +297,24 @@ function wpdevtool_redirect_wp_mail( $email ) {
 add_filter( 'wp_mail', 'wpdevtool_redirect_wp_mail' );
 
 /**
+ * Delete cron
+ *
+ * @since 0.1.0
+ */
+function wpdevtool_delete_cron() {
+	
+	if ( isset( $_GET['wpdevtool_cron_to_delete'] ) && is_super_admin() ) {
+		if ( isset( $_GET['wpdevtool_cron_args_to_delete'] ) ) {
+			wp_clear_scheduled_hook( sanitize_title( $_GET['wpdevtool_cron_to_delete'] ), $_GET['wpdevtool_cron_args_to_delete'] );
+		} else {
+			wp_clear_scheduled_hook( sanitize_title( $_GET['wpdevtool_cron_to_delete'] ) );
+		}
+		wpdevtool_reset_url();
+	}
+	
+}
+add_action( 'admin_init', 'wpdevtool_delete_cron' );
+
  * Formatted version of var_dump
  *
  * @uses apply_filters() Calls 'wpdevtool_dump_style' to edit debug bar css
