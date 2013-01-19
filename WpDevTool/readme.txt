@@ -20,6 +20,8 @@ WpDevTool implements many useful functions for WordPress Developers such as:
 * **Debug bar**: A simple bar which show number of query, timing and memory of current page
 * **Log Console**: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
 * **Email Redirect**: Redirect all WordPress emails to a single address
+* **Wp-Cron Manager**: Visualisation, search and deletion of Wp-Cron
+* **Permalinks Viewer**: Visualisation and search of Permalinks
 * **wdt_dump()**: A formatted version of var_dump()
 
 = WpDevTool on GitHub =
@@ -56,6 +58,12 @@ if (WP_DEBUG) {
 = 0.1.0 =
 * Added a install/update hook for setting options
 * Fixed a problem with color schemes
+* Added Wp-Cron Manager
+* Added Permalinks Viewer
+* Added a quick links section in the contextual help
+* Fixed maintenance text validation
+* Improved responsiveness
+* Fixed many minor issues
 
 = 0.0.4 =
 * Fix bug "updating plugin" cause maintenance message and email missing error

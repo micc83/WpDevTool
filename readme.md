@@ -8,6 +8,8 @@ WpDevTool implements many useful functions for WordPress Developer such as:
 * **Debug bar:** A simple bar which show number of query, timing and memory of current page
 * **Log Console:** A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
 * **Email Redirect**: Redirect all WordPress emails to a single address
+* **Wp-Cron Manager**: Visualisation, search and deletion of Wp-Cron
+* **Permalinks Viewer**: Visualisation and search of Permalinks
 * **wdt_dump()** : A formatted version of var_dump()
 
 ##Installation
