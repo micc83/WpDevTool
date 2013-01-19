@@ -230,12 +230,12 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 		$log_array = explode ( "\n", $log_file_content );
 		$log_file_content = implode( "\n", array_reverse( $log_array ) );
 		
-		$log_file_content = preg_replace('/\[.*\]/',"<span style='line-height:30px;font-weight:700;display:block;'>\\0", $log_file_content);
-		$log_file_content = preg_replace('/PHP Fatal error:/i',"<span style='color:#$fatal;'>\\0</span></span><br>", $log_file_content);
-		$log_file_content = preg_replace('/PHP Warning:/i',"<span style='color:#F8CA00;'>\\0</span></span><br>", $log_file_content);
-		$log_file_content = preg_replace('/php parse error:/i',"<span style='color:#FA6900;'>\\0</span></span><br>", $log_file_content);
-		$log_file_content = preg_replace('/PHP Notice:/i',"<span style='color:#A7DBD8;'>\\0</span></span><br>", $log_file_content);
-		$log_file_content = preg_replace('/PHP Catchable fatal error:/i',"<span style='color:#BD1550;'>\\0</span></span><br>", $log_file_content);
+		$log_file_content = preg_replace( '/\[.*\]/', "<span style='line-height:30px;font-weight:700;display:block;'>\\0", $log_file_content );
+		$log_file_content = preg_replace( '/PHP Fatal error:/i', "<span style='color:#$fatal;'>\\0</span></span><br>", $log_file_content );
+		$log_file_content = preg_replace( '/PHP Warning:/i', "<span style='color:#$warning;'>\\0</span></span><br>", $log_file_content );
+		$log_file_content = preg_replace( '/php parse error:/i', "<span style='color:#$parse;'>\\0</span></span><br>", $log_file_content );
+		$log_file_content = preg_replace( '/PHP Notice:/i', "<span style='color:#$notice;'>\\0</span></span><br>", $log_file_content );
+		$log_file_content = preg_replace( '/PHP Catchable fatal error:/i', "<span style='color:#$catchable;'>\\0</span></span><br>", $log_file_content );
 		$log_file_content = preg_replace(
 		'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))/',
 		"<a class='logurl' href=\"\\0\" target=\"_blank\">\\0</a>" , $log_file_content);
