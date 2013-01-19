@@ -53,6 +53,10 @@ if (WP_DEBUG) {
 
 == Changelog ==
 
+= 0.1.0 =
+* Added a install/update hook for setting options
+* Fixed a problem with color schemes
+
 = 0.0.4 =
 * Fix bug "updating plugin" cause maintenance message and email missing error
 
