@@ -367,6 +367,24 @@ function wpdevtool_delete_cron() {
 }
 add_action( 'admin_init', 'wpdevtool_delete_cron' );
 
+/**
+ * Reset query urls after a GET request
+ *
+ * @since 0.1.0
+ */
+function wpdevtool_reset_url() {
+	$uri = $_SERVER['REQUEST_URI'];
+	if( strpos( $uri, '?' ) !== false ) {
+		$new_url = substr( $uri, 0, strpos( $uri, '?' ) );
+		if ( isset( $_GET['page'] ) )
+			$new_url = add_query_arg( array( 'page' => $_GET['page'] ), $new_url );
+		if ( isset( $_GET['paged'] ) )
+			$new_url = add_query_arg( array( 'paged' => $_GET['paged'] ), $new_url );
+		header( 'location: ' . $new_url );
+	}
+}
+
+/**
  * Formatted version of var_dump
  *
  * @uses apply_filters() Calls 'wpdevtool_dump_style' to edit debug bar css
