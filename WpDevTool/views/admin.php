@@ -39,6 +39,24 @@ function register_wpdevtool_admin_settings() {
 add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
 
 /**
+/**
+ * Set options on plugin install/update
+ *
+ * @since 0.1.0
+ */
+function wpdevtool_set_admin_options_default_values() {
+	
+	if ( !get_option( 'wpdevtool_maintenance_message' ) )
+		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
+	
+	if ( !get_option( 'wpdevtool_redirect_email' ) ){
+		$current_user = wp_get_current_user();
+		update_option( 'wpdevtool_redirect_email', $current_user->user_email );
+	}
+	
+}
+add_action( 'wpdevtool_install_and_update', 'wpdevtool_set_admin_options_default_values' );
+
  * Maintenance text validation
  *
  * @since 0.0.3
