@@ -44,34 +44,6 @@ function wpdevtool_activation() {
 register_activation_hook( __FILE__, 'wpdevtool_activation' );
 
 /**
- * Set default option values on first install / version change
- *
- * @since 0.0.2
- */
-function wpdevtool_set_default_options_value() {
-
-	if ( false === get_option( 'wpdevtool_version' ) ) {
-		update_option( 'wpdevtool_version', plugin_get_version() );
-	} elseif ( version_compare( plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) ) {
-		return;
-	} else {
-		update_option( 'wpdevtool_version', plugin_get_version() );
-	}
-
-	// The code from here on is executed only on activation and version change:
-	
-	if ( !get_option( 'wpdevtool_maintenance_message' ) )
-		update_option( 'wpdevtool_maintenance_message', sprintf( __( '%s is under maintenance at the moment. Contact us at %s', 'wpdevtool' ), '[name]', '[email]' ) );
-	
-	if ( !get_option( 'wpdevtool_redirect_email' ) ){
-		$current_user = wp_get_current_user();
-		update_option( 'wpdevtool_redirect_email', $current_user->user_email );
-	}
-
-}
-add_action( 'admin_init', 'wpdevtool_set_default_options_value' );
-
-/**
  * Load WpDevTool language file
  *
  * @since 0.0.1
@@ -346,6 +318,27 @@ function plugin_get_version() {
 	$plugin_data = get_plugin_data( __FILE__ );
 	return $plugin_data['Version'];
 }
+
+/**
+ * Run on install and update hook
+ *
+ * @uses do_action() Calls 'wpdevtool_install_and_update' to set options
+ * @since 0.0.2
+ */
+function wpdevtool_install_and_update() {
+
+	if ( false === get_option( 'wpdevtool_version' ) ) {
+		update_option( 'wpdevtool_version', plugin_get_version() );
+	} elseif ( version_compare( plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) ) {
+		return;
+	} else {
+		update_option( 'wpdevtool_version', plugin_get_version() );
+	}
+	
+	do_action( 'wpdevtool_install_and_update' );
+	
+}
+add_action( 'admin_init', 'wpdevtool_install_and_update' );
 
 /**
  * WpDevTool Uninstall Hook
