@@ -1,20 +1,31 @@
 /**
  * WpDevTool Main Stylesheet
  */
-.postbox.left_col {width: 65%;float: left;margin-right: 20px;display: block;}
-.postbox.right_col {width: 260px;float: left;}
-h3 {line-height: 30px;padding: 0 10px;}
-.postbox {margin: 10px 0;}
-.wp-editor-wrap .mceIframeContainer{background: #fff;}
-label {
-	font-weight: 800;
-}
-.required_field {
-	color: #f00;
-}
-input.long-text {
-	width: 100%;
-}
+
+/** Header **/
+h2 .wpdevtool_logo { color: #21759b; }
+
+/** Forms **/
+#wpdevtool_container .wp-editor-wrap .mceIframeContainer{ background: #fff; }
+#wpdevtool_container label { font-weight: 800; }
+#wpdevtool_container .required_field { color: #f00; }
+#wpdevtool_container input.long-text { width: 100%; }
+
+/** Columns **/
+#wpdevtool_container { margin-right: 300px;margin-top: 10px;}
+#wpdevtool_left_column { float:left;width: 100%; }
+#wpdevtool_right_column { margin-right: -300px;width:280px;padding-left:20px;float: left;}
+
+/** Postbox **/
+#wpdevtool_container .postbox h3 { line-height: 30px;padding: 0 10px; }
+#wpdevtool_container .postbox{ width: 100%; }
+
+/** Tables **/
+#wpdevtool_container table tbody tr td { padding: 10px 5px; }
+form.wpdevtool_search {float:left;position:relative;top:2px;left: -8px}
+
+/** iPad **/
 @media screen and (max-width:1024px) {
-	.postbox.left_col, .postbox.right_col {width: 100%;}
+	#wpdevtool_container { width: 100%; }
+	#wpdevtool_right_column { margin: 0;width: 100%;padding: 0; }
 }

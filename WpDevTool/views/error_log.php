@@ -10,19 +10,10 @@ function wpdevtool_menu_error_log_console() {
 		return;
 
 	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Error Log Console', 'wpdevtool' ), __( 'Error Console', 'wpdevtool' ), 'manage_options', 'wpdevtool_error_log_console', 'wpdevtool_error_log_console_page' );
-	add_action( 'admin_print_styles-' . $page, 'wpdevtool_menu_error_log_console_styles' );
+	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
 
 }
 add_action( 'admin_menu', 'wpdevtool_menu_error_log_console' );
-
-/**
- * Enqueue CSS Styles
- *
- * @since 0.0.1
- */
-function wpdevtool_menu_error_log_console_styles() {
-	wp_enqueue_style( 'WpDevToolStylesheet' );
-}
 
 /**
  * WpDevTool Main Admin Page
@@ -60,39 +51,52 @@ function wpdevtool_error_log_console_page() {
 		$error_count = $log_file_content['count'];
 		$result = $log_file_content['result'];
 	}
+	
 	?>
 
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
+	
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
-		<div class="postbox left_col">
-			<div class="handlediv">
-				<br>
-			</div>
-			<h3 class="hndle"><?php _e( 'WpDevTool Error Log Console', 'wpdevtool' ); ?> - <?php echo $error_count; ?> <?php _e( 'errors', 'wpdevtool' )?></h3>
-			<div class="inside">
-				<div style="max-width: 100%;border: 1px solid #aaa;color: #<?php echo $my_color_scheme['text'] ?>;background: #<?php echo $my_color_scheme['background'] ?>;height: 600px;overflow: auto;padding: 10px;font-family: Courier, Helvetica;font-size: 13px;">
-					<?php
-					if ( !empty( $result ) ) {
-						echo $result;
-					} else {
-						echo '<strong>'.__( 'It\'s your lucky day... Ain\'t no errors!', 'wpdevtool' ).'</strong>' ;
-					}
-					?>
+		
+		<!-- Container -->
+		<div id="wpdevtool_container">
+		
+			<!-- Left column -->
+			<div id="wpdevtool_left_column">
+				<div class="postbox">
+					<div class="handlediv"><br></div>
+					<h3 class="hndle"><?php _e( 'WpDevTool Error Log Console', 'wpdevtool' ); ?> - <?php echo $error_count; ?> <?php _e( 'errors', 'wpdevtool' )?></h3>
+					<div class="inside">
+						<div style="max-width: 100%;border: 1px solid #aaa;color: #<?php echo $my_color_scheme['text'] ?>;background: #<?php echo $my_color_scheme['background'] ?>;height: 600px;overflow: auto;padding: 10px;font-family: Courier, Helvetica;font-size: 13px;">
+							<?php
+							if ( !empty( $result ) ) {
+								echo $result;
+							} else {
+								echo '<strong>'.__( 'It\'s your lucky day... Ain\'t no errors!', 'wpdevtool' ).'</strong>' ;
+							}
+							?>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="postbox right_col">
-			<div class="handlediv">
-				<br>
+			
+			<!-- Right column -->
+			<div id="wpdevtool_right_column">
+				<div class="postbox">
+					<div class="handlediv">
+						<br>
+					</div>
+					<h3 class="hndle"><?php _e( 'More Options', 'wpdevtool' ); ?></h3>
+					<div class="inside">
+						<a href="<?php echo add_query_arg( array( 'wpdevtool_delete_log_file' => 'true' ) ); ?>" class="button button-primary"><?php _e( 'Clear log file', 'wpdevtool' ) ?></a>
+						<a href="<?php echo add_query_arg( array( 'wpdevtool_download_log_file' => 'true' ) ); ?>" class="button delete"><?php _e( 'Download log file', 'wpdevtool' ) ?></a>
+					</div>
+				</div>
+				<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
 			</div>
-			<h3 class="hndle"><?php _e( 'More Options', 'wpdevtool' ); ?></h3>
-			<div class="inside">
-				<a href="<?php echo add_query_arg( array( 'wpdevtool_delete_log_file' => 'true' ) ); ?>" class="button button-primary"><?php _e( 'Clear log file', 'wpdevtool' ) ?></a>
-				<a href="<?php echo add_query_arg( array( 'wpdevtool_download_log_file' => 'true' ) ); ?>" class="button delete"><?php _e( 'Download log file', 'wpdevtool' ) ?></a>
-			</div>
+			
 		</div>
-		<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
 	</div>
 	
 	<?php
