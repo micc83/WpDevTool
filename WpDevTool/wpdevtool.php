@@ -49,7 +49,9 @@ register_activation_hook( __FILE__, 'wpdevtool_activation' );
  * @since 0.0.1
  */
 function wpdevtool_init() {
+
 	load_plugin_textdomain( 'wpdevtool', false, dirname( plugin_basename( __FILE__ ) ) . '/langs/' );
+	
 }
 add_action( 'plugins_loaded', 'wpdevtool_init' );
 
@@ -84,7 +86,16 @@ function wpdevtool_enqueue_admin_script() {
 add_action( 'admin_enqueue_scripts', 'wpdevtool_enqueue_admin_script' );
 
 /**
- * Load WpDevTool main admin page
+ * Enqueue CSS Styles
+ *
+ * @since 0.0.1
+ */
+function wpdevtool_admin_styles() {
+
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+	
+}
+
 /**
  * Include WP_List_Table Class to be used inside admin pages
  * 
@@ -157,13 +168,16 @@ class Wpdevtool_Table extends WP_List_Table {
 	 }
 	 
 }
+
+/**
+ * Load WpDevTool Main Admin View
  *
  * @since 0.0.1
  */
 require_once( WPDEVTOOL_ABS . 'views/admin.php' );
 
 /**
- * Load WpDevTool log error console
+ * Load WpDevTool Error Console View
  *
  * @since 0.0.1
  */
@@ -202,6 +216,8 @@ function wpdevtool_under_construction() {
 		
 	$message = str_replace( array( '[name]', '[email]' ), array( get_bloginfo('name'), antispambot( get_bloginfo('admin_email') ) ), wp_kses_post( get_option('wpdevtool_maintenance_message') ) );
 	
+	$styles = '';
+	
 	$maintenance_message = '<h1>' . get_bloginfo('name') . ' ' . __( 'is under maintenance', 'wpdevtool' ) . '</h1><p>' . $message . '</p>';
 	
 	wp_die( $maintenance_message, get_bloginfo('name') . ' | ' . __( 'Maintenance Screen', 'wpdevtool' ) , array( 'response' => '503') );
@@ -238,10 +254,11 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 		$log_file_content = preg_replace( '/PHP Catchable fatal error:/i', "<span style='color:#$catchable;'>\\0</span></span><br>", $log_file_content );
 		$log_file_content = preg_replace(
 		'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))/',
-		"<a class='logurl' href=\"\\0\" target=\"_blank\">\\0</a>" , $log_file_content);
+		"<a class='logurl' href=\"\\0\" target=\"_blank\">\\0</a>" , $log_file_content );
 	
 	} else {
-
+	
+		// If the file is not there let's create it and reload the page
 		if ( !isset( $_GET['upandrunning'] ) ) {
 			$file = @fopen( $logfilepath, "x" );
 			$redirect_url = add_query_arg( array( 'upandrunning'  => 'true' ) );
@@ -283,7 +300,7 @@ function wpdevtool_log_processing() {
 	
 	if ( isset( $_GET['wpdevtool_delete_log_file'] ) && is_super_admin() ) {
 		file_put_contents( $log_file, '' );
-		wp_die( sprintf( __( 'Log file has been deleted. <a href="%s">Go back to WpDevTool</a>', 'wpdevtool' ), add_query_arg( array( 'wpdevtool_delete_log_file' => false ) ) ) );
+		wpdevtool_reset_url();
 	}
 	
 }
@@ -335,7 +352,7 @@ function wpdevtool_debug_bar() {
  * Redirect all emails sent through wp_mail to a custom address
  *
  * @since 0.0.3
- * @param 
+ * @param string $mail The catch all email
  */
 function wpdevtool_redirect_wp_mail( $email ) {
 	
@@ -405,8 +422,10 @@ function wdt_dump( $var ) {
  * @return string Plugin version
  */
 function plugin_get_version() {
+
 	$plugin_data = get_plugin_data( __FILE__ );
 	return $plugin_data['Version'];
+	
 }
 
 /**
@@ -436,13 +455,9 @@ add_action( 'admin_init', 'wpdevtool_install_and_update' );
  * @since 0.0.2
  */
 function wpdevtool_uninstall() {
-
+	
 	delete_option( 'wpdevtool_version' );
-	delete_option( 'wpdevtool_maintenance' );
-	delete_option( 'wpdevtool_maintenance_message' );
-	delete_option( 'wpdevtool_debug_bar' );
-	delete_option( 'wpdevtool_redirect_emails' );
-	delete_option( 'wpdevtool_redirect_email' );
-
+	do_action( 'wpdevtool_uninstall' );
+	
 }
 register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
