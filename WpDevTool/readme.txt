@@ -95,10 +95,9 @@ First release
 
 == To Be ==
 
-* Add wp_cron page
-* Add permalinks page
 * Add some stat to main admin page
-* Add db table check up
+* Add db table visualisation
+* Add backup/restore db
 * Enable advanced error tracking
 * Add Developer User type
 * Add hidden test posts
