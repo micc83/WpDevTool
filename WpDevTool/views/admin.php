@@ -9,6 +9,7 @@ function wpdevtool_menu() {
 	$icon = WPDEVTOOL_URI . 'img/develop.png';
 	$page = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
 	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
+	add_action( 'admin_print_scripts-' . $page, 'wpdevtool_admin_script' );
 	
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
