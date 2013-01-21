@@ -21,7 +21,7 @@ h2 .wpdevtool_logo { color: #21759b; }
 #wpdevtool_container .postbox{ width: 100%; }
 
 /** Tables **/
-#wpdevtool_container table tbody tr td { padding: 10px 5px; }
+#wpdevtool_container table.wp-list-table tbody tr td { padding: 10px 5px; }
 form.wpdevtool_search {float:left;position:relative;top:2px;left: -8px}
 
 /** iPad **/
