@@ -46,7 +46,7 @@ class Wpdevtool_Cron_Table extends Wpdevtool_Table {
 		if ( isset( $_POST['wpdevtool_search'] ) )
 			$value = stripslashes( esc_attr( $_POST['wpdevtool_search'] ) ) ;
 		
-		echo '<form class="wpdevtool_search" action="'.remove_query_arg( 'paged' ).'" method="post"><input type="text" name="wpdevtool_search" value="'. $value .'"> <input type="hidden" name="wpdevtool_search_field" value="name"><input type="submit" value="'.__('Search').'" class="button-primary"> <input type="button" onclick="parent.location=\'' . remove_query_arg( array( 'wpdevtool_search', 'wpdevtool_search_field' ) ) . '\'" class="button-secondary" value="'.__('Reset').'"></form>';
+		echo '<form class="wpdevtool_search" action="'.remove_query_arg( 'paged' ).'" method="post"><input type="text" name="wpdevtool_search" value="'. $value .'"> <input type="hidden" name="wpdevtool_search_field" value="name"><input type="submit" value="'.__('Search').'" class="button-primary"> <input type="button" onclick="parent.location=\'' . remove_query_arg( array( 'paged' ) ) . '\'" class="button-secondary" value="'.__('Reset').'"></form>';
 		
 	}
 	
