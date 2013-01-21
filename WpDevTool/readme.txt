@@ -98,12 +98,16 @@ First release
 
 == To Be ==
 
+* Include the main script trough admin_print_scripts-(hookname) instead of admin_enqueue_scripts
+* Check Wpdevtool_Table class
+* Enable advanced error tracking
+* Add wp_nonce check to deletion/download of cron and log file
 * Add some stat to main admin page
+* Add hidden test posts
 * Add db table visualisation
 * Add backup/restore db
-* Enable advanced error tracking
 * Add Developer User type
-* Add hidden test posts
+* Add ajax behaviors
 
 == Credits ==
 
