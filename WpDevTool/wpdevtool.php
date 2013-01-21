@@ -115,15 +115,18 @@ class Wpdevtool_Table extends WP_List_Table {
 	 * @since 0.1.0
 	 * @param array $data Array data to count
 	 * @param int $perpage Number of rows per page
+	 * @return int offset
 	 */
 	function wpdevtool_paginate( $data, $perpage ) {
 		
-		$totalitems = count( $data ); //return the total number of affected rows
+		$totalitems = count( $data );
+		
 		$paged = !empty( $_GET["paged"] ) ? mysql_real_escape_string( $_GET["paged"] ) : '';
-		if( empty( $paged ) || !is_numeric( $paged ) || $paged <= 0 ){ $paged=1; }
+		
+		if ( empty( $paged ) || !is_numeric( $paged ) || $paged <= 0 ) 
+			$paged = 1;
+			
 		$totalpages = ceil( $totalitems / $perpage );
-		if( !empty( $paged ) && !empty( $perpage ) )
-			$offset = ( $paged - 1 ) * $perpage;
 		
 		$this->set_pagination_args( array(
 			"total_items"	=> 	$totalitems,
@@ -131,7 +134,10 @@ class Wpdevtool_Table extends WP_List_Table {
 			"per_page" 		=> 	$perpage,
 		) );
 		
-		return $offset;
+		if ( !empty( $paged ) && !empty( $perpage ) )
+			return ( $paged - 1 ) * $perpage; // offset
+		
+		return 0;
 		
 	}
 	 
