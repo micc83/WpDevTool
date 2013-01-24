@@ -5,8 +5,8 @@
  * @since 0.0.1
  */
 function wpdevtool_menu_error_log_console() {
-
-	if ( !WP_DEBUG_LOG )
+	
+	if ( !WP_DEBUG_LOG && (int) get_option( 'wpdevtool_error_display_level' ) < 2 )
 		return;
 
 	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Error Log Console', 'wpdevtool' ), __( 'Error Console', 'wpdevtool' ), 'manage_options', 'wpdevtool_error_log_console', 'wpdevtool_error_log_console_page' );
@@ -52,6 +52,9 @@ function wpdevtool_error_log_console_page() {
 		$result = $log_file_content['result'];
 	}
 	
+	$del_log_url = add_query_arg( array( 'wpdevtool_delete_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_del_log' ) ) );
+	$dwn_log_url = add_query_arg( array( 'wpdevtool_download_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_dwn_log' ) ) );
+	
 	?>
 
 	<!-- Admin page -->
@@ -71,7 +74,7 @@ function wpdevtool_error_log_console_page() {
 						<div style="max-width: 100%;border: 1px solid #aaa;color: #<?php echo $my_color_scheme['text'] ?>;background: #<?php echo $my_color_scheme['background'] ?>;height: 600px;overflow: auto;padding: 10px;font-family: Courier, Helvetica;font-size: 13px;">
 							<?php
 							if ( !empty( $result ) ) {
-								echo $result;
+								echo str_replace ( ' | ' , '<br>', $result );
 							} else {
 								echo '<strong>'.__( 'It\'s your lucky day... Ain\'t no errors!', 'wpdevtool' ).'</strong>' ;
 							}
@@ -83,16 +86,18 @@ function wpdevtool_error_log_console_page() {
 			
 			<!-- Right column -->
 			<div id="wpdevtool_right_column">
+				<?php if ( $error_count > 0 ): ?>
 				<div class="postbox">
 					<div class="handlediv">
 						<br>
 					</div>
 					<h3 class="hndle"><?php _e( 'More Options', 'wpdevtool' ); ?></h3>
 					<div class="inside">
-						<a href="<?php echo add_query_arg( array( 'wpdevtool_delete_log_file' => 'true' ) ); ?>" class="button button-primary"><?php _e( 'Clear log file', 'wpdevtool' ) ?></a>
-						<a href="<?php echo add_query_arg( array( 'wpdevtool_download_log_file' => 'true' ) ); ?>" class="button delete"><?php _e( 'Download log file', 'wpdevtool' ) ?></a>
+						<a href="<?php echo $del_log_url; ?>" class="button button-primary"><?php _e( 'Clear log file', 'wpdevtool' ); ?></a>
+						<a href="<?php echo $dwn_log_url; ?>" class="button button-secondary"><?php _e( 'Download log file', 'wpdevtool' ); ?></a>
 					</div>
 				</div>
+				<?php endif; ?>
 				<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
 			</div>
 			

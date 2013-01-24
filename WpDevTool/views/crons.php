@@ -137,7 +137,8 @@ class Wpdevtool_Cron_Table extends Wpdevtool_Table {
 		 					echo '<td ' . $class . '>' . $interval . ' </td>'; 
 		 					break;
 		 				case "col_cron_delete":
-		 					echo '<td ' . $class . '><a href="' . add_query_arg( array( 'wpdevtool_cron_to_delete' => $rec['name'], 'wpdevtool_cron_args_to_delete' => $rec['args'] ) ) . '" class="button button-primary">' . $column_display_name . '</a></td>'; 
+		 					$nonce = wp_create_nonce( 'wdt_cron_delete' );
+		 					echo '<td ' . $class . '><a href="' . add_query_arg( array( 'wpdevtool_cron_to_delete' => $rec['name'], 'wpdevtool_cron_args_to_delete' => $rec['args'], 'wdt_nonce' => $nonce ) ) . '" class="button button-primary">' . $column_display_name . '</a></td>'; 
 		 					break;
 		 			}
 		 		}

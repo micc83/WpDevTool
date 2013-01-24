@@ -6,7 +6,7 @@
  */
 function wpdevtool_menu_permalinks_page() {
 	
-	if ( !get_option('permalink_structure') )
+	if ( !get_option( 'permalink_structure' ) )
 		return;
 	
 	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Permalins', 'wpdevtool' ), __( 'Permalinks', 'wpdevtool' ), 'manage_options', 'wpdevtool_permalinks', 'wpdevtool_permalinks_page' );

@@ -18,6 +18,98 @@ define( 'WPDEVTOOL_ABS' , plugin_dir_path( __FILE__ ) );
 define( 'WPDEVTOOL_URI' , plugin_dir_url( __FILE__ ) );
 
 /**
+ * Set errors display level
+ *
+ * @since 	0.1.0
+ */
+function wpdevtool_set_error_display_level() {
+	
+	$error_display_level = get_option( 'wpdevtool_error_display_level' );
+	
+	if ( !get_option( 'wpdevtool_handle_errors' ) && !$error_display_level )
+		return;
+	
+	error_reporting( E_ALL );
+	
+	if ( defined( 'E_DEPRECATED' ) )
+		error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
+
+	$log_file = WP_CONTENT_DIR . '/debug.log';
+
+	switch ( $error_display_level ) {
+		case 1:
+			ini_set( 'display_errors', 1 );
+			break;
+		case 2:
+			ini_set( 'log_errors', 1 );
+			ini_set( 'error_log', $log_file );
+			break;
+		case 3:
+			ini_set( 'display_errors', 1 );
+			ini_set( 'log_errors', 1 );
+			ini_set( 'error_log', $log_file );
+			break;
+	}
+	
+	set_error_handler( 'wpdevtool_error_handler' );
+	
+}
+add_action( 'wpdevtool_init', 'wpdevtool_set_error_display_level' );
+
+/**
+ * WpDevTool Error Handler
+ *
+ * @since 	0.1.0
+ * @param 	int 	$errno 		Error number
+ * @param 	string 	$errstr 	Error string
+ * @param 	string 	$errfile 	File generating the error
+ * @param 	int 	$errline 	Line of the error
+ */
+function wpdevtool_error_handler( $errno, $errstr, $errfile, $errline ) {
+
+	if( !( error_reporting() & $errno ) )
+		return;
+	
+	$trace = debug_backtrace();
+	array_shift( $trace );
+	$items = array();
+	foreach( $trace as $id => $item ){
+		$items[] = $id . '. ' . ( isset( $item['file'] ) ? $item['file'] : '<unknown file>' ) . ' ' . ( isset( $item['line'] ) ? $item['line'] : '<unknown line>') . ' calling ' . $item['function'] . '()';
+	}
+	
+	if( ini_get( 'log_errors' ) ){
+	
+		$error = wpdevtool_error_type( $errno ) . ': ' . $errstr . ' in ' . $errfile . ' on line ' . $errline;
+		if ( get_option( 'wpdevtool_errors_backtrace' ) )
+			$error .= ': ' . join( " | ", $items );
+		error_log( $error );
+		
+	}
+	
+	if ( ( is_super_admin() || !get_option( 'wpdevtool_only_admin_errors' ) ) && ini_get( 'display_errors' ) ){
+		
+		$error = wpdevtool_error_type( $errno ) .  ': '  . $errstr . ' in ' . $errfile . ' on line ' . $errline . '</strong>';
+		if ( get_option( 'wpdevtool_errors_backtrace' ) )
+			$error = '<strong>'. $error .':</strong><br> ' . join( " <br>", $items );
+		
+		$style = '<div style="background:#111;background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);line-height:20px;z-index:10000;white-space:pre-wrap;overflow: auto;font-size:13px;">%s</div>';
+		
+		echo sprintf( $style, $error );
+	
+	}
+
+	flush();
+		
+}
+
+/**
+ * Set a first action that hooks all the debug action
+ *
+ * @since 0.1.0
+ */
+do_action( 'wpdevtool_init' );
+
+/**
  * Plugin activation checks
  *
  * On plugin activation check WordPress version is higher than 3.0
@@ -296,13 +388,16 @@ function wpdevtool_log_processing() {
 	$log_file = apply_filters( 'wpdevtool_error_log_file', WP_CONTENT_DIR . '/debug.log' );
 	
 	if ( isset( $_GET['wpdevtool_download_log_file'] ) && is_super_admin() ) {
+		wpdevtool_check_nonce( 'wpdevtool_dwn_log' );
 		header( 'Content-Type: text' );
 		header( 'Content-Disposition: attachment;filename=logs_' . date_i18n('Y-m-d_G-i-s') . '.txt' );
 		readfile( $log_file );
 		exit;
+		
 	}
 	
 	if ( isset( $_GET['wpdevtool_delete_log_file'] ) && is_super_admin() ) {
+		wpdevtool_check_nonce( 'wpdevtool_del_log' );
 		file_put_contents( $log_file, '' );
 		wpdevtool_reset_url();
 	}
@@ -339,13 +434,13 @@ function wpdevtool_debug_bar() {
 	$num_query = (int) get_num_queries();
 	$time = timer_stop( 0 );
 	$memory = number_format_i18n( (int) memory_get_usage() / 1024 );
-	$output = sprintf( __( '%d query in %s secondi, memoria %s Kb', 'wpdevtool' ), $num_query, $time, $memory );
+	$output = sprintf( __( '%d query in %s seconds, memory %s Kb', 'wpdevtool' ), $num_query, $time, $memory );
 	$output = apply_filters( 'wpdevtol_debug_bar_content', $output );
 	
-	$output_links = '<a href="' . admin_url('admin.php?page=wpdevtool_admin') . '">' . __( 'WpDevTool Options', 'wpdevurl' ) . '</a>';
+	$output_links = '<a href="' . admin_url('admin.php?page=wpdevtool_admin') . '">' . __( 'WpDevTool Options', 'wpdevtool' ) . '</a>';
 	
 	if ( WP_DEBUG_LOG )
-		$output_links .= ' | <a href="' . admin_url('admin.php?page=wpdevtool_error_log_console') . '">' . __( 'WordPress Logs', 'wpdevurl' ) . '</a>';
+		$output_links .= ' | <a href="' . admin_url('admin.php?page=wpdevtool_error_log_console') . '">' . __( 'WordPress Logs', 'wpdevtool' ) . '</a>';
 	
 	echo('<div id="wpdevtool_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
 }
@@ -377,6 +472,7 @@ add_filter( 'wp_mail', 'wpdevtool_redirect_wp_mail' );
 function wpdevtool_delete_cron() {
 	
 	if ( isset( $_GET['wpdevtool_cron_to_delete'] ) && is_super_admin() ) {
+		wpdevtool_check_nonce( 'wdt_cron_delete' );
 		if ( isset( $_GET['wpdevtool_cron_args_to_delete'] ) ) {
 			wp_clear_scheduled_hook( sanitize_title( $_GET['wpdevtool_cron_to_delete'] ), $_GET['wpdevtool_cron_args_to_delete'] );
 		} else {
@@ -433,6 +529,22 @@ function plugin_get_version() {
 }
 
 /**
+ * When called check nonce on GET and POST
+ *
+ * @since 0.0.1
+ * @param string $action Wp_nonce action
+ * @return true or wp_die() on fail
+ */
+function wpdevtool_check_nonce( $action ) {
+
+	if ( !isset( $_REQUEST[ 'wdt_nonce' ] ) || !wp_verify_nonce( $_REQUEST[ 'wdt_nonce' ], $action ) ) 
+		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		
+	return true;
+	
+}
+
+/**
  * Run on install and update hook
  *
  * @uses do_action() Calls 'wpdevtool_install_and_update' to set options
@@ -465,3 +577,67 @@ function wpdevtool_uninstall() {
 	
 }
 register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
+
+/**
+ * WpDevTool have to load first
+ *
+ * @since 0.0.2
+ */
+function wpdevtool_first() {
+	$wpdevtool = plugin_basename( __FILE__ );
+	$active_plugins = get_option('active_plugins');
+	$wpdevtool_key = array_search($this_plugin, $active_plugins);
+	if ( $this_plugin_key ) {
+		array_splice( $active_plugins, $wpdevtool_key, 1 );
+		array_unshift( $active_plugins, $wpdevtool );
+		update_option( 'active_plugins', $active_plugins );
+	}
+}
+add_action( 'activated_plugin', 'wpdevtool_first', 1 );
+
+/**
+ * Get PHP error type from Error Number
+ *
+ * @param int $errno Id of the php error type
+ * @return string Php error type
+ */
+function wpdevtool_error_type( $errno ){
+	switch( $errno ){
+
+	    case E_PARSE: // 4 //
+	        return 'PHP Parse error';
+	        
+	    case E_USER_NOTICE: // 1024 //
+	    case E_NOTICE: // 8 //
+	        return 'PHP Notice';
+	  
+	    case E_WARNING: // 2 //
+	    case E_COMPILE_WARNING: // 128 //
+	    case E_CORE_WARNING: // 32 //
+	    case E_USER_WARNING: // 512 //
+	        return 'PHP Warning';
+	        
+	    case E_STRICT: // 2048 //
+	        return 'PHP Strict';
+
+		case E_CORE_ERROR: // 64 //
+		case E_USER_ERROR: // 256 //
+	    case E_ERROR: // 1 //
+	    case E_CORE_ERROR: // 16 //
+	    case E_RECOVERABLE_ERROR: // 4096 //
+	        return 'PHP Fatal error';
+	        
+	    case E_DEPRECATED: // 8192 //
+	    case E_USER_DEPRECATED: // 16384 //
+	        return 'PHP Deprecated';
+	        
+	    }
+	return $errno;
+}
+
+/**
+ * Set the last action
+ *
+ * @since 0.1.0
+ */
+do_action( 'wpdevtool_loaded' );

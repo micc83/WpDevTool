@@ -8,11 +8,25 @@ function wpdevtool_menu() {
 
 	$icon = WPDEVTOOL_URI . 'img/develop.png';
 	$page = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
-	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
-	add_action( 'admin_print_scripts-' . $page, 'wpdevtool_admin_script' );
+	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_page_styles' );
+	add_action( 'admin_print_scripts-' . $page, 'wpdevtool_admin_page_scripts' );
 	
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
+
+function wpdevtool_admin_page_styles() {
+	
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+	wp_enqueue_style( 'wp-pointer' );
+}
+
+function wpdevtool_admin_page_scripts() {
+
+	wp_enqueue_script( 'WpDevToolScript' );
+	wp_enqueue_script( 'wp-pointer' );
+	
+}
+
 
 /**
  * Register WpDevTool admin page data
@@ -22,10 +36,14 @@ add_action( 'admin_menu', 'wpdevtool_menu' );
 function register_wpdevtool_admin_settings() {
 
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance', 'intval' );
-	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wpdevtool_maintenance_text_eval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wp_kses_post' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_debug_bar', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_handle_errors', 'intval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_redirect_emails', 'intval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_redirect_email', 'wpdevtool_catch_all_email_eval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_error_display_level', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_only_admin_errors', 'intval' );
+	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_errors_backtrace', 'intval' );
 	
 }
 add_action( 'admin_init', 'register_wpdevtool_admin_settings' );
@@ -42,6 +60,10 @@ function wpdevtool_unregister_admin_settings() {
 	delete_option( 'wpdevtool_debug_bar' );
 	delete_option( 'wpdevtool_redirect_emails' );
 	delete_option( 'wpdevtool_redirect_email' );
+	delete_option( 'wpdevtool_handle_errors' );
+	delete_option( 'wpdevtool_error_display_level' );
+	delete_option( 'wpdevtool_only_admin_errors' );
+	delete_option( 'wpdevtool_errors_backtrace' );
 	
 }
 add_action( 'wpdevtool_uninstall', 'wpdevtool_unregister_admin_settings' );
@@ -63,24 +85,6 @@ function wpdevtool_set_admin_options_default_values() {
 	
 }
 add_action( 'wpdevtool_install_and_update', 'wpdevtool_set_admin_options_default_values' );
-
-/**
- * Maintenance text validation
- *
- * @since 0.0.3
- * @params string Maintenance text
- * @return string Text through wp_kes_post or old value on empty field 
- */
-function wpdevtool_maintenance_text_eval( $maintenance_text ) {
-
-	if ( empty( $maintenance_text ) ) {
-		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Maintenance text cant be left empty!', 'wpdevtool' ), 'error' );
-		return get_option( 'wpdevtool_maintenance_message' );
-	}
-	
-	return wp_kses_post( $maintenance_text );
-	
-}
 
 /**
  * Catch All Email validation
@@ -138,16 +142,16 @@ function wpdevtool_options() {
 		<!-- Container -->
 		<div id="wpdevtool_container">
 		
-			<!-- Left column -->
-			<div id="wpdevtool_left_column">
-				<div class="postbox">
-					<div class="handlediv"><br></div>
-					
-					<h3 class="hndle"><?php _e( 'WpDevTool Options', 'wpdevtool' ); ?></h3>
-					
-					<div class="inside">
-						<form method="post" action="options.php">
-							<?php settings_fields( 'wpdevtool_admin-settings' ); ?>
+			<form method="post" action="options.php">
+				<?php settings_fields( 'wpdevtool_admin-settings' ); ?>
+			
+				<!-- Left column -->
+				<div id="wpdevtool_left_column">
+					<div class="postbox">
+						<div class="handlediv"><br></div>
+						<h3 class="hndle"><?php _e( 'WpDevTool Options', 'wpdevtool' ); ?></h3>
+						<div class="inside">
+						
 							<table class="form-table">
 							
 								<!-- Enable Maintenance Mode -->
@@ -162,24 +166,6 @@ function wpdevtool_options() {
 												<label for="wpdevtool_maintenance"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
 											</legend>
 											<input name="wpdevtool_maintenance" type="checkbox" id="wpdevtool_maintenance" value="1" <?php checked( '1', get_option('wpdevtool_maintenance') ); ?>  >
-										</fieldset>
-									</td>
-								</tr>
-								
-								<!-- Maintenance Page Text -->
-								<tr valign="top" <?php if ( !get_option('wpdevtool_maintenance') ) echo('style="display:none"'); ?>>
-									<th scope="row">
-										<label for="wpdevtool_maintenance_message"><span class="required_field">*</span> <?php _e( 'Maintenance message', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( "Shortcodes: <br>[email] Blog email <br>[name] Blog name", 'wpdevtool' ); ?></p>
-									</th>
-									<td>
-										<fieldset>
-											<legend class="screen-reader-text">
-												<label for="wpdevtool_maintenance_message"><?php _e( 'Enable maintenance mode', 'wpdevtool' ); ?></label>
-											</legend>
-											<?php wp_editor( get_option('wpdevtool_maintenance_message'), 'wpdevtool_maintenance_message', array(  'wpautop' => false, 'tinymce' => array(
-											        'theme_advanced_buttons1' => 'bold, italic, strikethrough, forecolor, justifyleft, justifycenter, justifyright,link, unlink, bullist, numlist, pastetext, pasteword, removeformat, fullscreen',
-											      ) ) ); ?>
 										</fieldset>
 									</td>
 								</tr>
@@ -232,54 +218,145 @@ function wpdevtool_options() {
 									</td>
 								</tr>
 								
-								<!-- Check if WP_DEBUG is set to TRUE -->
+								<!-- Check if WpDevTool handle errors -->
 								<tr valign="top">
 									<th scope="row">
-										<label for="wp_debug"><?php _e( 'WP_DEBUG is active', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'Check wheter you have set WP_DEBUG to TRUE', 'wpdevtool' ); ?></p>
+										<label for="wpdevtool_handle_errors"><?php _e( 'Let WpDevTool handle errors', 'wpdevtool' ); ?> ( <a href="#" id="wpdevtool_handle_errors-help">?</a> )</label>
+										<p class="description"><?php _e( 'Enable this option to let WpDevTool do all the job without having to edit wp-config file' ); ?>.
+										</p>
 									</th>
 									<td>
 										<fieldset>
 											<legend class="screen-reader-text">
-												<label for="wp_debug"><?php _e( 'WP_DEBUG is active', 'wpdevtool' ); ?></label>
+												<label for="wpdevtool_handle_errors"><?php _e( 'Let WpDevTool handle errors', 'wpdevtool' ); ?></label>
 											</legend>
-											<input name="wp_debug" type="checkbox" id="wp_debug" value="1" disabled <?php checked( '1', WP_DEBUG ); ?> >
-										</fieldset>
-									</td>
-								</tr>
-								
-								<!-- Check if WP_DEBUG_LOG is set to TRUE -->
-								<tr valign="top">
-									<th scope="row">
-										<label for="silent_logging"><?php _e( 'Logging is enabled', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'To enable silent logging give a look to Contextual Help', 'wpdevtool' ); ?></p>
-									</th>
-									<td>
-										<fieldset>
-											<legend class="screen-reader-text">
-												<label for="silent_logging"><?php _e( 'Logging is enabled', 'wpdevtool' ); ?></label>
-											</legend>
-											<input name="silent_logging" type="checkbox" id="silent_logging" value="1" disabled <?php checked( '1', WP_DEBUG_LOG ); ?> >
+											<input name="wpdevtool_handle_errors" type="checkbox" id="wpdevtool_handle_errors" value="1" <?php checked( '1', get_option( 'wpdevtool_handle_errors' ) ); ?> <?php if ( WP_DEBUG ) echo 'disabled'; ?> >
 										</fieldset>
 									</td>
 								</tr>
 								
 							</table>
-							<?php do_settings_sections('wpdevtool_admin'); ?>
-							<?php submit_button(); ?>
-						</form>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Right column -->
-			<div id="wpdevtool_right_column">
-				<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ) ?>
-			</div>
-			
-		</div>
-		
-	</div>
 
+						</div>
+					</div>
+					
+					<!-- Error Box -->
+					<div id="wpdevtool_handle_errors-box" class="postbox" <?php if ( !get_option( 'wpdevtool_handle_errors' ) ) echo('style="display:none"') ?> >
+						<div class="handlediv"><br></div>
+						<h3 class="hndle"><?php _e( 'Errors Handling', 'wpdevtool' ); ?></h3>
+						<div class="inside">
+						
+							<table class="form-table">
+							
+								<!-- WpDevTool errors level settings -->
+								<tr valign="top">
+									<th scope="row">
+										<label for="wpdevtool_error_display_level"><?php _e( 'Error display level', 'wpdevtool' ); ?></label>
+										<p class="description"><?php _e( 'Help' ); ?></p>
+									</th>
+									<td>
+										<fieldset>
+											<legend class="screen-reader-text">
+												<label for="wpdevtool_error_display_level"><?php _e( 'Error display level', 'wpdevtool' ); ?></label>
+											</legend>
+											<?php $wdt_edl = get_option( 'wpdevtool_error_display_level' ); ?>
+											<select name="wpdevtool_error_display_level" id="wpdevtool_error_display_level" >
+												<option value="0" <?php selected( $wdt_edl, 0 ); ?> ><?php _e( 'Hide Errors', 'wpdevtool' ); ?></option>
+												<option value="1" <?php selected( $wdt_edl, 1 ); ?>><?php _e( 'Display Errors', 'wpdevtool' ); ?></option>
+												<option value="2" <?php selected( $wdt_edl, 2 ); ?>><?php _e( 'Log Errors', 'wpdevtool' ); ?></option>
+												<option value="3" <?php selected( $wdt_edl, 3 ); ?>><?php _e( 'Log and Display Errors', 'wpdevtool' ); ?></option>
+											</select>
+										</fieldset>
+									</td>
+								</tr>
+								
+								<!-- Check if errors must be shown only to admin -->
+								<tr valign="top">
+									<th scope="row">
+										<label for="wpdevtool_only_admin_errors"><?php _e( 'Show errors only to Administrators', 'wpdevtool' ); ?></label>
+										<p class="description"><?php _e( 'Help' ); ?></p>
+									</th>
+									<td>
+										<fieldset>
+											<legend class="screen-reader-text">
+												<label for="wpdevtool_only_admin_errors"><?php _e( 'Show errors only to Administrators', 'wpdevtool' ); ?></label>
+											</legend>
+											<input name="wpdevtool_only_admin_errors" type="checkbox" id="wpdevtool_only_admin_errors" value="1" <?php checked( '1', get_option( 'wpdevtool_only_admin_errors' ) ); ?> >
+										</fieldset>
+									</td>
+								</tr>
+								
+								<!-- Enable errors backtrace -->
+								<tr valign="top">
+									<th scope="row">
+										<label for="wpdevtool_errors_backtrace"><?php _e( 'Enable errors backtrace', 'wpdevtool' ); ?></label>
+										<p class="description"><?php _e( 'Help' ); ?></p>
+									</th>
+									<td>
+										<fieldset>
+											<legend class="screen-reader-text">
+												<label for="wpdevtool_errors_backtrace"><?php _e( 'Enable errors backtrace', 'wpdevtool' ); ?></label>
+											</legend>
+											<input name="wpdevtool_errors_backtrace" type="checkbox" id="wpdevtool_errors_backtrace" value="1" <?php checked( '1', get_option( 'wpdevtool_errors_backtrace' ) ); ?> >
+										</fieldset>
+									</td>
+								</tr>
+								
+							</table>
+							
+						</div>
+					</div>
+					
+					<!-- Maintenance Box -->
+					<div class="postbox" <?php if ( !get_option( 'wpdevtool_maintenance' ) ) echo('style="display:none"') ?> >
+						<div class="handlediv"><br></div>
+						<h3 class="hndle"><?php _e( 'Maintenance Text', 'wpdevtool' ); ?></h3>
+						<div class="inside">
+						
+							<?php wp_editor( get_option('wpdevtool_maintenance_message'), 'wpdevtool_maintenance_message', array(  'wpautop' => false, 'tinymce' => array(
+							        'theme_advanced_buttons1' => 'bold, italic, strikethrough, forecolor, justifyleft, justifycenter, justifyright,link, unlink, bullist, numlist, pastetext, pasteword, removeformat, fullscreen',
+							      ) ) ); ?>
+							<p class="description"><strong><?php _e( "Shortcodes:", 'wpdevtool' ); ?></strong> <?php _e( "[email] Blog email, [name] Blog name", 'wpdevtool' ); ?></p>
+						
+						</div>
+					</div>
+					
+				</div>
+				
+				<!-- Right column -->
+				<div id="wpdevtool_right_column">
+					
+					<!-- Save text -->
+					<div class="postbox">
+						<div class="handlediv"><br></div>
+						<h3 class="hndle"><?php _e( 'WpDevTool Options', 'wpdevtool' ); ?></h3>
+						<div class="inside">
+						
+							<?php do_settings_sections('wpdevtool_admin'); ?>
+							<?php submit_button( '', 'primary', 'submit', false ); ?> <a href="" class="button button-secondary"><?php _e( 'Reset' ); ?></a>
+						
+						</div>
+					</div>
+					
+					<?php include( WPDEVTOOL_ABS . 'inc/credits.php' ); ?>
+				
+				</div>
+			
+			</form>
+		</div>
+	</div>
+	
+	<script>
+		jQuery(document).ready( function($) {
+			
+			$('#wpdevtool_handle_errors-help').click(function () {
+				options = $.extend( {"content":"<h3>Let WpDevTool handle errors</h3><p>WP_DEBUG constant, in wp-config.php file, must be set to false to let WpDevTool manage errors.</p>","position":{"edge":"left","align":"center"}}, {} );
+				$('#wpdevtool_handle_errors').pointer( options ).pointer("open");
+				return false;
+			});
+			
+		});
+	</script>
+	
 	<?php
 }

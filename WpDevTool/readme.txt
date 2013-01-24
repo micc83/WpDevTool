@@ -6,7 +6,7 @@ Author URI: http://codeb.it
 Plugin URI: https://github.com/micc83/WpDevTool
 Requires at least: 3.0.1
 Tested up to: 3.5
-Stable tag: 0.0.4
+Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,7 +63,9 @@ if (WP_DEBUG) {
 * Added a quick links section in the contextual help
 * Fixed maintenance text validation
 * Improved responsiveness
+* Add wp_nonce check to deletion/download of cron and log file
 * Fixed many minor issues
+
 
 = 0.0.4 =
 * Fix bug "updating plugin" cause maintenance message and email missing error
@@ -98,11 +100,8 @@ First release
 
 == To Be ==
 
-* Fix wpdevtool_debug_bar localization domain
-* Include the main script trough admin_print_scripts-(hookname) instead of admin_enqueue_scripts
 * Check Wpdevtool_Table class
 * Enable advanced error tracking
-* Add wp_nonce check to deletion/download of cron and log file
 * Add some stat to main admin page
 * Add hidden test posts
 * Add db table visualisation
