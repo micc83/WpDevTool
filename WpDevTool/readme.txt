@@ -98,6 +98,7 @@ First release
 
 == To Be ==
 
+* Fix wpdevtool_debug_bar localization domain
 * Include the main script trough admin_print_scripts-(hookname) instead of admin_enqueue_scripts
 * Check Wpdevtool_Table class
 * Enable advanced error tracking
