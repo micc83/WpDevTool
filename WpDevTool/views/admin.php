@@ -14,19 +14,29 @@ function wpdevtool_menu() {
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
 
+/**
+ * WpDevTool Admin Page Styles
+ *
+ * @since 0.1.0
+ */
 function wpdevtool_admin_page_styles() {
 	
 	wp_enqueue_style( 'WpDevToolStylesheet' );
 	wp_enqueue_style( 'wp-pointer' );
+	
 }
 
+/**
+ * WpDevTool Admin Page Scripts
+ *
+ * @since 0.1.0
+ */
 function wpdevtool_admin_page_scripts() {
 
 	wp_enqueue_script( 'WpDevToolScript' );
 	wp_enqueue_script( 'wp-pointer' );
 	
 }
-
 
 /**
  * Register WpDevTool admin page data
