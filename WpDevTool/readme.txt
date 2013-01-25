@@ -99,16 +99,22 @@ Fix some issues. Add redirect all email feature. Most important, fix the includi
 = 0.0.1 =
 First release
 
+== To Do ==
+
+* If WP_DEBUG is set to True set "handle errors" option
+* Fix activation errors
+* Handle big log file without slowdowns
+* Add password tips to user profile
+* Should i show WP_DEBUG, WP_DEBUG_DISPLAY and WP_DEBUG_LOG status ?
+
 == To Be ==
 
-* Check Wpdevtool_Table class
-* Enable advanced error tracking
 * Add some stat to main admin page
-* Add hidden test posts
 * Add db table visualisation
 * Add backup/restore db
 * Add Developer User type
 * Add ajax behaviors
+* Addons
 
 == Credits ==
 
