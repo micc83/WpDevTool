@@ -6,7 +6,7 @@
  */
 function wpdevtool_menu() {
 
-	$icon = WPDEVTOOL_URI . 'img/develop.png';
+	$icon = WPDEVTOOL_URI . 'img/develop_16.png';
 	$page = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
 	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_page_styles' );
 	add_action( 'admin_print_scripts-' . $page, 'wpdevtool_admin_page_scripts' );
@@ -146,7 +146,8 @@ function wpdevtool_options() {
 	
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
-	
+		
+		<div class="icon32 icon-wpdevtool-32"><br></div>
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
 		
 		<!-- Container -->

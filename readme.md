@@ -1,16 +1,17 @@
 #WpDevTool - WordPress Developer Tool v0.1.0
-A simple tool to develop on WordPress platform...
+A simple development tool for WordPress...
 
 ##Description
 WpDevTool implements many useful functions for WordPress Developer such as:
 
-* **Maintenance mode:** Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page
-* **Debug bar:** A simple bar which show number of query, timing and memory of current page
-* **Log Console:** A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
-* **Email Redirect**: Redirect all WordPress emails to a single address
-* **Wp-Cron Manager**: Visualisation, search and deletion of Wp-Cron
-* **Permalinks Viewer**: Visualisation and search of Permalinks
-* **wdt_dump()** : A formatted version of var_dump()
+* **Maintenance mode**: Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page
+* **Debug bar**: A simple bar which show number of query, timing and memory of current page
+* **Enable error display and logging**: Now you can enable PHP errors diplay and logging without editing wp_config.php
+* **Log console**: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )
+* **Email redirect**: Redirect all WordPress emails to a single address
+* **Wp-Cron manager**: Visualisation, search and deletion of Wp-Cron
+* **Permalinks viewer**: Visualisation and search of Permalinks
+* **wdt_dump()**: A formatted version of var_dump()
 
 ##Installation
 
@@ -34,7 +35,7 @@ if (WP_DEBUG) {
 Having trouble with WpDevTool? Open an [issue](https://github.com/micc83/WpDevTool/issues) or contact me at micc83@gmail.com
 
 ##Credits
-Icon Credits goes to: [Everaldo](http://www.everaldo.com)
+Icon Credits goes to: [miniMAC](http://http://www.minimamente.com)
 
 ##Screenshots
 ![Settings Window](https://raw.github.com/micc83/WpDevTool/assets/screenshot-1.jpg)

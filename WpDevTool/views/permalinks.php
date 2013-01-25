@@ -135,7 +135,8 @@ function wpdevtool_permalinks_page() {
 	
 	<!-- Crons page -->
 	<div class="wrap wpdevtool">
-	
+		
+		<div class="icon32 icon-wpdevtool-32"><br></div>
 		<h2><strong class="wpdevtool_logo">WpDevTool</strong> - <?php _e( 'Permalinks Table', 'wpdevtool' ); ?></h2>
 		
 		<!-- Container -->

@@ -163,7 +163,8 @@ function wpdevtool_crons_page() {
 	
 	<!-- Crons page -->
 	<div class="wrap wpdevtool">
-	
+		
+		<div class="icon32 icon-wpdevtool-32"><br></div>
 		<h2><strong class="wpdevtool_logo">WpDevTool</strong> - <?php _e( 'Table of programmed Crons', 'wpdevtool' ); ?></h2>
 		
 		<!-- Container -->

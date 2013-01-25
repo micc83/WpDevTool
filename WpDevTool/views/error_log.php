@@ -59,7 +59,8 @@ function wpdevtool_error_log_console_page() {
 
 	<!-- Admin page -->
 	<div class="wrap wpdevtool">
-	
+		
+		<div class="icon32 icon-wpdevtool-32"><br></div>
 		<h2><strong style="color: #21759b;">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
 		
 		<!-- Container -->
