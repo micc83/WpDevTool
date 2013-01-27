@@ -263,7 +263,7 @@ function wpdevtool_options() {
 								<tr valign="top">
 									<th scope="row">
 										<label for="wpdevtool_error_display_level"><?php _e( 'Error display level', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'Help' ); ?></p>
+										<p class="description"><?php _e( 'Should errors be logged or just displayed?' ); ?></p>
 									</th>
 									<td>
 										<fieldset>
@@ -285,7 +285,7 @@ function wpdevtool_options() {
 								<tr valign="top">
 									<th scope="row">
 										<label for="wpdevtool_only_admin_errors"><?php _e( 'Show errors only to Administrators', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'Help' ); ?></p>
+										<p class="description"><?php _e( 'If enabled errors will be shown only to Administrators' ); ?></p>
 									</th>
 									<td>
 										<fieldset>
@@ -300,13 +300,13 @@ function wpdevtool_options() {
 								<!-- Enable errors backtrace -->
 								<tr valign="top">
 									<th scope="row">
-										<label for="wpdevtool_errors_backtrace"><?php _e( 'Enable errors backtrace', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'Help' ); ?></p>
+										<label for="wpdevtool_errors_backtrace"><?php _e( 'Backtrace errors', 'wpdevtool' ); ?></label>
+										<p class="description"><?php _e( 'Enable errors backtracing to find out errors origin' ); ?></p>
 									</th>
 									<td>
 										<fieldset>
 											<legend class="screen-reader-text">
-												<label for="wpdevtool_errors_backtrace"><?php _e( 'Enable errors backtrace', 'wpdevtool' ); ?></label>
+												<label for="wpdevtool_errors_backtrace"><?php _e( 'Backtrace errors', 'wpdevtool' ); ?></label>
 											</legend>
 											<input name="wpdevtool_errors_backtrace" type="checkbox" id="wpdevtool_errors_backtrace" value="1" <?php checked( '1', get_option( 'wpdevtool_errors_backtrace' ) ); ?> >
 										</fieldset>

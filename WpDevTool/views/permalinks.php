@@ -29,9 +29,9 @@ class Wpdevtool_Permalinks_Table extends Wpdevtool_Table {
 	 */
 	function __construct() {
 		 parent::__construct( array(
-		'singular'	=> 	'wpdevtool_cron_field',
-		'plural' 	=> 	'wpdevtool_cron_fields',
-		'ajax'		=> 	false
+			'singular'	=> 	'wpdevtool_cron_field',
+			'plural' 	=> 	'wpdevtool_cron_fields',
+			'ajax'		=> 	false
 		) );
 	}
 	
