@@ -101,8 +101,6 @@ First release
 
 == To Do ==
 
-* If WP_DEBUG is set to True set "handle errors" option
-* Fix activation errors
 * Handle big log file without slowdowns
 * Add password tips to user profile
 * Should i show WP_DEBUG, WP_DEBUG_DISPLAY and WP_DEBUG_LOG status ?

@@ -26,31 +26,9 @@ function wpdevtool_error_log_console_page() {
 	if ( !current_user_can( 'manage_options' ) )
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	
-	$logfilepath = apply_filters( 'wpdevtool_error_log_file', WP_CONTENT_DIR . '/debug.log' );
+	$console = new WpDevTool_Error_Console();
 	
-	// Default console color scheme
-	$my_color_scheme = array(
-		'background'	=>	'111',
-		'text'			=>	'fff',
-		'code'			=>	array(
-			'fatal'		=>	'f00',
-			'warning'	=>	'F8CA00',
-			'parse'		=>	'FA6900',
-			'notice'	=>	'A7DBD8',
-			'catchable'	=>	'BD1550'
-		)
-	);
-
-	$my_color_scheme = array_merge( $my_color_scheme, apply_filters( 'wpdevtool_error_console_colors', $my_color_scheme ) );
-
-	$log_file_content = wpdevtool_get_logs( $logfilepath, $my_color_scheme['code'] );
-	
-	$error_count = 0;
-	$result = '';
-	if ( $log_file_content ){
-		$error_count = $log_file_content['count'];
-		$result = $log_file_content['result'];
-	}
+	$error_count = $console->get_errors_number();
 	
 	$del_log_url = add_query_arg( array( 'wpdevtool_delete_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_del_log' ) ) );
 	$dwn_log_url = add_query_arg( array( 'wpdevtool_download_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_dwn_log' ) ) );
@@ -72,15 +50,7 @@ function wpdevtool_error_log_console_page() {
 					<div class="handlediv"><br></div>
 					<h3 class="hndle"><?php _e( 'WpDevTool Error Log Console', 'wpdevtool' ); ?> - <?php echo $error_count; ?> <?php _e( 'errors', 'wpdevtool' )?></h3>
 					<div class="inside">
-						<div style="max-width: 100%;border: 1px solid #aaa;color: #<?php echo $my_color_scheme['text'] ?>;background: #<?php echo $my_color_scheme['background'] ?>;height: 600px;overflow: auto;padding: 10px;font-family: Courier, Helvetica;font-size: 13px;">
-							<?php
-							if ( !empty( $result ) ) {
-								echo str_replace ( ' | ' , '<br>', $result );
-							} else {
-								echo '<strong>'.__( 'It\'s your lucky day... Ain\'t no errors!', 'wpdevtool' ).'</strong>' ;
-							}
-							?>
-						</div>
+						<?php echo $console->display(); ?>
 					</div>
 				</div>
 			</div>

@@ -20,14 +20,21 @@ define( 'WPDEVTOOL_URI' , plugin_dir_url( __FILE__ ) );
 /**
  * Set errors display level
  *
- * @since 	0.1.0
+ * @since 0.1.0
  */
 function wpdevtool_set_error_display_level() {
 	
 	$error_display_level = get_option( 'wpdevtool_error_display_level' );
 	
-	if ( !get_option( 'wpdevtool_handle_errors' ) && !$error_display_level )
+	if ( !get_option( 'wpdevtool_handle_errors' ) || !$error_display_level )
 		return;
+	
+	if ( WP_DEBUG ){
+		
+		update_option( 'wpdevtool_handle_errors', false );
+		return;
+		
+	}
 	
 	error_reporting( E_ALL );
 	
@@ -103,7 +110,7 @@ function wpdevtool_error_handler( $errno, $errstr, $errfile, $errline ) {
 }
 
 /**
- * Set a first action that hooks all the debug action
+ * Set a first action
  *
  * @since 0.1.0
  */
@@ -322,41 +329,84 @@ function wpdevtool_under_construction() {
 add_action( 'get_header','wpdevtool_under_construction' );
 
 /**
- * WpDevTool Get Logs Function
+ * Class WpDevTool_Error_Console
  *
- * Retrieve formatted log and return it formatted in html
+ * Retrieve errors log and return em in formatted in html
  *
- * @since 0.0.1
- * @param string $logfilepath Path to the log file
- * @param string $color_scheme The color scheme applied to console log
- * @return array Log file html formatted content or false on error
+ * @since 0.1.0
  */
-function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
-
-	$log_file_content = @file_get_contents( $logfilepath );
-
-	if ( $log_file_content !== false ) {
-
-		extract( $color_scheme );
-
-		$log_array = explode ( "\n", $log_file_content );
-		$log_file_content = implode( "\n", array_reverse( $log_array ) );
+class WpDevTool_Error_Console {
+	
+	/**
+	 * Path to the log file
+	 *
+	 * Can be overwritten with the wpdevtool_error_log_file filter
+	 *
+	 * @since 0.1.0 
+	 */
+	private $log_file_path;
+	
+	/**
+	 * Log file content
+	 *
+	 * @since 0.1.0 
+	 */
+	private $log_file_content;
+	
+	/**
+	 * Log file content in array
+	 *
+	 * @since 0.1.0 
+	 */
+	private $log_array_content = array();
+	
+	/**
+	 * Errors count
+	 *
+	 * @since 0.1.0 
+	 */
+	private $errors_count;
+	
+	/**
+	 * Shit!
+	 *
+	 * @since 0.1.0 
+	 */
+	private $has_error = false;
+	
+	/**
+	 * Construct
+	 *
+	 * Read the log file and make it ready to be displayed in the console
+	 *
+	 * @since 0.1.0 
+	 */
+	public function __construct() {
 		
-		$log_file_content = preg_replace( '/\[.*\]/', "<span style='line-height:30px;font-weight:700;display:block;'>\\0", $log_file_content );
-		$log_file_content = preg_replace( '/PHP Fatal error:/i', "<span style='color:#$fatal;'>\\0</span></span><br>", $log_file_content );
-		$log_file_content = preg_replace( '/PHP Warning:/i', "<span style='color:#$warning;'>\\0</span></span><br>", $log_file_content );
-		$log_file_content = preg_replace( '/php parse error:/i', "<span style='color:#$parse;'>\\0</span></span><br>", $log_file_content );
-		$log_file_content = preg_replace( '/PHP Notice:/i', "<span style='color:#$notice;'>\\0</span></span><br>", $log_file_content );
-		$log_file_content = preg_replace( '/PHP Catchable fatal error:/i', "<span style='color:#$catchable;'>\\0</span></span><br>", $log_file_content );
-		$log_file_content = preg_replace(
-		'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))/',
-		"<a class='logurl' href=\"\\0\" target=\"_blank\">\\0</a>" , $log_file_content );
+		$this->log_file_path = apply_filters( 'wpdevtool_error_log_file', WP_CONTENT_DIR . '/debug.log' );
+		
+		$this->log_file_content = @file_get_contents( $this->log_file_path );
+		
+		if ( $this->log_file_content === false )
+			$this->create_debug_file();
+		
+		$this->parse_file_content();
+		
+	}
 	
-	} else {
-	
+	/**
+	 * Try to create the debug file
+	 *
+	 * If the file is not there try to create it
+	 *
+	 * @since 0.1.0 
+	 */
+	private function create_debug_file() {
+		
 		// If the file is not there let's create it and reload the page
 		if ( !isset( $_GET['upandrunning'] ) ) {
-			$file = @fopen( $logfilepath, "x" );
+		
+			$file = @fopen( $this->log_file_path, "x" );
 			$redirect_url = add_query_arg( array( 'upandrunning'  => 'true' ) );
 			?>
 			<script type="text/javascript">
@@ -365,15 +415,99 @@ function wpdevtool_get_logs( $logfilepath, $color_scheme ) {
 			//-->
 			</script>
 			<?php
-		} else {
-			echo '<div id="message" class="error"><p>' . __( 'Something went wrong. Your log file is missing...', 'wpdevtool' ) . '</p></div>';
+			
 		}
 		
-		return false;
+		$this->bail( __( 'Something went wrong. Your log file is missing...', 'wpdevtool' ) );
+		
 	}
-
-	return array ( 'result' => str_replace( '<br>', '', $log_file_content), 'count' => ( count( $log_array ) - 1 ) );
-
+	
+	/**
+	 * Reverse the content and count the numbers of row
+	 *
+	 * @since 0.1.0 
+	 */
+	private function parse_file_content() {
+		
+		if ( $this->has_error )
+			return false;
+		
+		$this->log_array_content = explode ( "\n", $this->log_file_content );
+		
+		$this->errors_count = count( $this->log_array_content ) - 1;
+		
+		$limit = 200;
+		
+		if ( $this->errors_count > $limit ){
+		
+			$this->log_array_content = array_splice( $this->log_array_content, 0, $limit );
+			$this->bail( sprintf( __( 'There are too many errors, only the last %d will be shown. For the full list <a href="%s">download the file</a>.' ), $limit, add_query_arg( array( 'wpdevtool_download_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_dwn_log' ) ) ) ), 'updated' );
+			
+		}
+		
+		$this->log_file_content = implode( "\n", array_reverse( $this->log_array_content ) );
+		
+	}
+	
+	/**
+	 * Return the error count
+	 *
+	 * @since 0.1.0 
+	 */
+	public function get_errors_number() {
+		
+		if ( $this->has_error )
+			return 0;
+		return $this->errors_count;
+		
+	}
+	
+	/**
+	 * Return the console
+	 *
+	 * @since 0.1.0 
+	 */
+	public function display () {
+		
+		$result = $this->log_file_content;
+		
+		$result = preg_replace( '/\[.*\]/', "<span class='error-title'>\\0", $result );
+		$result = preg_replace( '/PHP Fatal error:/i', "<span class='fatal-error'>\\0</span></span>", $result );
+		$result = preg_replace( '/PHP Warning:/i', "<span class='warning-error'>\\0</span></span>", $result );
+		$result = preg_replace( '/php parse error:/i', "<span class='parse-error'>\\0</span></span>", $result );
+		$result = preg_replace( '/PHP Notice:/i', "<span class='notice-error'>\\0</span></span>", $result );
+		$result = preg_replace( '/PHP Catchable fatal error:/i', "<span class='catchable-error'>\\0</span></span>", $result );
+		$result = preg_replace(
+		'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))/',
+		"<a class='url-error' href=\"\\0\" target=\"_blank\">\\0</a>", $result );
+		
+		if ( !empty( $result ) ){
+			$result = str_replace ( ' | ' , '<br>', $result );
+		} elseif ( !$this->has_error ) {
+			$result = '<strong>'.__( 'It\'s your lucky day... Ain\'t no errors!', 'wpdevtool' ).'</strong>';
+		} else {
+			$result = '<strong>:(</strong>';
+		}
+		
+		$output = '<div id="wdt_console">'. $result .'</div>';
+		
+		return $output;
+		
+	}
+	
+	/**
+	 * Manage errors
+	 *
+	 * @since 0.1.0 
+	 */
+	private function bail( $message, $error = 'error' ) {
+		
+		if ( $error == 'error' )
+			$this->has_error = true;
+		echo( '<div id="message" class="' . $error . '"><p>' . $message . '</p></div>' );
+		
+	}
+	
 }
 
 /**
@@ -532,7 +666,7 @@ function plugin_get_version() {
  * When called check nonce on GET and POST
  *
  * @since 0.0.1
- * @param string $action Wp_nonce action
+ * @param 	string 	$action 	Wp_nonce action
  * @return true or wp_die() on fail
  */
 function wpdevtool_check_nonce( $action ) {
@@ -579,21 +713,21 @@ function wpdevtool_uninstall() {
 register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
 
 /**
- * WpDevTool have to load first
+ * WpDevTool have to load first to debug other plugins
  *
  * @since 0.0.2
  */
-function wpdevtool_first() {
-	$wpdevtool = plugin_basename( __FILE__ );
-	$active_plugins = get_option('active_plugins');
-	$wpdevtool_key = array_search($this_plugin, $active_plugins);
-	if ( $this_plugin_key ) {
-		array_splice( $active_plugins, $wpdevtool_key, 1 );
-		array_unshift( $active_plugins, $wpdevtool );
-		update_option( 'active_plugins', $active_plugins );
+function wpdevtool_load_first(){
+	$path = str_replace( WP_PLUGIN_DIR . '/', '', __FILE__ );
+	if ( $plugins = get_option( 'active_plugins' ) ) {
+		if ( $key = array_search( $path, $plugins ) ) {
+			array_splice( $plugins, $key, 1 );
+			array_unshift( $plugins, $path );
+			update_option( 'active_plugins', $plugins );
+		}
 	}
 }
-add_action( 'activated_plugin', 'wpdevtool_first', 1 );
+add_action( 'activated_plugin', 'wpdevtool_load_first' );
 
 /**
  * Get PHP error type from Error Number
@@ -636,8 +770,8 @@ function wpdevtool_error_type( $errno ){
 }
 
 /**
- * Set the last action
+ * Last action
  *
  * @since 0.1.0
  */
-do_action( 'wpdevtool_loaded' );
+do_action( 'wpdevtool_load' );
