@@ -232,7 +232,7 @@ function wpdevtool_options() {
 								<!-- Check if WpDevTool handle errors -->
 								<tr valign="top">
 									<th scope="row">
-										<label for="wpdevtool_handle_errors"><?php _e( 'Let WpDevTool handle errors', 'wpdevtool' ); ?> ( <a href="#" id="wpdevtool_handle_errors-help">?</a> )</label>
+										<label for="wpdevtool_handle_errors"><?php _e( 'Let WpDevTool handle errors', 'wpdevtool' ); ?> <?php if ( WP_DEBUG ): ?> ( <a href="#" id="wpdevtool_handle_errors-help">?</a> ) <?php endif; ?></label>
 										<p class="description"><?php _e( 'Enable this option to let WpDevTool do all the job without having to edit wp-config file' ); ?>.
 										</p>
 									</th>
