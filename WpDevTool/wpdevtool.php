@@ -30,10 +30,8 @@ function wpdevtool_set_error_display_level() {
 		return;
 	
 	if ( WP_DEBUG ){
-		
 		update_option( 'wpdevtool_handle_errors', false );
 		return;
-		
 	}
 	
 	error_reporting( E_ALL );
@@ -42,20 +40,13 @@ function wpdevtool_set_error_display_level() {
 		error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
 	$log_file = WP_CONTENT_DIR . '/debug.log';
-
-	switch ( $error_display_level ) {
-		case 1:
-			ini_set( 'display_errors', 1 );
-			break;
-		case 2:
-			ini_set( 'log_errors', 1 );
-			ini_set( 'error_log', $log_file );
-			break;
-		case 3:
-			ini_set( 'display_errors', 1 );
-			ini_set( 'log_errors', 1 );
-			ini_set( 'error_log', $log_file );
-			break;
+	
+	if ( $error_display_level == 1 || $error_display_level == 3 )
+		ini_set( 'display_errors', 1 );
+	
+	if ( $error_display_level == 2 || $error_display_level == 3 ){
+		ini_set( 'log_errors', 1 );
+		ini_set( 'error_log', $log_file );
 	}
 	
 	set_error_handler( 'wpdevtool_error_handler' );
