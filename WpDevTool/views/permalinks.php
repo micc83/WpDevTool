@@ -10,17 +10,28 @@ function wpdevtool_menu_permalinks_page() {
 		return;
 	
 	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Permalins', 'wpdevtool' ), __( 'Permalinks', 'wpdevtool' ), 'manage_options', 'wpdevtool_permalinks', 'wpdevtool_permalinks_page' );
-	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
+	add_action( 'admin_print_styles-' . $page, 'wpdevtool_permalinks_page_styles' );
 	
 }
 add_action( 'admin_menu', 'wpdevtool_menu_permalinks_page' );
+
+/**
+ * WpDevTool Permalinks Page Styles
+ *
+ * @since 0.1.0
+ */
+function wpdevtool_permalinks_page_styles() {
+	
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+	
+}
 
 /**
  * WpDevTool Permalinks Table Class
  *
  * @since 0.0.1
  */
-class Wpdevtool_Permalinks_Table extends Wpdevtool_Table {
+class Wpdevtool_Permalinks_Table extends WDT_Table {
 	
 	/**
 	 * Constructor

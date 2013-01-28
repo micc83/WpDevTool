@@ -7,17 +7,28 @@
 function wpdevtool_menu_crons_page() {
 
 	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Crons', 'wpdevtool' ), __( 'Crons Table', 'wpdevtool' ), 'manage_options', 'wpdevtool_crons', 'wpdevtool_crons_page' );
-	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
+	add_action( 'admin_print_styles-' . $page, 'wpdevtool_crons_page_styles' );
 	
 }
 add_action( 'admin_menu', 'wpdevtool_menu_crons_page' );
+
+/**
+ * WpDevTool Crons Page Styles
+ *
+ * @since 0.1.0
+ */
+function wpdevtool_crons_page_styles() {
+	
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+	
+}
 
 /**
  * WpDevTool Crons Table Class
  *
  * @since 0.0.1
  */
-class Wpdevtool_Cron_Table extends Wpdevtool_Table {
+class Wpdevtool_Cron_Table extends WDT_Table {
 	
 	/**
 	 * Constructor

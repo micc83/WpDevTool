@@ -10,10 +10,21 @@ function wpdevtool_menu_error_log_console() {
 		return;
 
 	$page = add_submenu_page( 'wpdevtool_admin', __( 'WpDevTool Error Log Console', 'wpdevtool' ), __( 'Error Console', 'wpdevtool' ), 'manage_options', 'wpdevtool_error_log_console', 'wpdevtool_error_log_console_page' );
-	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_styles' );
+	add_action( 'admin_print_styles-' . $page, 'wpdevtool_error_log_console_styles' );
 
 }
 add_action( 'admin_menu', 'wpdevtool_menu_error_log_console' );
+
+/**
+ * WpDevTool Permalinks Page Styles
+ *
+ * @since 0.1.0
+ */
+function wpdevtool_error_log_console_styles() {
+	
+	wp_enqueue_style( 'WpDevToolStylesheet' );
+	
+}
 
 /**
  * WpDevTool Main Admin Page
@@ -26,13 +37,14 @@ function wpdevtool_error_log_console_page() {
 	if ( !current_user_can( 'manage_options' ) )
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	
-	$console = new WpDevTool_Error_Console();
+	$console = new WDT_Console();
 	
 	$error_count = $console->get_errors_number();
 	
 	$del_log_url = add_query_arg( array( 'wpdevtool_delete_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_del_log' ) ) );
 	$dwn_log_url = add_query_arg( array( 'wpdevtool_download_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_dwn_log' ) ) );
 	
+	wdt_set_log_file_permission();
 	?>
 
 	<!-- Admin page -->

@@ -142,6 +142,7 @@ function wpdevtool_options() {
 	if ( !current_user_can( 'manage_options' ) )
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	
+	wdt_set_log_file_permission();
 	?>
 	
 	<!-- Admin page -->

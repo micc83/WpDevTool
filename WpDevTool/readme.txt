@@ -65,6 +65,8 @@ if (WP_DEBUG) {
 * Fixed maintenance text validation
 * Improved responsiveness
 * Add wp_nonce check to deletion/download of cron and log file
+* Check debug.log file permissions
+* Enable debug bar in wp-admin
 * Fixed many minor issues
 
 
@@ -102,10 +104,8 @@ First release
 == To Do ==
 
 * Reset admin options
-* Check debug.log file permissions
-* Enable debug bar in wp-admin
-* Add password tips to user profile
-* Should i show WP_DEBUG, WP_DEBUG_DISPLAY and WP_DEBUG_LOG status ?
+* List of options
+* List of transient
 * Italian translation
 * Make a class of wpdevtool_set_error_display_level
 * Handle big log file without slowdowns
