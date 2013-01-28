@@ -5,7 +5,9 @@
  * @since 0.1.0
  */
 function wpdevtool_reset_url() {
+
 	$uri = $_SERVER['REQUEST_URI'];
+	
 	if( strpos( $uri, '?' ) !== false ) {
 		$new_url = substr( $uri, 0, strpos( $uri, '?' ) );
 		if ( isset( $_GET['page'] ) )
@@ -14,6 +16,7 @@ function wpdevtool_reset_url() {
 			$new_url = add_query_arg( array( 'paged' => $_GET['paged'] ), $new_url );
 		header( 'location: ' . $new_url );
 	}
+	
 }
 
 /**
@@ -29,6 +32,7 @@ function wdt_dump( $var ) {
 	echo('<pre class="wpdevtool_var_dump" style="' . $style . '">');
 	var_dump( $var );
 	echo('</pre>');
+	
 }
 
 /**
@@ -48,7 +52,7 @@ function wdt_plugin_get_version() {
  *
  * @since 0.0.1
  * @param 	string 	$action 	Wp_nonce action
- * @return true or wp_die() on fail
+ * @return 	true or wp_die() on fail
  */
 function wpdevtool_check_nonce( $action ) {
 
@@ -97,4 +101,5 @@ function wdt_set_log_file_permission() {
 		return;
 	
 	echo( '<div id="message" class="error"><p>' . sprintf( __( 'WpDevTool couldn\'t edit %s file permission. Manually set permission to 0600 to avoid security issues.', 'wpdevtool' ), WPDEVTOOL_LOG_FILE ) . '</p></div>' );
+	
 }

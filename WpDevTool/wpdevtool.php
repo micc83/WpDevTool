@@ -133,13 +133,7 @@ add_action( 'init', 'wpdevtool_register' );
  *
  * @since 0.1.0
  */
-require_once( WPDEVTOOL_ABS . 'core/error_handler.php' );			// Error handler
-require_once( WPDEVTOOL_ABS . 'core/email_redirection.php' );		// Email redirection
-require_once( WPDEVTOOL_ABS . 'core/log_console.php' );				// Log Console class
-require_once( WPDEVTOOL_ABS . 'core/crons.php' );					// Crons functions
-require_once( WPDEVTOOL_ABS . 'core/debug_bar.php' );				// Display debug bar
-require_once( WPDEVTOOL_ABS . 'core/class-wdt_table.php' );			// Default table class extension
-require_once( WPDEVTOOL_ABS . 'core/under_construction.php' );		// Under construction page
+require_once( WPDEVTOOL_ABS . 'core/core.php' );			// Error handler
 
 /**
  * First action to fire
