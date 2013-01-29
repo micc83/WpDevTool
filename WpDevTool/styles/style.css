@@ -22,10 +22,10 @@ h2 .wpdevtool_logo { color: #21759b; }
 #wdt_console {max-width: 100%;border: 1px solid #aaa;height: 600px;overflow: auto;padding: 10px;font-family: Courier, Helvetica;font-size: 13px;background: #111;color: #fff;}
 #wdt_console .error-title{line-height:30px;font-weight:700;display:block;}
 #wdt_console .fatal-error {color: #f00;}
-#wdt_console .warning-error {color: #f00;}
-#wdt_console .parse-error {color: #f00;}
-#wdt_console .notice-error {color: #f00;}
-#wdt_console .catchable-error {color: #f00;}
+#wdt_console .warning-error {color: #F8CA00;}
+#wdt_console .parse-error {color: #FA6900;}
+#wdt_console .notice-error {color: #A7DBD8;}
+#wdt_console .catchable-error {color: #BD1550;}
 
 /** Postbox **/
 #wpdevtool_container .postbox h3 { line-height: 30px;padding: 0 10px; }
