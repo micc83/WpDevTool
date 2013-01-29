@@ -102,6 +102,7 @@ First release
 
 == To Do ==
 
+* Add b&w admin icon
 * Reset admin options
 * List of options
 * List of transients
