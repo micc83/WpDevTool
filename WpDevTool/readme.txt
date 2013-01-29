@@ -102,16 +102,22 @@ First release
 
 == To Do ==
 
-* Add b&w admin icon
+* Show console link in debug bar
 * Reset admin options
-* List of options
-* List of transients
+* Delete reference for now
+* Put debug bar in a class
+* Make a class of wpdevtool_set_error_display_level
+* Think about moving debug.log creation ( if missing ) to error_handler.php instead of console
+* In console class put all the reg exp into an array with a filter applied
+* Check if wpdevtool_install_and_update should hooked to a different action ( only admin? )
+* Add missing help voices and update documentation
 * Italian translation
 * Change plugin assets images
-* Make a class of wpdevtool_set_error_display_level
 
 == To Be ==
 
+* List of options
+* List of transients
 * Add some stat to main admin page
 * Add db table visualisation
 * Add backup/restore db
