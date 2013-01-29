@@ -20,9 +20,9 @@ WpDevTool implements many useful functions for WordPress Developer such as:
 
 ##Frequently Asked Questions
 
-###How to enable Silent Logging
+### WpDevTool Errors Handling
 
-Set WP_DEBUG to TRUE in your wp-config.php file and add the following lines of code right below to enable silent logging :
+WpDevTool can handle errors for you with the only downside that is fired at plugins activation. If you need a more complete logging and still use WpDevTool Error Console you can manually edit your wp-config.php file. Set WP_DEBUG constant to TRUE in your wp-config.php file and add the following lines of code right after :
 ```php
 if (WP_DEBUG) {
   define('WP_DEBUG_LOG', true);

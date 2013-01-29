@@ -40,7 +40,7 @@ Having trouble with WpDevTool? Open an [issue](https://github.com/micc83/WpDevTo
 
 = How to enable Silent Logging =
 
-To enable silent logging set WP_DEBUG constant to TRUE in your wp-config.php file and add the following lines of code right after:
+WpDevTool can handle errors for you with the only downside that is fired at plugins activation. If you need a more complete logging and still use WpDevTool Error Console you can manually edit your wp-config.php file. Set WP_DEBUG constant to TRUE in your wp-config.php file and add the following lines of code right after :
 `
 if (WP_DEBUG) {
 	define('WP_DEBUG_LOG', true);
@@ -68,7 +68,6 @@ if (WP_DEBUG) {
 * Check debug.log file permissions
 * Enable debug bar in wp-admin
 * Fixed many minor issues
-
 
 = 0.0.4 =
 * Fix bug "updating plugin" cause maintenance message and email missing error
@@ -105,10 +104,10 @@ First release
 
 * Reset admin options
 * List of options
-* List of transient
+* List of transients
 * Italian translation
+* Change plugin assets images
 * Make a class of wpdevtool_set_error_display_level
-* Handle big log file without slowdowns
 
 == To Be ==
 
