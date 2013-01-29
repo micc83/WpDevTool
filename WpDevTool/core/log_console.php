@@ -110,6 +110,8 @@ class WDT_Console {
 		$this->errors_count = count( $this->log_array_content ) - 1;
 		
 		$limit = 200;
+
+		$this->log_array_content = array_reverse( $this->log_array_content );
 		
 		if ( $this->errors_count > $limit ){
 		
@@ -118,7 +120,7 @@ class WDT_Console {
 			
 		}
 		
-		$this->log_file_content = implode( "\n", array_reverse( $this->log_array_content ) );
+		$this->log_file_content = implode( "\n", $this->log_array_content );
 		
 	}
 	
