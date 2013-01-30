@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== WpDevTool ===
 Contributors: micc83
 Donate link: http://codeb.it
 Tags: debug, development, developer, maintenance, log, console, errors
