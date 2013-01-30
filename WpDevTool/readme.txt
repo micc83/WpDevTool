@@ -110,6 +110,7 @@ First release
 * Check if wpdevtool_install_and_update should hooked to a different action ( only admin? )
 * Add missing help voices and update documentation
 * Italian translation
+* Move screeshoot to plugin folder ( delete from assets )
 * Change plugin assets images
 
 == To Be ==
