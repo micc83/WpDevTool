@@ -50,7 +50,7 @@ function wpdevtool_debug_bar() {
 	
 	$output_links = '<a href="' . admin_url('admin.php?page=wpdevtool_admin') . '">' . __( 'WpDevTool Options', 'wpdevtool' ) . '</a>';
 	
-	if ( WP_DEBUG_LOG )
+	if ( WP_DEBUG_LOG || (int) get_option( 'wpdevtool_error_display_level' ) > 1 )
 		$output_links .= ' | <a href="' . admin_url('admin.php?page=wpdevtool_error_log_console') . '">' . __( 'WordPress Logs', 'wpdevtool' ) . '</a>';
 	
 	echo('<div id="wdt_debug_bar">' . $output . '<div id="wpdevtool_debug_bar_more">' . $output_links . '</div></div>');
