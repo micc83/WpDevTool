@@ -103,6 +103,8 @@ First release
 == To Do ==
 
 * Show console link in debug bar
+* Encode html entities in wdt_dump()
+* Think about moving views to core folder
 * Reset admin options
 * Delete reference for now
 * Put debug bar in a class
