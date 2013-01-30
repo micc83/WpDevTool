@@ -22,16 +22,17 @@ function wpdevtool_reset_url() {
 /**
  * Formatted version of var_dump
  *
- * @uses apply_filters() Calls 'wpdevtool_dump_style' to edit debug bar css
  * @since 0.0.2
+ * @uses apply_filters() Calls 'wpdevtool_dump_style' to edit debug bar css
+ * @param $var Var to debug
  */
 function wdt_dump( $var ) {
 	
 	$style = apply_filters( 'wpdevtool_dump_style', 'background:#111;background:rgba(0,0,0,0.6);border:3px solid #eee;outline:1px solid #fff;padding: 5px 10px;margin:10px;color:#fff;-moz-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);-webkit-box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);box-shadow: inset 0 0 3px #333, 0 0 4px rgba(0,0,0,0.4);line-height:20px;z-index:10000;white-space:pre-wrap;overflow: auto;font-size:13px;' );
 	
-	echo('<pre class="wpdevtool_var_dump" style="' . $style . '">');
-	var_dump( $var );
-	echo('</pre>');
+	$output = htmlentities( var_export( $var, true ) );
+	
+	echo( '<pre class="wpdevtool_var_dump" style="' . $style . '">' . $output . '</pre>' );
 	
 }
 
