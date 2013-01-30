@@ -102,15 +102,11 @@ First release
 
 == To Do ==
 
-* Show console link in debug bar
-* Encode html entities in wdt_dump()
 * Think about moving views to core folder
 * Reset admin options
-* Delete reference for now
 * Put debug bar in a class
 * Make a class of wpdevtool_set_error_display_level
 * Think about moving debug.log creation ( if missing ) to error_handler.php instead of console
-* In console class put all the reg exp into an array with a filter applied
 * Check if wpdevtool_install_and_update should hooked to a different action ( only admin? )
 * Add missing help voices and update documentation
 * Italian translation

@@ -138,23 +138,41 @@ class WDT_Console {
 	}
 	
 	/**
+	 * Format the code to be shown in the console
+	 *
+	 * @since 0.1.0 
+	 * @param string $code The code to be formatted
+	 */
+	private function format_code( $code ) {
+		
+		$format_rules = array(
+			'/\[.*\]/' => "<span class='error-title'>\\0",
+			'/PHP Fatal error:/i' => "<span class='fatal-error'>\\0</span></span>",
+			'/PHP Warning:/i' => "<span class='warning-error'>\\0</span></span>",
+			'/php Parse error:/i' => "<span class='parse-error'>\\0</span></span>",
+			'/PHP Notice:/i' => "<span class='notice-error'>\\0</span></span>",
+			'/PHP Catchable fatal error:/i' => "<span class='catchable-error'>\\0</span></span>",
+			'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))/' => "<a class='url-error' href=\"\\0\" target=\"_blank\">\\0</a>"
+		);
+		
+		$format_rules = apply_filters( 'wdt_console_format_rules', $format_rules );
+		
+		foreach ( $format_rules as $rule => $rewrite ) {
+			$code = preg_replace( $rule, $rewrite, $code );
+		}
+		
+		return $code;
+		
+	}
+	
+	/**
 	 * Return the console
 	 *
 	 * @since 0.1.0 
 	 */
 	public function display () {
 		
-		$result = $this->log_file_content;
-		
-		$result = preg_replace( '/\[.*\]/', "<span class='error-title'>\\0", $result );
-		$result = preg_replace( '/PHP Fatal error:/i', "<span class='fatal-error'>\\0</span></span>", $result );
-		$result = preg_replace( '/PHP Warning:/i', "<span class='warning-error'>\\0</span></span>", $result );
-		$result = preg_replace( '/php parse error:/i', "<span class='parse-error'>\\0</span></span>", $result );
-		$result = preg_replace( '/PHP Notice:/i', "<span class='notice-error'>\\0</span></span>", $result );
-		$result = preg_replace( '/PHP Catchable fatal error:/i', "<span class='catchable-error'>\\0</span></span>", $result );
-		$result = preg_replace(
-		'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'\".,<>?«»“”‘’]))/',
-		"<a class='url-error' href=\"\\0\" target=\"_blank\">\\0</a>", $result );
+		$result = $this->format_code( $this->log_file_content );
 		
 		if ( !empty( $result ) ){
 			$result = str_replace ( ' | ' , '<br>', $result );
