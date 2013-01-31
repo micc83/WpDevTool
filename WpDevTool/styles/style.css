@@ -5,6 +5,7 @@
 /** Header **/
 .icon-wpdevtool-32 { background: url('../img/develop_32.png') no-repeat;}
 h2 .wpdevtool_logo { color: #21759b; }
+h2 {display: block;height: 35px;}
 
 /** Forms **/
 #wpdevtool_container .wp-editor-wrap .mceIframeContainer{ background: #fff; }
