@@ -124,4 +124,4 @@ First release
 
 == Credits ==
 
-Icon Credits goes to: [miniMAC](http://http://www.minimamente.com)
+Icon Credits goes to: [miniMAC](http://www.minimamente.com)
