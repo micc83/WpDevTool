@@ -10,7 +10,8 @@ function wpdevtool_menu() {
 	$page = add_menu_page( __( 'WpDevTool Options', 'wpdevtool' ) , 'WpDevTool', 'manage_options', 'wpdevtool_admin', 'wpdevtool_options', $icon );
 	add_action( 'admin_print_styles-' . $page, 'wpdevtool_admin_page_styles' );
 	add_action( 'admin_print_scripts-' . $page, 'wpdevtool_admin_page_scripts' );
-	
+	add_action( 'load-' . $page, 'wpdevtool_admin_page_load' );
+
 }
 add_action( 'admin_menu', 'wpdevtool_menu' );
 
@@ -115,21 +116,30 @@ function wpdevtool_catch_all_email_eval( $email ) {
 }
 
 /**
- * Manage error messages
+ * On admin page load
  *
- * @since 0.0.1
+ * @since 0.1.0
  */
-function wpdevtool_admin_notices_action() {
+function wpdevtool_admin_page_load() {
 
 	$errors = get_settings_errors( 'wpdevtool_admin-settings' );
 
 	if ( empty( $errors ) && isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == 'wpdevtool_admin'  )
 		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Well done!', 'wpdevtool' ), 'updated' );
 
-    settings_errors( 'wpdevtool_admin-settings' );
+}
+
+/**
+ * Show error messages
+ *
+ * @since 0.0.1
+ */
+function wpdevtool_admin_notices() {
+
+	settings_errors( 'wpdevtool_admin-settings' );
 
 }
-add_action( 'admin_notices', 'wpdevtool_admin_notices_action' );
+add_action( 'admin_notices', 'wpdevtool_admin_notices' );
 
 /**
  * WpDevTool Main Admin Page
@@ -149,7 +159,7 @@ function wpdevtool_options() {
 	<div class="wrap wpdevtool">
 		
 		<div class="icon32 icon-wpdevtool-32"><br></div>
-		<h2><strong style="color: #21759b;">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
+		<h2><strong class="wpdevtool_logo">WpDevTool</strong> - <?php _e( 'WordPress Development Tool', 'wpdevtool' ); ?></h2>
 		
 		<!-- Container -->
 		<div id="wpdevtool_container">
