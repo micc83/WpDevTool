@@ -10,7 +10,7 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A simple development tool for WordPress...
+Development tool for WordPress. Track bugs with the log console, check and delete crons, search through permalinks rewrite rules or monitor your templates resources consumption with the debug bar. This and much more, just give it a try...
 
 == Description ==
 
@@ -102,7 +102,6 @@ First release
 
 == To Do ==
 
-* Think about moving views to core folder
 * Reset admin options
 * Put debug bar in a class
 * Make a class of wpdevtool_set_error_display_level
@@ -111,7 +110,6 @@ First release
 * Add missing help voices and update documentation
 * Italian translation
 * Move screeshoot to plugin folder ( delete from assets )
-* Change plugin assets images
 
 == To Be ==
 
