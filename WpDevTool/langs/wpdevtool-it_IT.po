@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WpDevTool\n"
-"POT-Creation-Date: 2013-01-19 18:07+0100\n"
-"PO-Revision-Date: 2013-01-19 18:10+0100\n"
+"POT-Creation-Date: 2013-02-01 22:22+0100\n"
+"PO-Revision-Date: 2013-02-01 22:27+0100\n"
 "Last-Translator: Comodolab <micc83@gmail.com>\n"
 "Language-Team: Alessandro Benoit <micc83@gmail.com>\n"
 "Language: Italiano\n"
@@ -14,38 +14,66 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../wpdevtool.php:33
+#: ../wpdevtool.php:40
 msgid "This plugin requires WordPress 3.0 or greater."
 msgstr "Questo plugin necessita di WordPress 3.0 o superiore."
 
-#: ../wpdevtool.php:36
+#: ../wpdevtool.php:43
 msgid "This plugin requires PHP 5 or greater."
 msgstr "Questo plugin necessita PHP 5 o superiore."
 
-#: ../wpdevtool.php:221
+#: ../core/api.php:61
+msgid "Cheatin&#8217; uh?"
+msgstr ""
+
+#: ../core/api.php:104
+#, php-format
+msgid ""
+"WpDevTool couldn't edit %s file permission. Manually set permission to 0600 "
+"to avoid security issues."
+msgstr ""
+"WpDevTool non è riuscito a modificare i permessi del file %s per cui è "
+"consigliabile cambiarne manualmente i permessi a 0600 per evitare falle "
+"nella sicurezza."
+
+#: ../core/core.php:27
 msgid "is under maintenance"
 msgstr "è in manutenzione"
 
-#: ../wpdevtool.php:223
+#: ../core/core.php:29
 msgid "Maintenance Screen"
 msgstr "Sito in Manutenzione"
 
-#: ../wpdevtool.php:273
-msgid "Something went wrong. Your log file is missing..."
-msgstr "Qualcosa è andato storto. Il tuo file log è mancante..."
-
-#: ../wpdevtool.php:338
-#, php-format
-msgid "%d query in %s secondi, memoria %s Kb"
+#: ../core/debug_bar.php:48
+#, fuzzy, php-format
+msgid "%d query in %s seconds, memory %s Kb"
 msgstr "%d query in %s seconds, memory %s Kb"
 
-#: ../wpdevtool.php:341 ../views/admin.php:10 ../views/admin.php:145
+#: ../core/debug_bar.php:51 ../views/admin.php:10 ../views/admin.php:174
+#: ../views/admin.php:354
 msgid "WpDevTool Options"
 msgstr "Opzioni WpDevTool"
 
-#: ../wpdevtool.php:344
+#: ../core/debug_bar.php:54
 msgid "WordPress Logs"
 msgstr "Log di WordPress"
+
+#: ../core/log_console.php:92
+msgid "Something went wrong. Your log file is missing..."
+msgstr "Qualcosa è andato storto. Il tuo file log è mancante..."
+
+#: ../core/log_console.php:119
+#, php-format
+msgid ""
+"There are too many errors, only the last %d will be shown. For the full list "
+"<a href=\"%s\">download the file</a>."
+msgstr ""
+"Ci sono troppi errori, solo gli ultimi %d verranno mostrati. Per la lista "
+"intera <a href=\"%s\">scarica il file</a>."
+
+#: ../core/log_console.php:180
+msgid "It's your lucky day... Ain't no errors!"
+msgstr "E' il tuo giorno fortunato, non ci sono errori!"
 
 #: ../inc/credits.php:5
 msgid "Credits and Quick Links"
@@ -80,17 +108,17 @@ msgid "WordPress Codex"
 msgstr "Codex di WordPress"
 
 #: ../inc/help.php:18
-msgid "Enable silent logging"
-msgstr "Abilita il loggin silenzioso"
+msgid "Wp Error Handling"
+msgstr ""
 
 #: ../inc/help.php:19
 msgid ""
-"To enable silent logging set WP_DEBUG constant to TRUE in your wp-config.php "
-"file and add the following lines of code right after"
+"WpDevTool can handle errors for you with the only downside that is fired at "
+"plugins activation. If you need a more complete logging and still use "
+"WpDevTool Error Console you can manually edit your wp-config.php file. Set "
+"WP_DEBUG constant to TRUE in your wp-config.php file and add the following "
+"lines of code right after"
 msgstr ""
-"Per abilitare la raccolta silenziona degli errori imposta WP_DEBUG a TRUE "
-"nel tuo file wp-config.php e aggiungi le seguenti linee di codice subito "
-"sotto"
 
 #: ../inc/help.php:25
 msgid ""
@@ -103,95 +131,138 @@ msgstr ""
 "periodicamente il file log, attraverso l'apposito bottone, in modo che non "
 "diventi troppo grande."
 
-#: ../inc/help.php:29
-msgid "Coding tips"
-msgstr "Risorse utili"
-
-#: ../views/admin.php:56
+#: ../views/admin.php:90
 #, php-format
 msgid "%s is under maintenance at the moment. Contact us at %s"
 msgstr "%s è in manutenzione al momento. Contattaci all'indirizzo %s"
 
-#: ../views/admin.php:76
-msgid "Maintenance text cant be left empty!"
-msgstr "Il testo della pagina manutenzione non può essere lasciato vuoto!"
-
-#: ../views/admin.php:94
+#: ../views/admin.php:110
 msgid "Something went wrong with the catch all email address"
 msgstr "Qualcosa è andato storto con l'email inserita"
 
-#: ../views/admin.php:112
+#: ../views/admin.php:128
 msgid "Well done!"
 msgstr "Ben fatto!"
 
-#: ../views/admin.php:128 ../views/crons.php:159 ../views/error_log.php:27
-#: ../views/permalinks.php:132
+#: ../views/admin.php:153 ../views/crons.php:171 ../views/error_log.php:38
+#: ../views/permalinks.php:143
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: ../views/admin.php:135 ../views/error_log.php:60
+#: ../views/admin.php:162 ../views/error_log.php:54
 msgid "WordPress Development Tool"
 msgstr "Strumenti di sviluppo WordPress"
 
-#: ../views/admin.php:155 ../views/admin.php:161 ../views/admin.php:177
+#: ../views/admin.php:182 ../views/admin.php:188
 msgid "Enable maintenance mode"
 msgstr "Attiva modalità manutenzione"
 
-#: ../views/admin.php:156
+#: ../views/admin.php:183
 msgid "Return a HTTP RESPONSE 503 (Service Temporary Unavailable) landing page"
 msgstr ""
 "Ritorna una pagina di errore HTTP RESPONSE 503 (Servizio Temporaneamente "
 "Sospeso)"
 
-#: ../views/admin.php:171
-msgid "Maintenance message"
-msgstr "Messaggio manutenzione"
-
-#: ../views/admin.php:172
-msgid "Shortcodes: <br>[email] Blog email <br>[name] Blog name"
-msgstr "Codici supportati: <br>[email] Email del blog <br>[name] Nome del blog"
-
-#: ../views/admin.php:189 ../views/admin.php:195
+#: ../views/admin.php:198 ../views/admin.php:204
 msgid "Enable Debug Bar"
 msgstr "Abilita la Debug Bar"
 
-#: ../views/admin.php:190
+#: ../views/admin.php:199
 msgid "Show a simple debug bar on the bottom of every template page"
 msgstr "Mostra una semplice barra per il debug nel frontend"
 
-#: ../views/admin.php:205 ../views/admin.php:211
+#: ../views/admin.php:214 ../views/admin.php:220
 msgid "Redirect all emails"
 msgstr "Reindirizza tutte le email"
 
-#: ../views/admin.php:206
+#: ../views/admin.php:215
 msgid "Redirect all WordPress emails to a single address"
 msgstr "Reindirizza tutte le email di WordPress ad un singolo indirizzo"
 
-#: ../views/admin.php:221 ../views/admin.php:227
+#: ../views/admin.php:230 ../views/admin.php:236
 msgid "Catch all Email"
 msgstr "Email"
 
-#: ../views/admin.php:222
+#: ../views/admin.php:231
 msgid "Catch all the emails sent through wp_mail()"
 msgstr "Qui arrivano tutte le email inviate attraverso wp_mail()"
 
-#: ../views/admin.php:237 ../views/admin.php:243
-msgid "WP_DEBUG is active"
-msgstr "WB_DEBUG è attivo"
+#: ../views/admin.php:246 ../views/admin.php:253
+#, fuzzy
+msgid "Let WpDevTool handle errors"
+msgstr "Opzioni WpDevTool"
 
-#: ../views/admin.php:238
-msgid "Check wheter you have set WP_DEBUG to TRUE"
-msgstr "Controlla di aver settato WP_DEBUG a TRUE"
-
-#: ../views/admin.php:253 ../views/admin.php:259
-msgid "Logging is enabled"
-msgstr "Il logging è abilitato"
-
-#: ../views/admin.php:254
-msgid "To enable silent logging give a look to Contextual Help"
+#: ../views/admin.php:247
+msgid ""
+"Enable this option to let WpDevTool do all the job without having to edit wp-"
+"config file"
 msgstr ""
-"Per abilitare la registrazione silenziona degli errori dai un'occhiata "
-"all'aiuto in linea"
+"Abilita questa opzione per fare in modo che sia WpDevTool ad occuparsi degli "
+"errori"
+
+#: ../views/admin.php:268
+msgid "Errors Handling"
+msgstr "Gestione Errori"
+
+#: ../views/admin.php:276 ../views/admin.php:282
+msgid "Error display level"
+msgstr "Livello Errori"
+
+#: ../views/admin.php:277
+msgid "Should errors be logged or just displayed?"
+msgstr "Gli errori devono essere loggati o solo visualizzati?"
+
+#: ../views/admin.php:286
+#, fuzzy
+msgid "Hide Errors"
+msgstr "errori"
+
+#: ../views/admin.php:287
+msgid "Display Errors"
+msgstr "Visualizza errori"
+
+#: ../views/admin.php:288
+#, fuzzy
+msgid "Log Errors"
+msgstr "errori"
+
+#: ../views/admin.php:289
+msgid "Log and Display Errors"
+msgstr "Registra e visualizza errori"
+
+#: ../views/admin.php:298 ../views/admin.php:304
+msgid "Show errors only to Administrators"
+msgstr "Mostra errori solo all'amministratore"
+
+#: ../views/admin.php:299
+msgid "If enabled errors will be shown only to Administrators"
+msgstr "Se abilitato gli errori verranno mostrati solo agli Amministratori"
+
+#: ../views/admin.php:314 ../views/admin.php:320
+msgid "Backtrace errors"
+msgstr "Traccia errori"
+
+#: ../views/admin.php:315
+msgid "Enable errors backtracing to find out errors origin"
+msgstr "Abilita il tracciamento degli errori per scoprirne l'origine"
+
+#: ../views/admin.php:335
+#, fuzzy
+msgid "Maintenance Text"
+msgstr "Sito in Manutenzione"
+
+#: ../views/admin.php:341
+msgid "Shortcodes:"
+msgstr "Codici veloci:"
+
+#: ../views/admin.php:341
+#, fuzzy
+msgid "[email] Blog email, [name] Blog name"
+msgstr "Codici supportati: <br>[email] Email del blog <br>[name] Nome del blog"
+
+#: ../views/admin.php:358 ../views/crons.php:60 ../views/permalinks.php:63
+msgid "Reset"
+msgstr ""
 
 #: ../views/crons.php:9
 #, fuzzy
@@ -202,51 +273,47 @@ msgstr "Opzioni WpDevTool"
 msgid "Crons Table"
 msgstr "Tabella dei Crons"
 
-#: ../views/crons.php:49 ../views/permalinks.php:52
+#: ../views/crons.php:60 ../views/permalinks.php:63
 msgid "Search"
 msgstr ""
 
-#: ../views/crons.php:49 ../views/permalinks.php:52
-msgid "Reset"
-msgstr ""
-
-#: ../views/crons.php:79
+#: ../views/crons.php:90
 msgid "Date"
 msgstr "Data"
 
-#: ../views/crons.php:80
+#: ../views/crons.php:91
 msgid "Name"
 msgstr "Nome"
 
-#: ../views/crons.php:81
+#: ../views/crons.php:92
 msgid "Schedule"
 msgstr "Schedulazione"
 
-#: ../views/crons.php:82
+#: ../views/crons.php:93
 msgid "Arguments"
 msgstr "Argomenti"
 
-#: ../views/crons.php:83
+#: ../views/crons.php:94
 msgid "Interval"
 msgstr "Intervallo"
 
-#: ../views/crons.php:84
+#: ../views/crons.php:95
 msgid "Delete Cron"
 msgstr "Elimina Cron"
 
-#: ../views/crons.php:115
+#: ../views/crons.php:126
 msgid "once"
 msgstr ""
 
-#: ../views/crons.php:133
+#: ../views/crons.php:144
 msgid "hours"
 msgstr "ore"
 
-#: ../views/crons.php:166
+#: ../views/crons.php:179
 msgid "Table of programmed Crons"
 msgstr "Tabella dei Crons programmati"
 
-#: ../views/error_log.php:12 ../views/error_log.php:69
+#: ../views/error_log.php:12 ../views/error_log.php:63
 msgid "WpDevTool Error Log Console"
 msgstr "WpDevTool Console degli errori"
 
@@ -254,23 +321,19 @@ msgstr "WpDevTool Console degli errori"
 msgid "Error Console"
 msgstr "Console Errori"
 
-#: ../views/error_log.php:69
+#: ../views/error_log.php:63
 msgid "errors"
 msgstr "errori"
 
-#: ../views/error_log.php:76
-msgid "It's your lucky day... Ain't no errors!"
-msgstr "E' il tuo giorno fortunato, non ci sono errori!"
-
-#: ../views/error_log.php:90
+#: ../views/error_log.php:77
 msgid "More Options"
 msgstr "Più opzioni"
 
-#: ../views/error_log.php:92
+#: ../views/error_log.php:79
 msgid "Clear log file"
 msgstr "Elimina il file log"
 
-#: ../views/error_log.php:93
+#: ../views/error_log.php:80
 msgid "Download log file"
 msgstr "Scarica il file log"
 
@@ -283,17 +346,51 @@ msgstr "Opzioni WpDevTool"
 msgid "Permalinks"
 msgstr ""
 
-#: ../views/permalinks.php:87
+#: ../views/permalinks.php:98
 msgid "Rule"
 msgstr "Regola"
 
-#: ../views/permalinks.php:88
+#: ../views/permalinks.php:99
 msgid "Rewrite"
 msgstr ""
 
-#: ../views/permalinks.php:139
+#: ../views/permalinks.php:151
 msgid "Permalinks Table"
 msgstr "Tabella dei Permalinks"
+
+#~ msgid "Enable silent logging"
+#~ msgstr "Abilita il loggin silenzioso"
+
+#~ msgid ""
+#~ "To enable silent logging set WP_DEBUG constant to TRUE in your wp-config."
+#~ "php file and add the following lines of code right after"
+#~ msgstr ""
+#~ "Per abilitare la raccolta silenziona degli errori imposta WP_DEBUG a TRUE "
+#~ "nel tuo file wp-config.php e aggiungi le seguenti linee di codice subito "
+#~ "sotto"
+
+#~ msgid "Coding tips"
+#~ msgstr "Risorse utili"
+
+#~ msgid "Maintenance text cant be left empty!"
+#~ msgstr "Il testo della pagina manutenzione non può essere lasciato vuoto!"
+
+#~ msgid "Maintenance message"
+#~ msgstr "Messaggio manutenzione"
+
+#~ msgid "WP_DEBUG is active"
+#~ msgstr "WB_DEBUG è attivo"
+
+#~ msgid "Check wheter you have set WP_DEBUG to TRUE"
+#~ msgstr "Controlla di aver settato WP_DEBUG a TRUE"
+
+#~ msgid "Logging is enabled"
+#~ msgstr "Il logging è abilitato"
+
+#~ msgid "To enable silent logging give a look to Contextual Help"
+#~ msgstr ""
+#~ "Per abilitare la registrazione silenziona degli errori dai un'occhiata "
+#~ "all'aiuto in linea"
 
 #~ msgid "Log file has been deleted. <a href=\"%s\">Go back to WpDevTool</a>"
 #~ msgstr "Il file Log è stato eliminato. <a href=\"%s\">Torna a WpDevTool</a>"
