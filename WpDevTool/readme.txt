@@ -106,7 +106,6 @@ First release
 * Put debug bar in a class
 * Make a class of wpdevtool_set_error_display_level
 * Think about moving debug.log creation ( if missing ) to error_handler.php instead of console
-* Check if wpdevtool_install_and_update should hooked to a different action ( only admin? )
 * Add missing help voices and update documentation
 * Italian translation
 * Move screeshoot to plugin folder ( delete from assets )
