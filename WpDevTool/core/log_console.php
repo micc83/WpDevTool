@@ -116,7 +116,7 @@ class WDT_Console {
 		if ( $this->errors_count > $limit ){
 		
 			$this->log_array_content = array_splice( $this->log_array_content, 0, $limit );
-			$this->bail( sprintf( __( 'There are too many errors, only the last %d will be shown. For the full list <a href="%s">download the file</a>.' ), $limit, add_query_arg( array( 'wpdevtool_download_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_dwn_log' ) ) ) ), 'updated' );
+			$this->bail( sprintf( __( 'There are too many errors, only the last %d will be shown. For the full list <a href="%s">download the file</a>.', 'wpdevtool' ), $limit, add_query_arg( array( 'wpdevtool_download_log_file' => 'true', 'wdt_nonce' => wp_create_nonce( 'wpdevtool_dwn_log' ) ) ) ), 'updated' );
 			
 		}
 		

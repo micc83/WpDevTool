@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WpDevTool\n"
-"POT-Creation-Date: 2013-02-01 22:22+0100\n"
-"PO-Revision-Date: 2013-02-02 17:27+0100\n"
+"POT-Creation-Date: 2013-02-02 18:25+0100\n"
+"PO-Revision-Date: 2013-02-02 18:25+0100\n"
 "Last-Translator: Comodolab <micc83@gmail.com>\n"
 "Language-Team: Alessandro Benoit <micc83@gmail.com>\n"
 "Language: Italiano\n"
@@ -14,19 +14,19 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../wpdevtool.php:40
+#: ../wpdevtool.php:41
 msgid "This plugin requires WordPress 3.0 or greater."
 msgstr "Questo plugin necessita di WordPress 3.0 o superiore."
 
-#: ../wpdevtool.php:43
+#: ../wpdevtool.php:44
 msgid "This plugin requires PHP 5 or greater."
 msgstr "Questo plugin necessita PHP 5 o superiore."
 
-#: ../core/api.php:61
+#: ../core/api.php:67
 msgid "Cheatin&#8217; uh?"
 msgstr ""
 
-#: ../core/api.php:104
+#: ../core/api.php:110
 #, php-format
 msgid ""
 "WpDevTool couldn't edit %s file permission. Manually set permission to 0600 "
@@ -45,12 +45,12 @@ msgid "Maintenance Screen"
 msgstr "Sito in Manutenzione"
 
 #: ../core/debug_bar.php:48
-#, fuzzy, php-format
+#, php-format
 msgid "%d query in %s seconds, memory %s Kb"
-msgstr "%d query in %s seconds, memory %s Kb"
+msgstr "%d query in %s secondi, memoria %s Kb"
 
-#: ../core/debug_bar.php:51 ../views/admin.php:10 ../views/admin.php:174
-#: ../views/admin.php:354
+#: ../core/debug_bar.php:51 ../views/admin.php:10 ../views/admin.php:188
+#: ../views/admin.php:368
 msgid "WpDevTool Options"
 msgstr "Opzioni WpDevTool"
 
@@ -137,68 +137,67 @@ msgstr ""
 "periodicamente il file log, attraverso l'apposito bottone, in modo che non "
 "diventi troppo grande."
 
-#: ../views/admin.php:90
+#: ../views/admin.php:103
 #, php-format
 msgid "%s is under maintenance at the moment. Contact us at %s"
 msgstr "%s è in manutenzione al momento. Contattaci all'indirizzo %s"
 
-#: ../views/admin.php:110
+#: ../views/admin.php:123
 msgid "Something went wrong with the catch all email address"
 msgstr "Qualcosa è andato storto con l'email inserita"
 
-#: ../views/admin.php:128
+#: ../views/admin.php:141
 msgid "Well done!"
 msgstr "Ben fatto!"
 
-#: ../views/admin.php:153 ../views/crons.php:171 ../views/error_log.php:38
+#: ../views/admin.php:167 ../views/crons.php:171 ../views/error_log.php:38
 #: ../views/permalinks.php:143
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: ../views/admin.php:162 ../views/error_log.php:54
+#: ../views/admin.php:176 ../views/error_log.php:54
 msgid "WordPress Development Tool"
 msgstr "Strumenti di sviluppo WordPress"
 
-#: ../views/admin.php:182 ../views/admin.php:188
+#: ../views/admin.php:196 ../views/admin.php:202
 msgid "Enable maintenance mode"
 msgstr "Attiva modalità manutenzione"
 
-#: ../views/admin.php:183
+#: ../views/admin.php:197
 msgid "Return a HTTP RESPONSE 503 (Service Temporary Unavailable) landing page"
 msgstr ""
 "Ritorna una pagina di errore HTTP RESPONSE 503 (Servizio Temporaneamente "
 "Sospeso)"
 
-#: ../views/admin.php:198 ../views/admin.php:204
+#: ../views/admin.php:212 ../views/admin.php:218
 msgid "Enable Debug Bar"
 msgstr "Abilita la Debug Bar"
 
-#: ../views/admin.php:199
+#: ../views/admin.php:213
 msgid "Show a simple debug bar on the bottom of every template page"
 msgstr "Mostra una semplice barra per il debug nel frontend"
 
-#: ../views/admin.php:214 ../views/admin.php:220
+#: ../views/admin.php:228 ../views/admin.php:234
 msgid "Redirect all emails"
 msgstr "Reindirizza tutte le email"
 
-#: ../views/admin.php:215
+#: ../views/admin.php:229
 msgid "Redirect all WordPress emails to a single address"
 msgstr "Reindirizza tutte le email di WordPress ad un singolo indirizzo"
 
-#: ../views/admin.php:230 ../views/admin.php:236
+#: ../views/admin.php:244 ../views/admin.php:250
 msgid "Catch all Email"
 msgstr "Email"
 
-#: ../views/admin.php:231
+#: ../views/admin.php:245
 msgid "Catch all the emails sent through wp_mail()"
 msgstr "Qui arrivano tutte le email inviate attraverso wp_mail()"
 
-#: ../views/admin.php:246 ../views/admin.php:253
-#, fuzzy
+#: ../views/admin.php:260 ../views/admin.php:267
 msgid "Let WpDevTool handle errors"
-msgstr "Opzioni WpDevTool"
+msgstr "WpDevTool gestisce gli errori"
 
-#: ../views/admin.php:247
+#: ../views/admin.php:261
 msgid ""
 "Enable this option to let WpDevTool do all the job without having to edit wp-"
 "config file"
@@ -206,74 +205,69 @@ msgstr ""
 "Abilita questa opzione per fare in modo che sia WpDevTool ad occuparsi degli "
 "errori"
 
-#: ../views/admin.php:268
+#: ../views/admin.php:282
 msgid "Errors Handling"
 msgstr "Gestione Errori"
 
-#: ../views/admin.php:276 ../views/admin.php:282
+#: ../views/admin.php:290 ../views/admin.php:296
 msgid "Error display level"
 msgstr "Livello Errori"
 
-#: ../views/admin.php:277
+#: ../views/admin.php:291
 msgid "Should errors be logged or just displayed?"
 msgstr "Gli errori devono essere loggati o solo visualizzati?"
 
-#: ../views/admin.php:286
-#, fuzzy
+#: ../views/admin.php:300
 msgid "Hide Errors"
-msgstr "errori"
+msgstr "Nascondi errori"
 
-#: ../views/admin.php:287
+#: ../views/admin.php:301
 msgid "Display Errors"
 msgstr "Visualizza errori"
 
-#: ../views/admin.php:288
-#, fuzzy
+#: ../views/admin.php:302
 msgid "Log Errors"
-msgstr "errori"
+msgstr "Registra Errori"
 
-#: ../views/admin.php:289
+#: ../views/admin.php:303
 msgid "Log and Display Errors"
 msgstr "Registra e visualizza errori"
 
-#: ../views/admin.php:298 ../views/admin.php:304
+#: ../views/admin.php:312 ../views/admin.php:318
 msgid "Show errors only to Administrators"
 msgstr "Mostra errori solo all'amministratore"
 
-#: ../views/admin.php:299
+#: ../views/admin.php:313
 msgid "If enabled errors will be shown only to Administrators"
 msgstr "Se abilitato gli errori verranno mostrati solo agli Amministratori"
 
-#: ../views/admin.php:314 ../views/admin.php:320
+#: ../views/admin.php:328 ../views/admin.php:334
 msgid "Backtrace errors"
 msgstr "Traccia errori"
 
-#: ../views/admin.php:315
+#: ../views/admin.php:329
 msgid "Enable errors backtracing to find out errors origin"
 msgstr "Abilita il tracciamento degli errori per scoprirne l'origine"
 
-#: ../views/admin.php:335
-#, fuzzy
-msgid "Maintenance Text"
-msgstr "Sito in Manutenzione"
+#: ../views/admin.php:349
+msgid "Maintenance Page Content"
+msgstr "Contenuto della pagina manutenzione"
 
-#: ../views/admin.php:341
+#: ../views/admin.php:355
 msgid "Shortcodes:"
 msgstr "Codici veloci:"
 
-#: ../views/admin.php:341
-#, fuzzy
+#: ../views/admin.php:355
 msgid "[email] Blog email, [name] Blog name"
-msgstr "Codici supportati: <br>[email] Email del blog <br>[name] Nome del blog"
+msgstr "[email] Email del blog, [name] Nome del blog "
 
-#: ../views/admin.php:358 ../views/crons.php:60 ../views/permalinks.php:63
+#: ../views/admin.php:372 ../views/crons.php:60 ../views/permalinks.php:63
 msgid "Reset"
 msgstr ""
 
 #: ../views/crons.php:9
-#, fuzzy
 msgid "WpDevTool Crons"
-msgstr "Opzioni WpDevTool"
+msgstr ""
 
 #: ../views/crons.php:9
 msgid "Crons Table"
@@ -345,7 +339,7 @@ msgstr "Scarica il file log"
 
 #: ../views/permalinks.php:12
 #, fuzzy
-msgid "WpDevTool Permalins"
+msgid "WpDevTool Permalinks"
 msgstr "Opzioni WpDevTool"
 
 #: ../views/permalinks.php:12
@@ -363,6 +357,10 @@ msgstr ""
 #: ../views/permalinks.php:151
 msgid "Permalinks Table"
 msgstr "Tabella dei Permalinks"
+
+#, fuzzy
+#~ msgid "Maintenance Text"
+#~ msgstr "Sito in Manutenzione"
 
 #~ msgid "Enable silent logging"
 #~ msgstr "Abilita il loggin silenzioso"

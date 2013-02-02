@@ -258,7 +258,7 @@ function wpdevtool_options() {
 								<tr valign="top">
 									<th scope="row">
 										<label for="wpdevtool_handle_errors"><?php _e( 'Let WpDevTool handle errors', 'wpdevtool' ); ?> <?php if ( WP_DEBUG ): ?> ( <a href="#" id="wpdevtool_handle_errors-help">?</a> ) <?php endif; ?></label>
-										<p class="description"><?php _e( 'Enable this option to let WpDevTool do all the job without having to edit wp-config file' ); ?>.
+										<p class="description"><?php _e( 'Enable this option to let WpDevTool do all the job without having to edit wp-config file', 'wpdevtool' ); ?>.
 										</p>
 									</th>
 									<td>
@@ -288,7 +288,7 @@ function wpdevtool_options() {
 								<tr valign="top">
 									<th scope="row">
 										<label for="wpdevtool_error_display_level"><?php _e( 'Error display level', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'Should errors be logged or just displayed?' ); ?></p>
+										<p class="description"><?php _e( 'Should errors be logged or just displayed?', 'wpdevtool' ); ?></p>
 									</th>
 									<td>
 										<fieldset>
@@ -310,7 +310,7 @@ function wpdevtool_options() {
 								<tr valign="top">
 									<th scope="row">
 										<label for="wpdevtool_only_admin_errors"><?php _e( 'Show errors only to Administrators', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'If enabled errors will be shown only to Administrators' ); ?></p>
+										<p class="description"><?php _e( 'If enabled errors will be shown only to Administrators', 'wpdevtool' ); ?></p>
 									</th>
 									<td>
 										<fieldset>
@@ -326,7 +326,7 @@ function wpdevtool_options() {
 								<tr valign="top">
 									<th scope="row">
 										<label for="wpdevtool_errors_backtrace"><?php _e( 'Backtrace errors', 'wpdevtool' ); ?></label>
-										<p class="description"><?php _e( 'Enable errors backtracing to find out errors origin' ); ?></p>
+										<p class="description"><?php _e( 'Enable errors backtracing to find out errors origin', 'wpdevtool' ); ?></p>
 									</th>
 									<td>
 										<fieldset>
@@ -346,7 +346,7 @@ function wpdevtool_options() {
 					<!-- Maintenance Box -->
 					<div class="postbox" <?php if ( !get_option( 'wpdevtool_maintenance' ) ) echo('style="display:none"') ?> >
 						<div class="handlediv"><br></div>
-						<h3 class="hndle"><?php _e( 'Maintenance Text', 'wpdevtool' ); ?></h3>
+						<h3 class="hndle"><?php _e( 'Maintenance Page Content', 'wpdevtool' ); ?></h3>
 						<div class="inside">
 						
 							<?php wp_editor( get_option('wpdevtool_maintenance_message'), 'wpdevtool_maintenance_message', array(  'wpautop' => false, 'tinymce' => array(
