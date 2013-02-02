@@ -102,7 +102,6 @@ First release
 
 == To Do ==
 
-* Reset admin options
 * Put debug bar in a class
 * Make a class of wpdevtool_set_error_display_level
 * Think about moving debug.log creation ( if missing ) to error_handler.php instead of console

@@ -40,12 +40,25 @@ function wpdevtool_admin_page_scripts() {
 }
 
 /**
- * Register WpDevTool admin page data
+ * Register or reset WpDevTool admin page data
  *
  * @since 0.0.1
  */
-function register_wpdevtool_admin_settings() {
-
+function register_wpdevtool_admin_settings( $var ) {
+	
+	// Reset delle opzioni
+	if ( isset( $_GET['reset'] ) ){
+		wpdevtool_reset_url();
+		delete_option( 'wpdevtool_maintenance' );
+		delete_option( 'wpdevtool_debug_bar' );
+		delete_option( 'wpdevtool_redirect_emails' );
+		delete_option( 'wpdevtool_handle_errors' );
+		delete_option( 'wpdevtool_error_display_level' );
+		delete_option( 'wpdevtool_only_admin_errors' );
+		delete_option( 'wpdevtool_errors_backtrace' );
+		return;
+	}
+	
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance', 'intval' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_maintenance_message', 'wp_kses_post' );
 	register_setting( 'wpdevtool_admin-settings', 'wpdevtool_debug_bar', 'intval' );
@@ -123,10 +136,11 @@ function wpdevtool_catch_all_email_eval( $email ) {
 function wpdevtool_admin_page_load() {
 
 	$errors = get_settings_errors( 'wpdevtool_admin-settings' );
-
+	
 	if ( empty( $errors ) && isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page'] == 'wpdevtool_admin'  )
 		add_settings_error( 'wpdevtool_admin-settings', 'code', __( 'Well done!', 'wpdevtool' ), 'updated' );
-
+	
+	
 }
 
 /**
@@ -137,7 +151,7 @@ function wpdevtool_admin_page_load() {
 function wpdevtool_admin_notices() {
 
 	settings_errors( 'wpdevtool_admin-settings' );
-
+	
 }
 add_action( 'admin_notices', 'wpdevtool_admin_notices' );
 
@@ -355,7 +369,7 @@ function wpdevtool_options() {
 						<div class="inside">
 						
 							<?php do_settings_sections('wpdevtool_admin'); ?>
-							<?php submit_button( '', 'primary', 'submit', false ); ?> <a href="" class="button button-secondary"><?php _e( 'Reset' ); ?></a>
+							<?php submit_button( '', 'primary', 'submit', false ); ?> <a href="<?php echo add_query_arg( array( 'reset' => 'true' ) ) ?>" class="button button-secondary"><?php _e( 'Reset' ); ?></a>
 						
 						</div>
 					</div>

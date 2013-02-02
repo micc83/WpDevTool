@@ -9,12 +9,18 @@ function wpdevtool_reset_url() {
 	$uri = $_SERVER['REQUEST_URI'];
 	
 	if( strpos( $uri, '?' ) !== false ) {
-		$new_url = substr( $uri, 0, strpos( $uri, '?' ) );
-		if ( isset( $_GET['page'] ) )
-			$new_url = add_query_arg( array( 'page' => $_GET['page'] ), $new_url );
-		if ( isset( $_GET['paged'] ) )
-			$new_url = add_query_arg( array( 'paged' => $_GET['paged'] ), $new_url );
-		header( 'location: ' . $new_url );
+		$new_uri = substr( $uri, 0, strpos( $uri, '?' ) );
+		
+		$safe_query_args = array(
+			'page', 'paged', 'settings-updated'
+		);
+		
+		foreach ( $safe_query_args as $query_arg ) {
+			if ( isset( $_GET[$query_arg] ) )
+				$new_uri = add_query_arg( array( $query_arg => $_GET[$query_arg] ), $new_uri );
+		}
+
+		header( 'location: ' . $new_uri );
 	}
 	
 }
