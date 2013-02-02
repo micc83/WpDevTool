@@ -69,14 +69,16 @@ add_action( 'plugins_loaded', 'wpdevtool_init' );
  * @since 0.0.2
  */
 function wpdevtool_install_and_update() {
-
-	if ( false !== get_option( 'wpdevtool_version' ) && 
-	version_compare( wdt_plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) ) {
-		return; // if version is already set and new version is less or equal to current
-	} else {
-		update_option( 'wpdevtool_version', wdt_plugin_get_version() );
-	}
 	
+	if ( 	
+		// if version is already set and new version is less or equal to current
+		false !== get_option( 'wpdevtool_version' ) 
+		&& version_compare( wdt_plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) 
+			
+		)
+		return; 
+
+	update_option( 'wpdevtool_version', wdt_plugin_get_version() );
 	do_action( 'wpdevtool_install_and_update' );
 	
 }

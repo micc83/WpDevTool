@@ -49,7 +49,7 @@ function wdt_dump( $var ) {
  */
 function wdt_plugin_get_version() {
 
-	$plugin_data = get_plugin_data( __FILE__ );
+	$plugin_data = get_file_data( WPDEVTOOL_FILE, array( 'Version' => 'Version' ), 'plugin' );
 	return $plugin_data['Version'];
 	
 }
