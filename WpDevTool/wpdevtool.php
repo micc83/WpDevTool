@@ -16,6 +16,7 @@ License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 define( 'WPDEVTOOL_ABS' , plugin_dir_path( __FILE__ ) );
 define( 'WPDEVTOOL_URI' , plugin_dir_url( __FILE__ ) );
+define( 'WPDEVTOOL_FILE' , __FILE__ );
 
 /**
  * Load WpDevTool API
