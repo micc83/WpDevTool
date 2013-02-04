@@ -51,8 +51,10 @@ if (WP_DEBUG) {
 
 == Screenshots ==
 
-1. Error Console Page
-2. Main WpDevTool Admin Page
+1. Main WpDevTool Admin Screen
+2. Error Console Screen
+3. Permalinks Screen
+4. Crons Screen
 
 == Changelog ==
 
@@ -62,7 +64,6 @@ if (WP_DEBUG) {
 * Added Wp-Cron Manager
 * Added Permalinks Viewer
 * Added a quick links section in the contextual help
-* Fixed maintenance text validation
 * Improved responsiveness
 * Add wp_nonce check to deletion/download of cron and log file
 * Check debug.log file permissions
@@ -102,16 +103,12 @@ First release
 
 == To Do ==
 
-* Put debug bar in a class
-* Add update-count tip to WpDevTool menu button with errors count
-* Make a class of wpdevtool_set_error_display_level
 * Think about moving debug.log creation ( if missing ) to error_handler.php instead of console
 * Add missing help voices and update documentation
-* Italian translation
-* Move screeshoot to plugin folder ( delete from assets )
 
 == To Be ==
 
+* Add update-count tip to WpDevTool menu button with errors count
 * List of options
 * List of transients
 * Add some stat to main admin page
