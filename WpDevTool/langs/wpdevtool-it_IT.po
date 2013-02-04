@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WpDevTool\n"
 "POT-Creation-Date: 2013-02-02 18:25+0100\n"
-"PO-Revision-Date: 2013-02-02 18:25+0100\n"
+"PO-Revision-Date: 2013-02-04 19:59+0100\n"
 "Last-Translator: Comodolab <micc83@gmail.com>\n"
 "Language-Team: Alessandro Benoit <micc83@gmail.com>\n"
 "Language: Italiano\n"
@@ -122,8 +122,8 @@ msgstr ""
 "WpDevTool può gestire gli errori per te con l'unica pecca di essere eseguito "
 "solo all'attivazione dei plugin. Se necessiti di un debug più completo ma "
 "vuoi continuare ad utilizzare la console degli errori di WpDevTool devi "
-"modificare manualmente il tuo file wp-config.php.Setta la costante WP_DEBUG "
-"a TRUE nel tuo file wp-config.php e aggiungeti il codice che segue subito "
+"modificare manualmente il tuo file wp-config.php. Setta la costante WP_DEBUG "
+"a TRUE nel tuo file wp-config.php e aggiungi il codice che segue subito "
 "sotto. "
 
 #: ../inc/help.php:25
@@ -338,9 +338,8 @@ msgid "Download log file"
 msgstr "Scarica il file log"
 
 #: ../views/permalinks.php:12
-#, fuzzy
 msgid "WpDevTool Permalinks"
-msgstr "Opzioni WpDevTool"
+msgstr "WpDevTool Permalinks"
 
 #: ../views/permalinks.php:12
 msgid "Permalinks"
