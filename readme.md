@@ -38,4 +38,4 @@ Having trouble with WpDevTool? Open an [issue](https://github.com/micc83/WpDevTo
 Icon Credits goes to: [miniMAC](http://http://www.minimamente.com)
 
 ##Screenshots
-![Settings Window](https://raw.github.com/micc83/WpDevTool/0.1.0/screenshot-2.jpg)
+![Settings Window](https://raw.github.com/micc83/WpDevTool/0.1.0/WpDevTool/screenshot-2.jpg)
