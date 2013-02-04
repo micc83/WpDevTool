@@ -10,7 +10,7 @@ Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Development tool for WordPress. Track bugs with the log console, check and delete crons, search through permalinks rewrite rules or monitor your templates resources consumption with the debug bar. This and much more, just give it a try...
+Development tool for WordPress to track bugs, manage crons, permalinks and much more.
 
 == Description ==
 
