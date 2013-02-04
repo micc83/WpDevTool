@@ -103,6 +103,7 @@ First release
 == To Do ==
 
 * Put debug bar in a class
+* Add update-count tip to WpDevTool menu button with errors count
 * Make a class of wpdevtool_set_error_display_level
 * Think about moving debug.log creation ( if missing ) to error_handler.php instead of console
 * Add missing help voices and update documentation
