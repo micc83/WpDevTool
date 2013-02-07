@@ -28,28 +28,41 @@
         </ul>
       </header>
       <section>
-        <h2>WpDevTool - WordPress Developer Tool</h2>
+        <h1>WpDevTool 0.1.0</h1>
 
-<p>A simple tool to develop on WordPress platform...</p>
+<p>A simple development tool for WordPress...</p>
 
 <h2>Description</h2>
 
 <p>WpDevTool implements many useful functions for WordPress Developer such as:</p>
 
-<ol>
-<li>Maintenance mode: Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page</li>
-<li>Debug bar: A simple bar which show number of query, timing and memory of current page</li>
-<li>Log Console: A console to show WordPress Error Log ( WP_DEBUG_LOG must be set to TRUE )</li>
-</ol><h2>Installation</h2>
+<ul>
+<li>
+<strong>Maintenance mode</strong>: Return a HTTP RESPONSE 503 (Service Temporary Unavailable) Under Maintenance landing page</li>
+<li>
+<strong>Debug bar</strong>: A simple bar which show number of query, timing and memory of current page</li>
+<li>
+<strong>Enable error display and logging</strong>: Now you can enable PHP errors diplay and logging without editing wp_config.php</li>
+<li>
+<strong>Log console</strong>: A console to show WordPress Error Log</li>
+<li>
+<strong>Email redirect</strong>: Redirect all WordPress emails to a single address</li>
+<li>
+<strong>Wp-Cron manager</strong>: Visualisation, search and deletion of Wp-Cron</li>
+<li>
+<strong>Permalinks viewer</strong>: Visualisation and search of Permalinks</li>
+<li>
+<strong>wdt_dump()</strong>: A formatted version of var_dump()</li>
+</ul><h2>Installation</h2>
 
 <ol>
 <li>Upload WpDevTool folder to the '/wp-content/plugins/' directory</li>
 <li>Activate the plugin through the 'Plugins' menu in WordPress</li>
 </ol><h2>Frequently Asked Questions</h2>
 
-<h3>How to enable Silent Logging</h3>
+<h3>WpDevTool Errors Handling</h3>
 
-<p>Set WP_DEBUG to TRUE in your wp-config.php file and add the following lines of code right below to enable silent logging :</p>
+<p>WpDevTool can handle errors for you with the only downside that is fired at plugins activation. If you need a more complete logging and still use WpDevTool Error Console you can manually edit your wp-config.php file. Set WP_DEBUG constant to TRUE in your wp-config.php file and add the following lines of code right after :</p>
 
 <div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">WP_DEBUG</span><span class="p">)</span> <span class="p">{</span>
   <span class="nb">define</span><span class="p">(</span><span class="s1">'WP_DEBUG_LOG'</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
@@ -64,11 +77,11 @@
 
 <h2>Credits</h2>
 
-<p>Icon Credits goes to: <a href="http://www.everaldo.com">Everaldo</a></p>
+<p>Icon Credits goes to: <a href="http://http://www.minimamente.com">miniMAC</a></p>
 
 <h2>Screenshots</h2>
 
-<p><img src="https://raw.github.com/micc83/WpDevTool/master/WpDevTool/assets/screenshot-1.jpg" alt="Settings Window"></p>
+<p><img src="https://raw.github.com/micc83/WpDevTool/0.1.0/WpDevTool/screenshot-2.jpg" alt="Settings Window"></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/micc83">micc83</a></p>
