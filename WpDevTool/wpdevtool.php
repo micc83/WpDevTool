@@ -3,7 +3,7 @@
 Plugin Name: WpDevTool
 Plugin URI: https://github.com/micc83/WpDevTool
 Description: A simple tool to develop on WordPress platform...
-Version: 0.1.0
+Version: 0.2.0
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -26,64 +26,177 @@ define( 'WPDEVTOOL_FILE' , __FILE__ );
 require_once( WPDEVTOOL_ABS . 'core/api.php' );
 
 /**
- * Plugin activation checks
+ * WpDevTool Main Class
  *
- * On plugin activation check WordPress version is higher than 3.0
- * and PHP version higher than 5
- *
- * @since 0.0.1
+ * @since 0.2.0
  */
-function wpdevtool_activation() {
+class WDT {
 	
-	$error = '';
-
-	if ( version_compare( get_bloginfo('version'), '3.0', '<') )
-		$error = __( "This plugin requires WordPress 3.0 or greater.", 'wpdevtool' );
+	var $views;
 	
-	if ( version_compare( PHP_VERSION, '5.0.0', '<' ) )
-		$error = __( "This plugin requires PHP 5 or greater.", 'wpdevtool' );
+	/**
+	 * Constructor 
+	 *
+	 * @since 0.2.0
+	 */
+	function __construct() {
+		
+		register_activation_hook( __FILE__, array( $this, 'activation_checks' ) );
+		
+		add_action( 'plugins_loaded', array( $this, 'loaded' ) );
+		add_action( 'init', array( $this, 'install_and_update' ) );
+		add_action( 'init', array( $this, 'register_styles_and_scripts' ) );
+		add_action( 'activated_plugin', array( $this, 'wpdevtool_load_first' ) );
 
-	if ( $error ){
-		deactivate_plugins( basename( __FILE__ ) );
-		wp_die( $error ); 
+		$this->load_core();
+		
+		$this->load_views( array(
+			'admin',
+			'crons',
+			'console',
+			'permalinks'
+		) );
+		
+		$this->load_contextual_help();
+		
 	}
-
-}
-register_activation_hook( __FILE__, 'wpdevtool_activation' );
-
-/**
- * Load WpDevTool language file
- *
- * @since 0.0.1
- */
-function wpdevtool_init() {
-
-	load_plugin_textdomain( 'wpdevtool', false, dirname( plugin_basename( __FILE__ ) ) . '/langs/' );
 	
-}
-add_action( 'plugins_loaded', 'wpdevtool_init' );
-
-/**
- * Run on install and update hook
- *
- * @uses do_action() Calls 'wpdevtool_install_and_update' to set options
- * @since 0.0.2
- */
-function wpdevtool_install_and_update() {
-	
-	if ( 	
-		// if version is already set and new version is less or equal to current
-		false !== get_option( 'wpdevtool_version' ) 
-		&& version_compare( wdt_plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) 
+	/**
+	 * Plugin activation checks
+	 *
+	 * On plugin activation check WordPress version is higher than 3.0
+	 * and PHP version higher than 5
+	 *
+	 * @since 0.0.1
+	 */
+	function activation_checks() {
 			
-		)
-		return; 
-
-	update_option( 'wpdevtool_version', wdt_plugin_get_version() );
-	do_action( 'wpdevtool_install_and_update' );
+			$error = '';
+		
+			if ( version_compare( get_bloginfo('version'), '3.0', '<') )
+				$error = __( "This plugin requires WordPress 3.0 or greater.", 'wpdevtool' );
+			
+			if ( version_compare( PHP_VERSION, '5.0.0', '<' ) )
+				$error = __( "This plugin requires PHP 5 or greater.", 'wpdevtool' );
+		
+			if ( $error ){
+				deactivate_plugins( basename( __FILE__ ) );
+				wp_die( $error ); 
+			}
+		
+	}
+	
+	/**
+	 * Load WpDevTool language file
+	 *
+	 * @since 0.0.1
+	 */
+	function loaded() {
+	
+		load_plugin_textdomain( 'wpdevtool', false, dirname( plugin_basename( __FILE__ ) ) . '/langs/' );
+		
+	}
+	
+	/**
+	 * Run on install and update hook
+	 *
+	 * @uses do_action() Calls 'wpdevtool_install_and_update' to set options
+	 * @since 0.0.2
+	 */
+	function install_and_update() {
+		
+		if ( 	
+			// if version is already set and new version is less or equal to current
+			false !== get_option( 'wpdevtool_version' ) 
+			&& version_compare( wdt_plugin_get_version(), get_option( 'wpdevtool_version' ), '<=' ) 
+				
+			)
+			return; 
+	
+		update_option( 'wpdevtool_version', wdt_plugin_get_version() );
+		
+		$this->views['admin']->set_default_options();
+		
+	}
+	
+	/**
+	 * WpDevTool have to load first to debug other plugins
+	 *
+	 * @since 0.1.0
+	 */
+	function wpdevtool_load_first(){
+	
+		$path = str_replace( WP_PLUGIN_DIR . '/', '', __FILE__ );
+		
+		if ( $plugins = get_option( 'active_plugins' ) ) {
+			if ( $key = array_search( $path, $plugins ) ) {
+				array_splice( $plugins, $key, 1 );
+				array_unshift( $plugins, $path );
+				update_option( 'active_plugins', $plugins );
+			}
+		}
+		
+	}
+	
+	/**
+	 * WpDevTool Register Base Stylesheet and Javascript
+	 *
+	 * @since 0.0.1
+	 */
+	function register_styles_and_scripts() {
+	
+		wp_register_style( 'WpDevToolStylesheet', WPDEVTOOL_URI . 'styles/style.css' );
+		wp_register_script( 'WpDevToolScript', WPDEVTOOL_URI . 'js/script.js', array( 'jquery' ), false, true );
+	
+	}
+	
+	/**
+	 * Load WpDevTool Core
+	 *
+	 * @since 0.1.0
+	 */
+	function load_core() {
+		
+		require_once( WPDEVTOOL_ABS . 'core/core.php' );					// Error handler
+		
+	}
+	
+	/**
+	 * Load WpDevTool Views
+	 *
+	 * @since 0.0.1
+	 */
+	function load_views( $views ) {
+		
+		foreach ( (array) $views as $view ) {
+			require_once( WPDEVTOOL_ABS . 'views/' . $view . '.php' );
+			$view_class_name = 'WDT_' . ucfirst( $view ) . '_View';
+			if ( class_exists( $view_class_name ) )
+				$this->views[$view] = new $view_class_name();
+		}
+		
+	}
+	
+	/**
+	 * Load WpDevTool Help
+	 *
+	 * @since 0.0.1
+	 */
+	function load_contextual_help() {
+		
+		require_once( WPDEVTOOL_ABS . 'inc/help.php' );
+		
+	}
 	
 }
-add_action( 'init', 'wpdevtool_install_and_update' );
+
+/**
+ * Instantiate WDT as global
+ *
+ * @since 0.2.0
+ */
+global $wdt_plugin;
+$wdt_plugin = new WDT();
 
 /**
  * WpDevTool Uninstall Hook
@@ -91,51 +204,15 @@ add_action( 'init', 'wpdevtool_install_and_update' );
  * @since 0.0.2
  */
 function wpdevtool_uninstall() {
-
+	
+	global $wdt_plugin;
+	
 	delete_option( 'wpdevtool_version' );
-	do_action( 'wpdevtool_uninstall' );
+	
+	$wdt_plugin->views['admin']->unregister_options();
 	
 }
 register_uninstall_hook( __FILE__, 'wpdevtool_uninstall' );
-
-/**
- * WpDevTool have to load first to debug other plugins
- *
- * @since 0.1.0
- */
-function wpdevtool_load_first(){
-
-	$path = str_replace( WP_PLUGIN_DIR . '/', '', __FILE__ );
-	
-	if ( $plugins = get_option( 'active_plugins' ) ) {
-		if ( $key = array_search( $path, $plugins ) ) {
-			array_splice( $plugins, $key, 1 );
-			array_unshift( $plugins, $path );
-			update_option( 'active_plugins', $plugins );
-		}
-	}
-}
-add_action( 'activated_plugin', 'wpdevtool_load_first' );
-
-/**
- * WpDevTool Register Base Stylesheet and Javascript
- *
- * @since 0.0.1
- */
-function wpdevtool_register() {
-
-	wp_register_style( 'WpDevToolStylesheet', WPDEVTOOL_URI . 'styles/style.css' );
-	wp_register_script( 'WpDevToolScript', WPDEVTOOL_URI . 'js/script.js', array('jquery'), false, true );
-
-}
-add_action( 'init', 'wpdevtool_register' );
-
-/**
- * Load WpDevTool Core
- *
- * @since 0.1.0
- */
-require_once( WPDEVTOOL_ABS . 'core/core.php' );			// Error handler
 
 /**
  * First action to fire
@@ -143,23 +220,6 @@ require_once( WPDEVTOOL_ABS . 'core/core.php' );			// Error handler
  * @since 0.1.0
  */
 do_action( 'wpdevtool_init' );
-
-/**
- * Load WpDevTool Views
- *
- * @since 0.0.1
- */
-require_once( WPDEVTOOL_ABS . 'views/admin.php' );					// Main admin page 
-require_once( WPDEVTOOL_ABS . 'views/error_log.php' );				// Error console
-require_once( WPDEVTOOL_ABS . 'views/crons.php' );					// Cron admin page
-require_once( WPDEVTOOL_ABS . 'views/permalinks.php' );				// Permalinks admin page
-
-/**
- * Load WpDevTool Includes
- *
- * @since 0.0.1
- */
-require_once( WPDEVTOOL_ABS . 'inc/help.php' );
 
 /**
  * Last action
