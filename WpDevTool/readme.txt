@@ -93,6 +93,9 @@ if (WP_DEBUG) {
 == Upgrade Notice ==
 
 = 0.1.0 =
+Fix a problem with crons visualization on same date
+
+= 0.1.0 =
 Major update and minor bug fixes
 
 = 0.0.3 =
