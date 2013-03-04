@@ -92,7 +92,7 @@ if (WP_DEBUG) {
 
 == Upgrade Notice ==
 
-= 0.1.0 =
+= 0.1.1 =
 Fix a problem with crons visualization on same date
 
 = 0.1.0 =
