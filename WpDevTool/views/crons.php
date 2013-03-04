@@ -71,8 +71,10 @@ class Wpdevtool_Cron_Table extends WDT_Table {
 		$crons_table = array();
 		if ( !empty( $crons ) ){
 			foreach ( $crons as $data => $cron_by_date ) {
-				foreach ( $cron_by_date as $cron_name => $single_cron ) {			
-					$crons_table[] = array_merge( array( 'date' => date_i18n( 'd/m/Y H:i:s', $data ), 'name' => $cron_name ), array_shift( $single_cron ) );
+				foreach ( $cron_by_date as $cron_name => $single_cron ) {		
+					foreach ( $single_cron as $cron ) {
+						$crons_table[] = array_merge( array( 'date' => date_i18n( 'd/m/Y H:i:s', $data ), 'name' => $cron_name ), $cron );
+					}
 				}
 			}
 		}
