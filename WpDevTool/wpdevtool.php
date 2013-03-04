@@ -3,7 +3,7 @@
 Plugin Name: WpDevTool
 Plugin URI: https://github.com/micc83/WpDevTool
 Description: A simple tool to develop on WordPress platform...
-Version: 0.1.0
+Version: 0.1.1
 Author: Alessandro Benoit
 Author URI: http://codeb.it
 License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
