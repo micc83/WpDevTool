@@ -103,6 +103,9 @@ First release
 
 == To Do ==
 
+* Move to oop
+* Extend crons search to args
+* Add pagination to crons search
 * Think about moving debug.log creation ( if missing ) to error_handler.php instead of console
 * Add missing help voices and update documentation
 
